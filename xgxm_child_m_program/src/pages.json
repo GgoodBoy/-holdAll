@@ -1,0 +1,130 @@
+{
+	"pages": [
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false,
+				"enablePullDownRefresh":true
+			}
+		},	
+		{
+			"path": "pages/index/myPage",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":true			
+			}
+		},					
+		{
+			"path": "pages/classify/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":true,
+				"navigationBarTitleText":"分类"
+			}
+		},
+		{
+			"path": "pages/search/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":true,
+				"navigationBarTitleText":"搜索"
+			}
+		},
+		{
+			"path": "pages/courseList/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false
+			}
+		},
+		{
+			"path": "pages/webView/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false,
+				"navigationBarTitleText":"学国学网登录"
+			}
+		},
+		{
+			"path": "pages/auth/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false
+			}
+		},
+		{
+			"path": "pages/courseDetail/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false
+			}
+		},
+		{
+			"path": "pages/investMoney/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false
+			}
+		},
+		{
+			"path": "pages/investMoney/completeOver",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false
+			}
+		},
+		{
+			"path": "pages/courseDetail/audio",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false,
+				"usingComponents":{
+					"van-slider": "/wxcomponents/vant/slider/index"
+				}
+			}
+		},
+		{
+			"path": "pages/courseDetail/cProgress",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false,
+				"usingComponents":{
+					"van-slider": "/wxcomponents/vant/slider/index"
+				}
+			}
+		},
+		{
+			"path": "pages/assembleList/index",
+			"style": {
+				"navigationStyle":"custom",
+				"disableScroll":false
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#FFF",
+		"backgroundColor": "#fff"
+	},
+	"tabBar":{
+		"list":[
+		  {
+			"text":"课程",
+			"pagePath":"pages/index/index",
+			"iconPath":"./static/tabbarLeftNo.png",
+			"selectedIconPath":"./static/tabbarLeftYes.png"
+		  },
+		  {
+			"text":"我的",
+			"pagePath":"pages/index/myPage",
+			"iconPath":"./static/tabbarRightNo.png",
+			"selectedIconPath":"./static/tabbarRightYes.png"
+		  }
+		],
+		"selectedColor":"#C30D20",
+		"color":"#666",
+		"position":"bottom"
+	  }
+}
