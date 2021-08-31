@@ -1,0 +1,166 @@
+ //to reset element-ui default css
+ .el-upload {
+     input[type="file"] {
+         display: none !important;
+     }
+ }
+
+ .el-upload__input {
+     display: none;
+ }
+
+ //暂时性解决diolag 问题 https://github.com/ElemeFE/element/issues/2461
+ .el-dialog {
+     transform: none;
+     left: 0;
+     position: relative;
+     margin: 0 auto;
+ }
+
+ //element ui upload
+ .upload-container {
+     .el-upload {
+         width: 100%;
+
+         .el-upload-dragger {
+             width: 100%;
+             height: 200px;
+         }
+     }
+ }
+
+ // 自定义面包屑的样式
+ .app-breadcrumb.el-breadcrumb {
+     display: inline-block;
+     font-size: 14px;
+     line-height: 50px;
+     margin-left: 10px;
+     .no-redirect {
+         color: #97a8be;
+         cursor: text;
+     }
+ }
+
+ // 表格头部增加背景
+ .el-table th.list-header-layout-bg {
+     background: #f5f6f7;
+     height: 80px;
+     font-weight: 500;
+     color: #333;
+ }
+
+ // dialog 头部header 背景
+ .common-dialog-header-bg {
+     .el-dialog__header {
+        padding: 0 20px;
+        height: 50px;
+        line-height: 50px;
+        background: rgba(237, 241, 247, 1);
+        span {
+            font-size: 16px;
+            color: rgba(106, 106, 106, 1);
+        }
+     }
+ }
+
+ //依照设计图更改confirm dialog 样式
+.common-confirm-layout {
+    text-align: center;
+    width: 660px;
+    //confirm
+    .el-message-box__header {
+        padding: 0;
+        text-align: left;
+    }
+    .el-message-box__title {
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+        background: #EDF1F7;
+    }
+    .el-message-box__headerbtn, .el-dialog__headerbtn {
+        top: 15px;
+        right: 15px;
+    }
+    .el-message-box__content {
+        padding: 45px 15px;
+        display: inline-block;
+        max-width: 100%;
+        text-align: left;
+        font-size:16px;
+        .el-icon-warning {
+            color: rgba(158,14,0,1);
+        }
+    }
+    .el-message-box__btns {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+    .el-button {
+        width:130px;
+        height:40px;
+        background:rgba(255,255,255,1);
+        border:1px solid rgba(158,14,0,1);
+        color: rgba(158,14,0,1);
+        border-radius:3px;
+        margin-right: 40px;
+        &:nth-of-type(2) {
+            background: rgba(158,14,0,1);
+            color: #fff;
+            margin-right: 0;
+            margin-left: 40px;
+            &.emphasize-confirm {
+                background:rgba(255,255,255,1);
+                border:1px solid rgba(158,14,0,1);
+                color: rgba(158,14,0,1);
+            }
+        }
+        &:nth-of-type(1).emphasize-confirm {
+            background: rgba(158,14,0,1);
+            color: #fff;
+            margin-right: 40;
+        }
+    }
+    // 隐藏图标
+    &.common-confirm-hide-icon {
+        .el-message-box__content {
+            display: block;
+        }
+        .el-message-box__status {
+            display: none;
+        }
+        .el-message-box__status+.el-message-box__message {
+            padding-left:5px;
+        }
+    }
+
+    // dialog
+    .el-dialog__header {
+        padding:0 0 0 20px;
+        text-align: left;
+        height: 50px;
+        line-height: 50px;
+        background: #EDF1F7;
+    }
+}
+
+
+ //分页的背景
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    background-color: #9e0e00;
+    color: #fff;
+}
+.el-pagination.is-background .el-pager li:not(.disabled):hover {
+    color: #9e0e00;
+}
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+    color: #fff;
+}
+// 隐藏form内必填的星号
+
+.hide-required-asterisk {
+    .el-form-item.is-required .el-form-item__label:before {
+        content: "";
+        margin-right: 0;
+    }
+}

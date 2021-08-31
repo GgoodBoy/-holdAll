@@ -1,0 +1,126 @@
+<template>
+    <div class="game-see">
+        <div>
+            <breadcrumb :menuList ='titleList'></breadcrumb>
+        </div>
+        <div class="content">
+            <div class="editRadio">
+                <div class="titlt">类型</div>
+                <div>
+                    <el-radio v-model="radio1" label="1">备选项1</el-radio>                                     
+                </div>
+            </div>
+            <div class="editRadio">
+                <div class="titlt">难度</div>
+                <div>
+                    <el-radio v-model="radio2" label="1">备选项1</el-radio>                     
+                </div>                
+            </div>
+            <div class="editinput">
+                <div class="titlt">题目名称</div>
+                <div>xxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+            </div>
+            <div class="editList">
+                <div class="list_li">
+                    <div class="titlt">答案</div>
+                    <div>A.</div>
+                    <div>xxxxxxxxxxxxx</div>
+                    <el-radio v-model="radio3" label="1">设置为正确答案</el-radio>
+                </div>
+                <div class="list_li">
+                    <div class="titlt">答案</div>
+                    <div>A.</div>
+                    <div>xxxxxxxxxxxxx</div>
+                    <el-radio v-model="radio3" label="1">设置为正确答案</el-radio>
+                </div>                
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import breadcrumb from "@/components/breadcrumbGX/breadcrumb";
+export default {
+    data() {
+        return {
+            input:'',
+            value:'',
+            tableData:[],
+            loading:false,
+            options:[],
+            titleList:[
+                        {
+                            name:'小程序',
+                            pathInfo:''
+                        },
+                        {
+                            name:'答题配置',
+                            pathInfo:''
+                        }],
+            pageNo:1,
+            pageSize:10,
+            pageAtion:{
+                paginationPage:1,
+                pageTotal:0
+            },
+            radio1:1,
+            radio2:1,
+            radio3:1
+        };
+    },
+    components: {
+        breadcrumb
+    },
+    watch: {},
+    created() {
+    },
+    methods: {
+        operationRow(data,type){},
+        childPageValue(num){
+            // this.selectPageNum = Number(num);
+            if(Number(num)>0){
+                // this.getSchoolList(Number(num))
+            }            
+        }        
+    }
+};
+</script>
+
+<style scoped lang="scss">
+    .game-see{
+        .content{   
+            padding: 20px;
+            .editRadio,.editinput{
+                display: flex;
+                justify-content:flex-start;
+                flex-direction: row;
+                align-items: center;
+                margin-bottom: 25px;
+                .titlt{
+                    width: 100px;
+                    text-align: right;
+                }
+                >div{
+                    margin-right: 10px;
+                }
+            }
+            .editList{
+                .list_li{
+                    display: flex;
+                    justify-content:flex-start;
+                    flex-direction: row;
+                    align-items: center;
+                    margin-bottom: 15px;
+                    .titlt{
+                        width: 100px;
+                        text-align: right;
+                    }
+                    >div{
+                        margin-right: 10px;
+                    }                    
+                }
+            }
+        }
+    }
+</style>
+

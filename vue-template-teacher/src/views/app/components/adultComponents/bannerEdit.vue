@@ -1,0 +1,911 @@
+<template>
+    <div class="module-edit banner">
+        <div class="module-edit-header clearfix">
+            <p class="title" ref="title">banner设置</p>
+            <el-button v-if="($authJudge('homeset:appadult:savedata')&&settingType=='1')||$authJudge('homeset:appletadult:savedata')&&settingType=='3'" type="primary" size="small" @click="saveData">保存</el-button>
+        </div>
+        <div class="module-edit-body">
+            <div class="clearfix styles">
+                <label>样式</label>
+                <el-select v-model="style" size="small">
+                    <el-option
+                        v-for="item in styleOption"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                    </el-option>
+                </el-select>
+                <p class="tip">支持PNG、JPEG</p>
+            </div>
+            <div class="number">
+                <p>展示数量</p>
+                <p>{{curEditData.length}}</p>
+                <el-tooltip class="item" effect="dark" content="该样式最多可以添加10个" placement="right">
+                    <i class="question el-icon-question"></i>
+                </el-tooltip>
+            </div>
+            <div class="edit-list">
+                <div class="edit-item" v-for="(item,index) in curEditData" :key="index">
+                    <div class="top clearfix">
+                        <div class="img-file-box" @click="uploadFile(index)">
+                            <input type="file" name="file" class="file-upload" ref="uploadInput" @change="getFile($event,index)" @click="emptyFile($event)"/>
+                            <div class="img-file">
+                                <img :src="item.imgUrl" />
+                            </div>
+                            <p class="des">修改</p>
+                        </div>
+                        <div class="text-box">
+                            <div class="banner-title">
+                                <label>标题</label>
+                                <el-input clearable size="medium" v-model="item.title" ref="input" maxlength="10"></el-input>
+                            </div>
+                            <div class="banner-type">
+                                <div class="type1" v-if="item.type=='1'">
+                                    <label>课程</label>
+                                    <el-button type="primary" size="medium" @click="DialogShow(item)">选择课程</el-button>
+                                    <el-tooltip :content="item.courseName" placement="top-start">
+                                        <p class="textEllipsis more-text">{{item.courseName}}</p>
+                                    </el-tooltip>
+                                </div>
+                                <div class="type2" v-if="item.type=='2'">
+                                    <label>资讯</label>
+                                    <el-button type="primary" size="medium" @click="DialogShow(item)">选择资讯</el-button>
+                                    <el-tooltip :content="item.infoName" placement="top-start">
+                                        <p class="textEllipsis more-text">{{item.infoName}}</p>
+                                    </el-tooltip>
+                                </div>
+                                <div class="type3" v-if="item.type=='3'">
+                                    <label>链接</label>
+                                    <el-input clearable size="medium" placeholder="请输入链接地址http://" v-model="item.link" max="255"></el-input>
+                                </div>
+                                <div class="type4" v-if="item.type=='4'"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottom">
+                        <el-radio-group v-model="item.type">
+                            <el-radio :label="1">课程</el-radio>
+                            <el-radio :label="2"  v-if="settingType==1">资讯</el-radio>
+                            <el-radio :label="3">链接</el-radio>
+                            <el-radio :label="4">无链接</el-radio>
+                        </el-radio-group>
+                    </div>
+                    <div class="btns">
+                        <div class="del-btn" @click="delItem(index)">
+                            <i class="el-icon-circle-close"></i>
+                        </div>
+                        <div class="sort-btn">
+                            <div @click="sortUp(index)"><i class="el-icon-caret-top" :class="index==0?'not-allowed':''"></i></div>
+                            <div @click="sortBottom(index)"><i class="el-icon-caret-bottom" :class="(index==0&&curEditData.length==1)||(index==curEditData.length-1)?'not-allowed':''"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="add-btn"><button class="my-primary-btn" :class="curEditData.length>=10?'not-allow':''" @click="addBanner"><i class="el-icon-plus"></i><span>添加banner</span></button></div>
+        </div>
+        <el-dialog :custom-class="'edit-dialog'" :visible.sync="editDialogVisible" :width="'500px'" :show-close="false">
+            <div style="margin-bottom:20px; text-align: left;" v-if="tempObj.type==1">
+                <el-radio-group 
+                    v-model="checkedCities" @change="changePlugin">
+                    <el-radio v-for="(city,index) in cities" :label="city.value" :key="index">{{city.name}}</el-radio>
+                </el-radio-group>                  
+            </div>             
+            <div class="search-box">
+                <el-input :placeholder="tempObj.type==1?'输入课程名称查询':'输入资讯名称查询'" size="medium" clearable prefix-icon="el-icon-search" v-model="searchKey" maxlength="10" @keypress.native="pressEvent($event)"></el-input>
+                <el-button type="primary" size="medium" @click="search">搜索</el-button>
+            </div>
+            <div class="list" ref="scrollBox">
+                <el-radio-group v-model="editDialogVal">
+                    <div class="item nameTextEllipsis" v-for="(item,index) in editDialogList" :key="index">
+                        <el-radio :label="item.id" class="list-item-radio">
+                            <span class="name textEllipsis">{{item.title}}</span>
+                        </el-radio>
+                        <div style='font-size:14px;'>{{item.sellingPrice||0}}币</div>
+                    </div>
+                </el-radio-group>
+                <div class="loading" v-show="loading"><div class="loading-icon" v-loading="true"></div></div>
+                <p class="empty-tip" v-if="isLastPage&&editDialogList.length==0">没有搜索到您想要的内容</p>
+            </div>
+            <div slot="footer" class="btns">
+                <el-button @click="editDialogVisible = false" size="medium">取消</el-button>
+                <el-button type="primary" @click="dialogSure" size="medium">确定</el-button>
+            </div>
+        </el-dialog>
+    </div> 
+</template>
+<script>
+import {mapActions} from 'vuex'
+import qs from 'qs'
+const regExp = {
+    'exceptSpecialChar':/^[A-Za-z0-9\u4e00-\u9fa5]+$/,  //数字、字母、汉字(除去特殊字符)
+    'protocol':/^(http|https)\:\/\/.*?/, //协议(http或者https)
+    'specialChar':/[^A-Za-z0-9\u4E00-\u9FA5]/g //特殊字符(除了数字、字母、汉字) 
+}
+const repSign = s=>{
+	s = s.replace(/([\u4E00-\u9FA5]|^|\n|\r)([\，\。\？\！])(?=[\u4E00-\u9FA5]|$|\n|\r)/g,function(u,v,w,x) {
+		sign = {
+			'，':',',
+			'。':'.',
+			'？':'?',
+			'！':'!'
+		};
+		return sign[w] ? v + sign[w] : u;
+	});
+	return s;
+}
+export default {
+    data(){
+        return{
+            cloumnTitle:'',
+            homeCloumnId:'',
+            moduleId:'',
+            styleOption:[
+                {label:'样式一 690*266',value:'1'},
+                {label:'样式二 690*326',value:'2'},
+            ],//样式
+            style:'1',//样式值
+            editDialogVisible:false,//选择窗口
+            searchKey:'',//搜索词
+            oldSearchKey:'',
+            searchFlag:false,
+            pageNo:1,
+            pageSize:20,
+            isLastPage:false,
+            editDialogVal:0,//弹框值
+            editDialogList:[],//弹窗list
+            tempObj:'',//当前弹窗选择的对象
+            loading:true,//弹窗是否loading
+            checkedCities:1,
+            cities: [
+                {
+                    name:'自营课程',
+                    value:1
+                },
+                {
+                    name:'三方课程',
+                    value:2
+                }
+            ],
+            chooseRadioType:-1,
+            changePluginType:false
+        }
+    },
+    props:['settingType'],
+    computed:{
+        adultHomeEditData(){
+            return this.$store.state.homeConfig.adultHomeEditData.find(item=>item.active==true).data;
+        },
+        /**
+         * 模块总数据
+         */
+        adultHomeModuleChildData(){
+            return this.$store.state.homeConfig.adultHomeModuleChildData;
+        },
+        /**
+         * banner总数据
+         */
+        editData(){
+            let obj = this.adultHomeEditData.find(item=>item.isFocus==true);
+            if(obj){
+                let localId = obj.localId;
+                let temp = this.adultHomeModuleChildData.find(item=>item.localId==localId);
+                return temp;
+            }else{
+                return []
+            }
+        },
+        /**
+         * 当前banner数据(具体到样式下)
+         */
+        curEditData(){
+            if(this.editData.data&&this.editData.data.length>0){
+                let temp = this.editData.data.find(item=>item.active==true)
+                return temp?temp.bannerData:[];
+            }
+            else{
+                return [];
+            }
+        },
+    },
+    watch:{
+        style(cur,old){
+            let obj = this.editData.data.find(item=>item.styleType==cur);
+            this.editData.data.forEach(item=>item.active=false)
+            obj.active = true;
+            this.editData.style = cur;
+        },
+        editDialogVisible(cur,old){
+            if(!cur){
+                this.searchKey = ''
+                this.pageNo = 1
+                this.editDialogList = []
+                this.oldSearchKey = ''
+            }
+            this.changePluginType = false;
+        },
+        /**
+         * 是否动了数据
+         */
+        curEditData:{
+            handler(cur,old){
+                if(this.editData.initData){
+                    this.editData.inEdit = false;
+                    delete this.editData.initData;
+                }else{
+                    if(this.editData.compareFlag){
+                        let tempCur = JSON.stringify(cur);
+                        let tempOld = JSON.stringify(old);
+                        this.editData.inEdit = tempCur==tempOld && this.editData.saveDataFlag ? false:true
+                        delete this.editData.compareFlag;
+                    }else{
+                        console.log('动了数据')
+                        this.editData.inEdit = true;
+                        this.editData.saveDataFlag = false;
+                    }
+                }
+            },
+            deep:true
+        },
+        searchKey(cur,old){
+            this.searchFlag = false;
+        }
+    },
+    created(){
+        setTimeout(()=>{
+            this.homeCloumnId = this.$store.state.homeConfig.adultHomeEditData.find(item=>item.active==true).tabId;
+            this.cloumnTitle = this.$store.state.homeConfig.adultHomeEditData.find(item=>item.active==true).tabName;
+            this.homeCloumnId = this.homeCloumnId<0?'':this.homeCloumnId
+        },1)
+    },
+    mounted(){
+        this.initData()
+    },
+    methods:{
+        ...mapActions(['setHomeCloumnId']),
+        //选择类型事件
+        changePlugin(data){
+            this.pageNo = 1;
+            this.changePluginType = true;
+            this.editDialogList = []             
+            this.getCourseList();
+        },         
+        initData(){
+            let {id} = this.editData;
+            this.moduleId = id!=-1?id:''
+            if(this.editData.data.length==0){
+                if(id==-1){
+                    this.style = '1';
+                    let editChildData = [
+                        {styleType:'1',bannerData:[],active:true},
+                        {styleType:'2',bannerData:[],active:false}
+                    ]
+                    this.editData.data = editChildData;
+                }else{
+                    this.getSubModuleInfoList(id)
+                }
+            }else{
+                let obj = this.editData.data.find(item=>item.active==true)
+                this.style = obj.styleType;
+                this.editData.compareFlag = true;
+            }
+        },
+        /**
+         * 查询app首页子模板数据列表
+         */
+        getSubModuleInfoList(id){
+            let loadingInstance = this.$loading({
+                target:document.querySelector('.module-edit')
+            });
+            let url = this.settingType&&this.settingType=='3'?this.$server.subModuleInfoList:this.$server.getSubModuleInfoList
+            this.$http.get(`${url}/${id}`).then(res=>{
+                loadingInstance.close()
+                if(res.status==200){
+                    if(this.moduleId!=this.editData.id) return;//防止选择模块过快，造成数据缓存有误
+                    this.style = String(res.content.style);
+                    let bannerData = res.content.ahprrList.map(item=>{
+                        return {
+                            title:item.title?item.title:'',
+                            type:item.type?item.type:'',
+                            targetId:item.targetId?item.targetId:'',
+                            imgUrl:item.imgUrl?item.imgUrl:'',
+                            courseName:item.courseName?item.courseName:'',
+                            courseId:item.type==1&&item.targetId?item.targetId:'',
+                            infoName:item.infoName?item.infoName:'',
+                            infoId:item.type==2&&item.targetId?item.targetId:'',
+                            link:item.type==3&&item.targetId?item.targetId:''
+                        }
+                    })
+                    let editChildData = [
+                        {styleType:'1',bannerData:res.content.style==1?bannerData:[],active:res.content.style==1?true:false},
+                        {styleType:'2',bannerData:res.content.style==2?bannerData:[],active:res.content.style==2?true:false}
+                    ]
+                    this.editData.data = editChildData;
+                    this.editData.initData = true;
+                    this.editData.saveDataFlag = true;
+                }
+            })
+        },
+        /**
+         * 弹出弹窗
+         */
+        DialogShow(item){
+            this.editDialogVisible = true;
+            this.tempObj = item;
+            this.editDialogList.splice(0,this.editDialogList.length)
+            if(item.type==1){
+                this.getCourseList();
+                this.editDialogVal = Number(item.courseId)
+            }else if(item.type==2){
+                this.getInformationList();
+                this.editDialogVal = Number(item.infoId)
+            }
+        },
+        /**
+         * 获取课程
+         */
+        getCourseList(item){
+            this.loading = true;
+            this.isLastPage = false;
+            let params = {
+                name:this.oldSearchKey,
+                pageNo:this.pageNo,
+                pageSize:this.pageSize,
+                type:1,
+                courseSource:this.checkedCities
+            }
+            if(this.searchFlag){
+                params.name = this.searchKey
+                this.oldSearchKey = this.searchKey
+            }
+            this.$http.get(this.$server.getCourseList,{params}).then(res=>{
+                if(res.status==200){
+                    this.editDialogList = [...this.editDialogList,...res.content.list]
+                    this.loading = false;
+                    this.isLastPage = res.content.isLastPage;
+                    if(res.content.isLastPage){
+                        this.changePluginType = true;
+                        this.$refs.scrollBox.removeEventListener("scroll",this.scrollEvent)
+                    }else{
+                        this.changePluginType = false;
+                        this.$nextTick(()=>{
+                            this.$refs.scrollBox.addEventListener("scroll",this.scrollEvent)
+                        })
+                    }
+                }
+            })
+        },
+        /**
+         * 获取资讯
+         */
+        getInformationList(){
+            this.loading = true;
+            this.isLastPage = false;
+            let params = {
+                name:this.oldSearchKey,
+                pageNo:this.pageNo,
+                pageSize:this.pageSize,
+            }
+            if(this.searchFlag){
+                params.name = this.searchKey
+                this.oldSearchKey = this.searchKey
+            }
+            this.$http.get(this.$server.getInformationList,{params}).then(res=>{
+                if(res.status==200){
+                    res.content.list.forEach(item=>{
+                        item.title = item.name;
+                    })
+                    this.editDialogList = [...this.editDialogList,...res.content.list]
+                    this.isLastPage = res.content.isLastPage;
+                    this.loading = false;
+                    if(res.content.isLastPage){
+                        this.$refs.scrollBox.removeEventListener("scroll",this.scrollEvent)
+                    }else{
+                        this.$nextTick(()=>{
+                            this.$refs.scrollBox.addEventListener("scroll",this.scrollEvent)
+                        })
+                    }
+                }
+            })
+        },
+        /**
+         * 滚动分页
+         */
+        scrollEvent(){
+            if(!this.changePluginType){
+                let scrollDistance = this.$refs.scrollBox.scrollHeight - this.$refs.scrollBox.scrollTop - this.$refs.scrollBox.clientHeight
+                let sign = 50;
+                if (scrollDistance <= sign) {
+                    this.$refs.scrollBox.removeEventListener("scroll",this.scrollEvent)
+                    this.pageNo++;
+                    if(this.tempObj.type==1){
+                        this.getCourseList();
+                    }else if(this.tempObj.type==2){
+                        this.getInformationList();
+                    }
+                }                
+            }
+
+        },
+        /**
+         * 回车搜索
+         */
+        pressEvent(e){
+            if(e.keyCode==13){
+                this.search()
+            }
+        },
+        /**
+         * 搜索
+         */
+        search(){
+            this.searchKey = this.searchKey.replace(regExp.specialChar,'');
+            this.$refs.scrollBox.removeEventListener("scroll",this.scrollEvent);
+            this.searchFlag = true;
+            this.$nextTick(()=>{
+                this.pageNo = 1;
+                this.editDialogList = []
+                if(this.tempObj.type==1){
+                    this.$nextTick(()=>{
+                        this.getCourseList()
+                    })
+                }else if(this.tempObj.type==2){
+                    this.$nextTick(()=>{
+                        this.getInformationList()
+                    })
+                }    
+            })
+        },
+        /**
+         * 弹出框确定事件
+         */
+        dialogSure(){
+            let obj = this.editDialogList.find(item=>item.id==this.editDialogVal);
+            if(this.tempObj.type==1){
+                this.tempObj.courseName = obj.title;
+                this.tempObj.courseId = obj.id;
+            }else if(this.tempObj.type==2){
+                this.tempObj.infoName = obj.title;
+                this.tempObj.infoId = obj.id;
+            }
+            this.editDialogVisible = false;
+        },
+        /**
+         * 添加banner数据
+         */
+        addBanner(){
+            if(this.curEditData.length>=10) return false;
+            this.curEditData.push({
+                title:'',
+                type:1,
+                targetId:'',
+                imgUrl:'',
+                courseName:'',
+                courseId:'',
+                infoName:'',
+                infoId:'',
+                link:''
+            })
+        },
+        /**
+         * 点击上传
+         */
+        uploadFile(index){
+            this.$refs.uploadInput[index].click()
+        },
+        /**
+         * 上传之前先清空value
+         */
+        emptyFile(e){
+            e.target.value = ''
+        },
+        /**
+         * 获取文件
+         */
+        getFile(event,index){
+            let files = event.target.files || event.dataTransfer.files;
+            let fileData = files[0];
+            if (!/(\.png|\.jpg|\.jpeg)$/.test(fileData.name.toLowerCase())) {
+                this.$message.error("图片格式有误，请上传JPEG或PNG格式");
+                return;
+            }
+            let reader = new FileReader();
+            reader.onload = e=>{
+                let data = e.target.result;
+                let image = new Image();
+                image.onload = ()=>{
+                    let width = image.width;
+                    let height = image.height;
+                    if(this.style=='1'){
+                        if(width!=690||height!=266){
+                            this.$message.error('请上传690*266的图片');
+                            return;
+                        }
+                    }else if(this.style=='2'){
+                        if(width!=690||height!=326){
+                            this.$message.error('请上传690*326的图片');
+                            return;
+                        }
+                    }
+                    let params = new FormData();
+                    params.append('file',fileData)
+                    let config = {
+                        headers: {'Content-Type': 'multipart/form-data'}
+                    }
+                    this.$http.post(this.$server.actionImgOrvideo,params,config).then(res=>{
+                        if(res.status==200){
+                            this.curEditData[index].imgUrl = res.content.resourceUrl
+                        }
+                    })
+                }
+                image.src= data;
+            };
+            reader.readAsDataURL(fileData);
+        },
+        /**
+         * 删除单项设置   
+         */
+        delItem(index){
+            this.curEditData.splice(index,1)
+        },
+        /**
+         * 元素上移   
+         */
+        sortUp(index){
+            if(index==0) return;
+            var temp = this.curEditData[index - 1];
+            this.$set(this.curEditData, index - 1, this.curEditData[index]);
+            this.$set(this.curEditData, index, temp)
+        },
+        /**
+         * 元素下移   
+         */
+        sortBottom(index){
+            if((index==0&&this.curEditData.length==1)||index==this.curEditData.length-1) return;
+            let temp = this.curEditData[index + 1];
+            this.$set(this.curEditData, index + 1, this.curEditData[index])
+            this.$set(this.curEditData, index, temp)
+        },
+        /**
+         * 保存数据
+         */
+        saveData(){
+            if(this.curEditData.length==0){
+                this.$alert('您还有未添加的数据，不能保存', '提示', {
+                    confirmButtonText: '关闭',
+                    center:true,
+                    callback: action => {}
+                });
+                return;
+            }
+            let flag = this.curEditData.some(item=>{
+                if(item.type==1)
+                    return item.title==''||item.imgUrl==''||item.courseId==''
+                else if(item.type==2)
+                    return item.title==''||item.imgUrl==''||item.infoId==''
+                else if(item.type==3)
+                    return item.title==''||item.imgUrl==''||item.link==''   
+                else if(item.type==4){
+                    return item.title==''||item.imgUrl==''
+                }     
+            })
+            if(flag){
+                this.$alert('您还有未添加的数据，不能保存', '提示', {
+                    confirmButtonText: '关闭',
+                    center:true,
+                    callback: action => {}
+                });
+                return;
+            }else{
+                let flags = this.curEditData.every(item=>{
+                    return regExp.exceptSpecialChar.test(item.title)
+                })
+                if(!flags){
+                    this.$message.error('标题只能输入数字、字母、汉字');
+                    return;
+                }
+                let flagss = this.curEditData.some(item=>{
+                    if(item.type==3)
+                        return !regExp.protocol.test(item.link)
+                })
+                if(flagss){
+                    this.$message.error('请输入以http或https开头的链接地址');
+                    return;
+                }
+                let appHomeRelationRecordFormList = this.curEditData.map((item,index)=>{
+                    let targetId;
+                    if(item.type==1){
+                        targetId = item.courseId;
+                    }else if(item.type==2){
+                        targetId = item.infoId;
+                    }else if(item.type==3){
+                        targetId = item.link;
+                    }
+                    return {
+                        title:item.title,
+                        type:item.type,
+                        targetId:targetId,
+                        imgUrl:item.imgUrl,
+                        sort:index+1
+                    }
+                })
+                let query = {
+                    id:this.moduleId,
+                    homeCloumnId:this.homeCloumnId,
+                    type:this.settingType,
+                    subModule:1,
+                    style:this.style,
+                    styleImgUrl:'https://youfuedu.oss-cn-beijing.aliyuncs.com/testxgxw/abe7114c-c7ea-4ed4-99ed-04b37b31f4f2.png',
+                    num:appHomeRelationRecordFormList.length,
+                    targetId:0,
+                }
+                if(this.homeCloumnId==''){
+                    query.cloumnTitle = this.cloumnTitle
+                }
+                appHomeRelationRecordFormList.forEach((item,index)=>{
+                    query['appHomeRelationRecordFormList['+index+'].title'] = item.title;
+                    query['appHomeRelationRecordFormList['+index+'].type'] = item.type
+                    query['appHomeRelationRecordFormList['+index+'].targetId'] = item.targetId?item.targetId:''
+                    query['appHomeRelationRecordFormList['+index+'].imgUrl'] = item.imgUrl
+                    query['appHomeRelationRecordFormList['+index+'].sort'] = item.sort
+                })
+                let loadingInstance = this.$loading({
+                    target:document.querySelector('.module-edit')
+                });
+                let url = this.settingType&&this.settingType=='3'?this.$server.saveWxSubModule:this.$server.saveSubModule
+                this.$http.post(url,query,{headers: {'Content-Type':'application/x-www-form-urlencoded'}}).then(res=>{
+                    loadingInstance.close();
+                    if(res.status==200){
+                        let temp = this.adultHomeEditData.find(item=>item.localId == this.editData.localId)
+                        temp.id = res.content.subModuleId
+                        this.setHomeCloumnId(res.content.homeCloumnId);
+                        this.moduleId = res.content.subModuleId;
+                        this.editData.data.find(item=>item.active == false).bannerData = []
+                        this.editData.inEdit = false;
+                        this.editData.saveDataFlag = true;
+                        this.$message({
+                            message: '保存成功！',
+                            type: 'success'
+                        });
+                    }
+                })
+                
+            }
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+    .module-edit{
+        font-size: 14px;
+        height: 100%;
+        .module-edit-header{
+            padding-bottom:10px;
+            line-height: 32px;
+            border-bottom: 1px solid #dfdfdf;
+            p{
+                float: left;
+                font-size: 16px;
+            }
+            button{
+                float: right;
+            }
+        }
+        .module-edit-body{
+            padding: 10px 0;
+            height: calc(100% - 43px);
+            overflow-y: auto;
+            overflow-x:hidden;
+            .styles{
+                label{
+                    width: 56px;
+                    text-align: right;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+            .el-select{
+                margin:0 5px;
+            }
+            .number{
+                position: relative;
+                margin-top:20px;
+                p{
+                    display: inline-block;
+                    vertical-align: middle;
+                    line-height: 26px;
+                    width: 56px;
+                    text-align: right;
+                    margin-right: 5px;
+                }
+                p+p{
+                    border:1px solid #dfdfdf;
+                    width: 60px;
+                    text-align: center;
+                    border-radius: 3px;
+                }
+                .question{
+                    position: absolute;
+                    top:-9px;
+                    left: 130px;
+                    font-size: 18px;
+                    color:#bbb
+                }
+            }
+            .tip{
+                color:#aaa;
+                display: inline-block;
+                vertical-align: middle;
+            }
+            .add-btn{
+                text-align: center;
+                margin-top:40px;
+                span{
+                    font-size: 16px;
+                }
+                .not-allow{
+                    cursor: not-allowed;
+                    background: #f5f7fa;
+                    border-color: #e4e7ed;
+                    color:#c0c4cc;
+                    &:hover{
+                        background: #f5f7fa;
+                        border-color: #e4e7ed;
+                    }
+                }
+            }
+            .edit-list{
+                margin:20px 0;
+                .edit-item{
+                    border:1px solid #dfdfdf;
+                    padding: 10px;
+                    margin:20px 0;
+                    position: relative;
+                    width: 96%;
+                    &:hover{
+                        .del-btn{
+                            visibility: visible;
+                        }
+                    }
+                    .top{
+                        .img-file-box{
+                            float: left;
+                            width: 200px;
+                            height: 100px;
+                            overflow: hidden;
+                            position: relative;
+                            cursor: pointer;
+                            .file-upload{
+                                opacity: 0;
+                            }
+                            .img-file{
+                                height: 100%;
+                                width: 100%;
+                                img{
+                                    position: absolute;
+                                    top:50%;
+                                    left: 50%;
+                                    transform: translate(-50%,-50%);
+                                }
+                            }
+                            .des{
+                                position: absolute;
+                                bottom:0;
+                                left: 0;
+                                z-index: 3;
+                                font-size: 14px;
+                                color:#fff;
+                                text-align: center;
+                                line-height: 30px;
+                                background: rgba(0,0,0,.5);
+                                width: 100%;
+                            }
+                        }
+                        .text-box{
+                            float: left;
+                            margin-left: 20px;
+                            width: calc(100% - 220px);
+                            label{
+                                margin-right: 5px;
+                            }
+                            .el-input{
+                                width: 200px;
+                            }
+                            label,.el-input{
+                                display: inline-block!important;
+                                vertical-align: middle!important;
+                            }
+                            .banner-title{
+                                margin:10px 0;
+                            }
+                            .banner-type{
+                                .more-text{
+                                    display: inline-block!important;
+                                    vertical-align: middle!important;
+                                    cursor: default;
+                                    margin-left: 10px;
+                                    width: calc(100% - 135px);
+                                }
+                                button{
+                                    padding: 10px!important;
+                                }
+                            }
+                        }
+                    }
+                    .bottom{
+                        margin-top:10px;
+                    }
+                    .del-btn{
+                        position: absolute;
+                        right: -10px;
+                        top:-10px;
+                        font-size: 20px;
+                        cursor: pointer;
+                        // visibility: hidden;
+                        i{
+                            color:#bbb;
+                        }
+                    }
+                    .sort-btn{
+                        position: absolute;
+                        width: 30px;
+                        right: -30px;
+                        top:35%;
+                        i{
+                            font-size: 24px;
+                            color:#b4272d;
+                            cursor: pointer;
+                            &.not-allowed{
+                                cursor: not-allowed;
+                                color:#bbb;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .edit-dialog{
+            left: 5%;
+            .search-box{
+                font-size: 0;
+                .el-input{
+                    display: inline-block;
+                    vertical-align: middle;
+                    width: calc(100% - 78px);
+                }
+                button{
+                    display: inline-block;
+                    vertical-align: middle;
+                    margin-left: 8px;
+                }
+            }
+            .list{
+                margin:10px 0;
+                max-height: 500px;
+                overflow: auto;
+                padding: 10px 0;
+                min-height: 60px;
+                .item{
+                    margin:10px 0;
+                    .name{
+                        width: 310px;
+                    }
+                } 
+            }
+            .btns{
+                text-align: center;
+            }
+            .empty-tip{
+                text-align: center;
+                color:#aaa;
+            }
+        }
+    }
+</style>
+<style>
+.nameTextEllipsis{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+}
+</style>
+

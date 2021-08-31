@@ -1,0 +1,464 @@
+.edui-box .edui-default .edui-editor {
+  border: 1px solid #ccc;
+  border-radius: 0;
+  box-sizing: content-box
+}
+
+.edui-box .edui-toolbar {
+  position: relative;
+  background-color: #fff;
+  z-index: 1000;
+  height: 42px;
+  line-height: 38px;
+  padding: 0 3px;
+  border: 1px solid #ccc;
+  margin-bottom: -1px
+}
+
+.edui-box .edui-toolbar .select {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 15px;
+  margin-left: -12px;
+  cursor: pointer;
+  display: inline-block;
+  background-color: transparent;
+  vertical-align: middle
+}
+
+.edui-box .edui-toolbar .triangle {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-right: 3px solid transparent;
+  border-left: 3px solid transparent;
+  border-top: 4px solid #888
+}
+
+.edui-box .edui-toolbar-mask {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 42px;
+  opacity: 0.3
+}
+
+.edui-box .edui-toolSelect_wrap {
+  height: 24px;
+  line-height: 20px
+}
+
+.edui-box .edui-fontsize_wrap {
+  display: inline-block;
+  vertical-align: middle
+}
+
+.edui-box .edui-list_panel,
+.edui-box .edui-toolselect_panel,
+.edui-box .edui-fontsize_panel {
+  position: absolute;
+  left: 0;
+  top: 32px;
+  z-index: 40;
+  min-width: 170px;
+  background: #fff;
+  padding: 5px;
+  border: 1px solid #e7e7eb
+}
+
+.edui-box .edui-toolselect_panel {
+  width: 248px;
+  height: 290px;
+  padding: 5px 15px
+}
+
+.edui-box .edui-toolselect_panel .color_box {
+  line-height: 0
+}
+
+.edui-box .edui-toolselect_panel .color_box .title {
+  line-height: 36px
+}
+
+.edui-box .edui-toolselect_panel .color_box span {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin: 0 4px 4px 0;
+  border: 1px solid #e7e7eb
+}
+
+.edui-box .edui-toolselect_panel .clear {
+  background: url("/static/libs/ue/themes/default/images/ueditor_z29f4d5.png") no-repeat -1px -1071px #fff
+}
+
+.edui-box .edui-fontsize_panel {
+  height: 194px;
+  overflow-y: auto;
+  line-height: 1.5
+}
+
+.edui-box .edui-fontsize_panel li {
+  position: relative;
+  padding: 4px
+}
+
+.edui-box .edui-fontsize_panel li:hover {
+  background-color: #f4f5f9;
+  cursor: pointer
+}
+
+.edui-box .edui-list_panel {
+  background: url("/static/libs/ue/themes/default/images/sparator.png") repeat-y 25px #fff
+}
+
+.edui-box .edui-list_panel li {
+  position: relative;
+  padding: 4px 4px 4px 30px;
+  border: 1px solid transparent
+}
+
+.edui-box .edui-list_panel li:hover {
+  background-color: #f4f5f9;
+  border-color: #e7e7eb;
+  cursor: pointer
+}
+
+.edui-box .edui-list_panel .checked {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 20px;
+  height: 20px;
+  background: url("/static/libs/ue/themes/default/images/icons-all.gif") no-repeat 6px -205px
+}
+
+.edui-box .input_color {
+  border-top: 1px solid #e7e7eb;
+  margin: 10px 0;
+  padding-top: 10px
+}
+
+.edui-box .input_wrap,
+.edui-box .js_ok,
+.edui-box .preview {
+  display: inline-block;
+  vertical-align: middle
+}
+
+.edui-box .preview {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #e7e7eb
+}
+
+.edui-box .js_ok {
+  height: 24px;
+  line-height: 24px;
+  padding: 0 15px;
+  font-size: 12px;
+  border: 1px solid #e7e7eb;
+  border-radius: 3px
+}
+
+.edui-box .input_wrap {
+  position: relative;
+  line-height: 23px
+}
+
+.edui-box .input_wrap .input-color {
+  width: 100px;
+  padding-left: 14px;
+  border: 1px solid #e7e7eb;
+  height: 24px
+}
+
+.edui-box .input_wrap .icon {
+  position: absolute;
+  left: 6px;
+  top: 0
+}
+
+.edui-box .edui-icon {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin: 3px 2px;
+  border: 1px solid transparent;
+  background-image: url("/static/libs/ue/themes/default/images/ueditor_z29f4d5.png")
+}
+
+.edui-box .edui-icon:hover {
+  border-color: #e7e7eb
+}
+
+.edui-box .edui-icon.tool-bar-selected {
+  border-color: #e7e7eb;
+  background-color: #f0f0f0
+}
+
+.edui-box .countWords {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  line-height: 42px
+}
+
+.edui-box .exceed {
+  color: red
+}
+
+.edui-box .edui-toolselect {
+  position: relative;
+  display: inline-block;
+  height: 24px;
+  vertical-align: middle;
+  border: 1px solid transparent
+}
+
+.edui-box .edui-toolselect:not(.tool-bar-disabled):hover,
+.edui-box .edui-toolselect.tool-bar-selected {
+  border-color: #e7e7eb
+}
+
+.edui-box .edui-toolselect .input {
+  width: 32px;
+  height: 22px;
+  border: none;
+  background: #fff;
+}
+
+.edui-box .tool-bar-disabled {
+  opacity: 0.3
+}
+
+.edui-box .edui-toolbutton {
+  position: relative;
+  margin: 0 3px
+}
+
+.edui-box .colorbar {
+  position: absolute;
+  left: 2px;
+  bottom: -1px;
+  width: 14px;
+  height: 3px
+}
+
+.edui-box .toolbar-forecolor .edui-icon {
+  background-position: -1px -348px
+}
+
+.edui-box .toolbar-backcolor .edui-icon {
+  background-position: -1px -378px
+}
+
+.edui-box .toolbar-lineheight .edui-icon {
+  background-position: -1px -589px
+}
+
+.edui-box .toolbar-orderedlist .edui-icon {
+  background-position: -1px -529px
+}
+
+.edui-box .toolbar-unorderedlist .edui-icon {
+  background-position: -1px -559px
+}
+
+.edui-box .toolbar-align .edui-icon {
+  background-position: -1px -499px
+}
+
+.edui-box .toolbar-undo {
+  background-position: -1px -168px
+}
+
+.edui-box .toolbar-redo {
+  background-position: -1px -198px
+}
+
+.edui-box .toolbar-fontsize {
+  background-image: none
+}
+
+.edui-box .toolbar-blockquote {
+  background-position: -1px -318px
+}
+
+.edui-box .toolbar-horizontal {
+  background-position: -1px -679px
+}
+
+.edui-box .toolbar-removeformat {
+  background-position: -1px -890px
+}
+
+.edui-box .toolbar-formatmatch {
+  background-position: -1px -859px
+}
+
+.edui-box .toolbar-bold {
+  background-position: -1px -228px
+}
+
+.edui-box .toolbar-italic {
+  background-position: -1px -258px
+}
+
+.edui-box .toolbar-underline {
+  background-position: -1px -288px
+}
+
+.edui-box .toolbar-indent {
+  background-position: -1px -1107px
+}
+
+.edui-box .toolbar-justifyleft {
+  background-position: -1px -408px
+}
+
+.edui-box .toolbar-justifycenter {
+  background-position: -1px -438px
+}
+
+.edui-box .toolbar-justifyright {
+  background-position: -1px -468px
+}
+
+.edui-box .toolbar-justifyjustify {
+  background-position: -1px -499px
+}
+
+.edui-box .toolbar-rowspacingtop {
+  background-position: -1px -649px
+}
+
+.edui-box .toolbar-rowspacingbottom {
+  background-position: -1px -619px
+}
+
+.edui-box .toolbar-imagenone {
+  background-position: -1px -950px
+}
+
+.edui-box .toolbar-imageleft {
+  background-position: -1px -980px
+}
+
+.edui-box .toolbar-imageright {
+  background-position: -1px -1010px
+}
+
+.edui-box .toolbar-imagecenter {
+  background-position: -1px -1040px
+}
+
+.edui-box .toolbar-link {
+  background-position: -1px -708px
+}
+
+.edui-box .toolbar-unlink {
+  background-position: -1px -920px
+}
+
+.edui-box .toolbar-insertframe {
+  background-position: -1px -768px
+}
+
+.edui-box .toolbar-insertImage {
+  background-position: -1px -739px
+}
+
+.edui-box .toolbar-localImage {
+  background-position: -1px -1133px
+}
+
+.edui-box .toolbar-insertIframe {
+  background-position: -1px -137px
+}
+
+.edui-box .toolbar-fullscreen {
+  background-position: -2px -2px
+}
+
+.edui-box .toolbar-insertunorderedlist {
+  background-position: -2px -559px
+}
+
+.edui-box .toolbar-insertorderedlist {
+  background-position: -2px -529px
+}
+
+.edui-box .tool-bar-item {
+  display: inline-block
+}
+
+.edui-box .editor-dialog .el-dialog {
+  width: 420px;
+  height: auto
+}
+
+.edui-box .editor-dialog .el-dialog .el-radio {
+  display: inline-block;
+  line-height: 27px;
+  margin: 0 10px 0 0
+}
+
+.edui-box .editor-dialog .el-dialog__header {
+  padding: 0 0 0 20px;
+  line-height: 48px
+}
+
+.edui-box .editor-dialog .label_title {
+  width: 52px;
+  margin-right: 8px
+}
+
+.edui-box .editor-dialog .label_input {
+  display: inline-block;
+  font-size: 0
+}
+
+.edui-box .editor-dialog .el-input {
+  width: 260px
+}
+
+.edui-box .editor-dialog .el-input input {
+  width: 100%
+}
+
+.edui-box .editor-dialog .el-dialog__body {
+  height: auto;
+  border-bottom: none
+}
+
+.edui-box .editor-dialog .icon-tips {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+  background-image: url("/static/images/tishi.png");
+  background-image: -webkit-image-set(url("/static/images/tishi.png") 1x, url("/static/images/tishi@2x.png") 2x);
+  background-size: 20px 36px;
+  background-repeat: no-repeat;
+  background-position: -4px -3px;
+  margin-right: 3px
+}
+
+.edui-box .editor-dialog .highlight {
+  color: #20a0ff
+}
+
+.edui-box .editor-dialog .tips-item {
+  margin: -15px 20px 10px
+}
+
+// .edui-editor-imagescale,
+// .imagescale_cover {
+//   display: none !important
+// }
