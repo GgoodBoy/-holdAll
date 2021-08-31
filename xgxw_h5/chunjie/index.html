@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'"><meta name="Keywords" content="学国学网">
+  <meta name="description" content="学国学网">
+  <title>有一种怀念叫小时候过年</title>
+  <meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。">
+  <meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/swiper.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/weui.min.css">
+  <link rel="stylesheet" type="text/css" href="./css/jquery-weui.min.css">
+	<style>
+		*{margin:0px;padding: 0px;box-sizing: border-box;font-family:Microsoft YaHei;}
+		html,body{width: 100%;height: 100%;position: relative;-webkit-tap-highlight-color: transparent;  -webkit-touch-callout: none;-webkit-user-select: none;}
+		.wrap{height: 100%;width: 100%;overflow: hidden;position: fixed;top:0;left: 0;background: #333}
+		.bgd{width: 100%;display: block;}
+    #music{position: absolute;z-index: -1;opacity: 0;top:-10rem;}
+    .music-btn{position: absolute;top:0.2rem;right: 0.2rem;z-index: 99;border:1px solid #fff;border-radius: 50%;width: 0.5rem;height: 0.5rem;animation: circle 3s linear infinite both;}
+    .music-btn i{display: block;background: url('./image/music.png')no-repeat 50% 50% /cover;height: 100%}
+    .music-btn i::after{content:'';display: block;height: 1px;width: 100%;position: absolute;background: #fff;transform: translate(0,0.2rem) rotate(45deg);z-index: 3;visibility: hidden;}
+    .music-btn.pause{animation: none;}
+    .music-btn.pause i::after{visibility:visible;}
+    .music-btn.hidden{display: none}
+    .icons{display: block;position: absolute;bottom:0.6rem;left: 50%;z-index: 99;margin-left: -0.3rem;animation: move 1s infinite linear}
+    .icons.hidden{visibility: hidden;}
+    .icon{display: block!important;background: url('./image/arrow-up.png')no-repeat 50% 50% / cover;width: 0.6rem;height: 0.2rem;}
+		.scroll{width: 100%;}
+    .scroll.hidden{display: none}
+    .tips{font-size: 20px;position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);width: 100%;text-align: center;}
+		.section{position: relative;overflow: hidden;width: 100%;height: 100vh;}
+		.guodu{position: absolute;top:0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.8);visibility: hidden;opacity: 0;z-index: 3}
+		.tv{position: absolute;z-index: 3;top:6.02rem;left:2.22rem;width: 2.85rem;)}
+    .scene{position: relative;z-index: 2;filter: blur(1px);}
+		.guodu.active{visibility: visible;opacity: 1;transition: all 1s}
+    .section1{position: absolute;top:0;left:0;z-index: 2; perspective: 800px;transform-style: preserve-3d;visibility: visible;opacity: 1; transition: visibility 1ms,opacity 1s 1ms}
+    .section1 .box2{position: absolute;top:0;left: 0;width: 100%;height: 100%;z-index: 4}
+    .section1 .box2 .dot{position: absolute;z-index: 2;top:6.02rem;left:2.92rem;width: 1.5rem;height:1.5rem;border-radius: 50%;background: rgba(0,0,0,1);}
+    .section1 .box2 .dot.hidden{visibility: hidden;}
+    .dot.active{transform: scale(20);background-color: #fff!important;transition: transform 0.7s,background-color 500ms ease 300ms }
+    /*.section1.active .box1,.section1.active .box2{ transform: scale(1.2);transform-origin: top;transition: transform 1s; z-index: 4} */
+    .section1.active .box1,.section1.active .box2{z-index: 4} 
+    .section1.active .box2 .tv{background: rgba(0,0,0,0.5);visibility: hidden;transition: visibility 1ms ease 2s} 
+    .section1.active .two{transform: translateY(100vh);}
+    .section1.hidden{visibility: hidden;opacity: 0;transition: opacity 1s,visibility 1ms ease 1s}
+    .section-box{position: relative;z-index: 1;visibility: visible;opacity: 1;transition: visibility 1ms}
+    .section-box.hidden{opacity: 0;visibility: hidden;transition: opacity 1s,visibility 1ms ease 1s;}
+    .swiper-container{background: #F5EBD3;padding: 0.5rem 0;}
+    .swiper-container .title{font-size: 0.44rem;color:#CE0408;text-align: center;margin-bottom:0.3rem;}
+    .swiper-wrapper{height: 8.2rem}
+    .swiper-slide{width: 4.9rem;height: 8.2rem;box-shadow:0px 2px 24px 0px rgba(102,102,102,0.2);border-radius:4px;background: #fff;padding: 0.1rem}
+    .swiper-slide .item{height: 100%;overflow: hidden;}   
+    .swiper-slide img{
+        width:100%;
+        height:100%;
+    }
+    .share-btns{text-align: center;width: 100%;font-size: 0;margin-top: 0.2rem}
+    .share-btns .btn1{width: 4.96rem;height: 0.88rem;line-height: 0.88rem;border-radius: 25px;font-size: 0.32rem;border:1px solid #E02840;background-image: linear-gradient(#E62F45, #D51F35, #C71227);color:#fff;display: inline-block;}
+    .share-btns .btn2{width: 4.96rem;height: 0.88rem;line-height: 0.88rem;border-radius: 25px;font-size: 0.32rem;border:1px solid #C30D23;color:#C61F29;display: inline-block;margin-top:0.2rem;}
+    #canvasArea{position: absolute;top:100rem;left: 0;z-index: 1;width: 100%;height: 100%;background: #fff;overflow: hidden;}
+    #canvasArea .img1{width: 100%;max-width: 100%}
+    #canvasArea .code{position: absolute;left: 0;bottom:1rem;width: 100%;text-align: center;font-size: 0}
+    #canvasArea .code-img{width: 2rem;height: 2rem;display: inline-block;} 
+    #canvasArea p{margin-top:0.2rem;color:#fff;font-size: 0.36rem}
+    #canvasArea p.word{margin-top:0;border:none;position: relative;background: none!important;height: 2.4rem}
+    #canvasArea .box{height:2.6rem;width: 100%;position: absolute;top:0;left: 0;overflow: hidden;}
+    .download{position: absolute;top:0;left: 0;z-index: 66;width: 100%;height: 100%;display: block;}
+    .download.hidden{display: none}
+    .to-wechat-bgd{
+        position: fixed;
+        top:0;
+        left: 0;
+        z-index: 99999;
+        background: rgba(0,0,0,1);
+        width: 100%;
+        height: 100%;
+      }
+    .to-wechat-bgd.hidden{display: none}    
+    .to-wechat-bgd i{
+      position: absolute;
+      right: 0.2rem;
+      top:0;
+      width: 1rem;
+      height: 1.5rem;
+      transform: rotate(-90deg);
+      background: url('./image/arrow.png')no-repeat 50% 50%;
+      background-size: contain;
+    }
+    .to-wechat-bgd  p{
+        position: absolute;
+        right: 0.1rem;
+        top:1.5rem;
+        color:#fff;
+        font-size: 0.32rem;
+    }
+    .end-page{position: absolute;top:0;left: 0;width: 100%;height: 100%;z-index: 4;transition: all 0.5s;transform: translateY(100%);overflow: hidden}
+    .end-page.active{transform: translateY(0);}
+    .share-page{position: relative;height: 100%;width:100%;background: rgba(0,0,0,0.7)}
+    .share-page .img1{width: 100%;height: 100%;position: relative;z-index: 2}
+    .share-page .img2{position: absolute;z-index: 3;width: 1.9rem;top:2.08rem;right: -5px;max-width: 100%}
+    .swiper-container.active{transform: translateY(0);}
+    .swiper-container{position: absolute;z-index: 33;top:0;left: 0;width: 100%;height: 100%;transition: all 0.5s;transform: translateY(100%);}
+    .word{position: absolute;top:0;left:0;width: 100%;height:3.06rem;text-align: center;color:#fff;font-size: 0.4rem;visibility: hidden;opacity: 0;background: url('./image/word.png')no-repeat 50% 50%/cover;display: flex;align-items: center;justify-content: center}
+    .word span{letter-spacing: 1px;display: inline-block;padding: 0.1rem}
+    .words{width: 100%}
+    .words span{display: block!important;width: 5.6rem;text-align: left;line-height: 0.34rem;margin-left: 1.2rem;opacity: 0}
+    .word.active{opacity: 1;visibility: visible;transition: visibility 1ms,opacity 1s linear 1s}
+    .section6 .word.active{transition: visibility 1ms,opacity 1s linear 500ms}
+    .word.active .words .item1{transition:opacity 1s ease 1.5s;opacity: 1}
+    .word.active .words .item2{transition:opacity 1s ease 2.5s;opacity: 1}
+    .word.active .words .item3{transition:opacity 1s ease 3.5s;opacity: 1}
+    .start{position: fixed;top:0;left: 0;width: 100%;height: 100%;z-index: 1000;background: #333333;}
+    .start .box{position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);opacity: 0;text-align: center;}
+    .start .img1{width: 6.66rem;position: relative;z-index: 1}
+    .start .img2{width: 4.36rem;display: block;}
+    .start.show .box{opacity: 1;transition: opacity 1s}
+    .img2-box{border-radius: 25px;overflow: hidden;position: relative;z-index: 2;top:-0.8rem;display: inline-block;}
+    .img2-box i{height: 150%;width: 0.6rem;display: none;position: absolute;left: 0;top:-10%;transform: rotate(30deg);opacity: 0.5;animation: moves 3s linear infinite both;background: #fff}
+    .swiper-wrapper.hidden{display: none;}
+    .tap{color:#dfdfdf!important;font-size: 0.24rem!important}
+ /*   .img2-box i::before{content:'';height: 100%;width: 10px;background: #fff;opacity: 0.7;display: block;}*/
+    @keyframes circle{
+    from{
+      transform: rotate(0deg)
+    }
+    to{
+      transform: rotate(360deg)
+    }
+  }
+    @keyframes move{
+      0%{
+        transform: translateY(0)
+      }
+      25%{
+        transform: translateY(-1rem);
+      }
+      50%{
+        transform: translateY(0);
+      }
+      75%{
+        transform: translateY(1rem);
+      }
+      100%{
+        transform: translateY(0);
+      }
+    }
+     @keyframes moves{
+      0%{
+        left: -1rem;
+      }
+      10%{
+        left: 5rem;
+      }
+      100%{
+        left: 5rem
+      }
+     }
+	</style>
+</head>
+<body>
+	<div class="wrap">
+    <div class="start">
+      <div class="box">
+        <img class="img1"/>
+        <div class="img2-box">
+          <img class="img2"/>
+          <i></i>
+        </div>
+        
+      </div>
+    </div>
+    <div class="icons">
+      <i class="icon"></i>
+      <i class="icon"></i>
+    </div>
+    <audio preload loop controls id="music"></audio>
+    <div class="music-btn"><i></i></div>
+	 	<div class="scroll">
+			<div class="section section1 hidden">
+				<!-- <div class="box1">
+          <img class="bgd one" id="img1"/>
+        </div>
+        <div class="box2">
+          <img class="tv"/>
+          <div class="dot hidden"></div>    
+        </div>
+				<div class="guodu">
+					<div class="scene">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+				</div> -->
+			</div>
+			<div class="section-box">
+        <div class="section section2">
+          <img  class="bgd one"/>
+          <p class="word">
+            <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">是围坐在电视机前看春晚</span>
+            </span>
+          </p>
+        </div>
+        <div class="section section3">
+          <img class="bgd one"/>
+          <p class="word">
+            <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">是用妈妈打的浆糊贴春联</span>
+            </span>
+          </p>
+        </div>
+        <div class="section section4">
+          <img  class="bgd one"/>
+          <p class="word">
+            <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">还是喜欢吃妈妈包的饺子</span>
+            </span>
+          </p>
+        </div>
+        <div class="section section5">
+          <img class="bgd one"/>
+          <p class="word">
+             <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">是和小伙伴们一起放的爆竹</span>
+            </span>
+          </p>
+        </div>
+        <div class="section section6">
+          <img  class="bgd one"/>
+          <p class="section6-word word">
+            <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">是爷爷给的压岁钱</span>
+              <span class="item3">满满的幸福感</span>
+            </span>
+          </p>
+        </div>
+        <div class="section section7">
+          <img  class="bgd"/>
+          <p class="section7-word word">
+            <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">是年画里透出的吉祥</span>
+              <!-- <span class="item3">把爱融进年</span> -->
+            </span>
+          </p>
+        </div>
+        <div class="section section8">
+          <img class="bgd"/>
+          <p class="word">
+             <span class="words">
+              <span class="item1">小时候的过年</span>
+              <span class="item2">是和家人除夕夜的团圆饭</span>
+            </span>
+          </p>
+        </div>
+      </div>
+		</div>
+    <div class="end-page">
+        <div class="share-page">
+          <img class="img1" src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/end.png"/>
+          <img class="img2" src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/share-icon.png"/>
+        </div>
+        <div class="swiper-container">
+          <p class="title">有一种怀念叫小时候过年</p>
+          <div class="swiper-wrapper">
+              <!-- <div class="swiper-slide">
+                <div class="item"><img src="./image/1.png"/></div>
+              </div> -->
+            <!--   <div class="swiper-slide"><div class="item"><img src="./image/2.png"/></div></div>
+              <div class="swiper-slide"><div class="item"><img src="./image/3.jpg"/></div></div> -->
+          </div>
+          <div class='share-btns'>
+            <div class="btn1">分享我小时候的怀念给你看</div>
+            <div class="btn2">保存一份回忆给自己</div>
+          </div>
+          <div id="canvasArea">
+            <img class="img1" src=""/>
+            <div class="code">
+               <img class="code-img" src="./image/code.png"/>
+              <p>团圆就是年</p>
+              <p class="tap">长按保存图片</p>
+            </div>
+            <div class="box"></div>
+          </div>
+          <img class="download hidden"/>
+         <div class="to-wechat-bgd hidden">
+            <i></i>
+            <p>请点击右上角···发送给朋友</p>
+          </div>
+        </div>     
+      </div>	
+	</div>
+</body>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/jquery-weui.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="./js/swiper.min.js"></script>
+<script type="text/javascript" src="./js/html2canvas.js"></script>
+<script type="text/javascript">
+  (function (doc, win) {
+      var docEl = doc.documentElement,
+         resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+         recalc = function () {
+             var clientWidth = docEl.clientWidth;
+             if (!clientWidth) return;
+             docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+         };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+  })(document, window);
+</script>
+<script type="text/javascript">
+	var isTransition = true,guoduFlag = false,audioPlayFlag = false,html2canvasFlag = false;
+	$(document).ready(function(){
+    initImg()
+		scrollEvent()
+    playMusic()
+    setTimeout(function(){
+      initRem()
+    },300)
+    initSwiper()
+    wxShare()
+    document.body.addEventListener('touchmove' , function(e){
+        e.preventDefault();
+    })
+	})
+  function initRem(){
+      var docEl = document.documentElement,
+          resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+          recalc = function () {
+            var timer = setInterval(function(){
+              var clientWidth = docEl.clientWidth;
+              if(clientWidth&&clientWidth>0){
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                clearInterval(timer)
+              }
+            },100)
+          };
+      if (!document.addEventListener) return;
+      window.addEventListener(resizeEvt, recalc, false);
+      recalc()
+    }
+  function initImg(){
+    $('.start .img1').attr('src','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/alert.png');
+    $('.start .img2').attr('src','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/start-btn.png');
+    $('.section1 .one').attr('src','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/1.png')
+    $('.section1 .tv').attr('src','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/tv.png')
+    $('.start .img1')[0].onload = function(){
+      $('.start').addClass('show')
+    }
+
+    var imgArr = ['https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/2.png','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/3.jpg','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/4.jpg','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/5.jpg','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/6.jpg','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/7.jpg','https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/8.jpg']
+    $('.section-box .section img').each(function(index){
+      $(this).attr('src',imgArr[index]);
+    })
+    $(".section").css('height',$("body").height()+'px')
+    $('.box2').css('height',$('.box1').height()+'px')
+  }
+  // function guodu(){
+  //   if(guoduFlag)return;
+  //   var stars = document.querySelectorAll('.scene div');
+  //   var hyper = document.getElementById('hyper');
+  //   stars.forEach((star,i) => {
+  //     var x = `${Math.random() * 200}vmax`
+  //     var y = `${Math.random() * 100}vh`
+  //     var z = `${Math.random() * 200 - 100}vmin`
+  //     var rx = `${Math.random() * 360}deg`
+  //     star.style.setProperty('--x', x)
+  //     star.style.setProperty('--y', y)
+  //     star.style.setProperty('--z', z)
+  //     star.style.setProperty('--rx', rx)
+  //     var delay = `${Math.random() * 900}ms`;
+  //     star.style.animationDelay = delay;
+  //     star.style.animationName = 'hyper';
+  //   });
+  //   guoduFlag = true;
+  // }
+  function playMusic() {
+    var audioEle = document.getElementById("music");
+    audioEle.src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/audio.mp3';
+    audioEle.load();
+    if (audioEle.paused){ /*如果已经暂停*/
+        audioEle.play();   //播放
+    }else {
+        audioEle.pause();  //暂停
+    }
+    wx.config({
+        // 配置信息, 即使不正确也能使用 wx.ready
+        debug: false,
+        appId: '',
+        timestamp: 1,
+        nonceStr: '',
+        signature: '',
+        jsApiList: []
+    });
+    wx.ready(function(){
+      if (audioEle.paused){ /*如果已经暂停*/
+          audioEle.play();   //播放
+      }else {
+          audioEle.pause();  //暂停
+      }
+    });
+    $('.music-btn').on('click',function(){
+      audioPlayFlag = true;
+      if (audioEle.paused){ 
+        audioEle.play();
+        $(this).removeClass('pause');  
+      }else {
+        audioEle.pause();
+        $(this).addClass('pause');  
+      }
+    })
+  }
+  function wxShare(){
+      var test = true;
+      var baseUrl = test?'https://scapi.youfushuyuan.com':'https://xgxapi.xueguoxue.com'
+      var url = encodeURIComponent(window.location.href.split('#')[0]);
+      $.ajax({
+        url:baseUrl+'/wx/getConfig?url='+url,
+        type:'get',
+        success:function(res){
+          var data = res.content;
+          var title = "有一种怀念叫小时候过年"
+          var desc = ""
+          var link = window.location.href
+          var imgUrl = "https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/share.png"
+          wx.config({
+              debug:false,
+              appId:data['appId'],
+              timestamp:data['timeStamp'],
+              nonceStr:data['nonceStr'],
+              signature:data['signature'],
+              jsApiList: [
+                  'checkJsApi',
+                  'updateAppMessageShareData',
+                  'updateTimelineShareData',
+                  'onMenuShareAppMessage',
+                  'onMenuShareTimeline',
+                  'onMenuShareQQ'
+              ]
+          }); 
+          wx.ready(function() {
+              wx.onMenuShareAppMessage({
+                  title: title, // 分享标题
+                  desc: desc, // 分享描述
+                  link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: imgUrl, // 分享图标
+                  type: '', // 分享类型,music、video或link，不填默认为link
+                  dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+                  success: function () {
+                  // 用户点击了分享后执行的回调函数
+                  }
+              });
+              wx.onMenuShareTimeline({
+                  title: title, // 分享标题
+                  link: link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+                  imgUrl: imgUrl, // 分享图标
+                  success: function () {
+                  // 用户点击了分享后执行的回调函数
+                  },
+              })
+              wx.onMenuShareQQ({
+                  title: title, // 分享标题
+                  desc: desc, // 分享描述
+                  link: link, // 分享链接
+                  imgUrl: imgUrl, // 分享图标
+                  success: function () {
+                  // 用户确认分享后执行的回调函数
+                  },
+                  cancel: function () {
+                  // 用户取消分享后执行的回调函数
+                  }
+              });
+          })
+        }
+      })
+    }
+  function initSwiper(){
+    var arr = ['./image/2.png','./image/3.jpg','./image/4.jpg','./image/5.jpg','./image/6.jpg','./image/7.jpg','./image/8.jpg']
+    var dom = $(".swiper-wrapper")
+    arr.forEach(function(item,index){
+      dom.append('<div class="swiper-slide"><div class="item"><img data-index="'+(index+2)+'" src="'+item+'"/></div></div>')
+    })
+    setTimeout(function(){
+      var mySwiper = new Swiper ('.swiper-container', {
+        direction:'horizontal',
+        spaceBetween:0,
+        observeParents: true,   //观察父组件，当父组件变化时，自己随着变化
+        observer: true,     //观察自己，自己的参数变化时，更新
+        centeredSlides:true,   //设置为true时，活动块居中显示，默认下居左显示
+        loop:false,   //滑动过程中会在前后复制多个slider,效果看起来是循环的
+        loopedSlides:3,   //设置滑动过程中所要用到的loop个数
+        slidesPerView:'auto',   //同时显示的slide数量
+        loopAdditionalSlides:100,
+        autoPlay:{
+          delay:3000,
+          disableOnInteraction:false  //鼠标移动上去时是否继续播放
+        },
+        pagination : '.swiper-pagination',
+        paginationType : 'bullets',
+        paginationElement:'span',
+        effect:'coverflow'
+      })
+    },1000)
+    $('.start .img2').on('click',function(){
+      $('.start').fadeOut()
+      setTimeout(function(){
+        $('.start').remove()
+        
+      },1000)
+      isTransition = true;
+      $('.section2').addClass('active')
+      $('.section2 .word').addClass('active')
+      setTimeout(function(){
+         isTransition = false;
+       },3000)
+    })
+    $('.btn1').on('click',function(){
+      var isWx = false;
+      var ua = window.navigator.userAgent.toLowerCase();
+      if(ua.match(/MicroMessenger/i) == 'micromessenger' || typeof WeixinJSBridge !== "undefined"){
+          isWx = true;
+      }else if (ua.match(/QQ/i) == "qq" &&  ua.match(/MQQbrowser/i)!='mqqbrowser'){
+          isWx = true;
+      }
+      if(!isWx){
+        $.toast("请在微信内打开分享给好友", "text");
+        return;
+      }
+      $('.to-wechat-bgd').removeClass('hidden')
+      $('.music-btn').addClass('hidden')
+      $('.swiper-wrapper').addClass('hidden');
+    })
+    $('.to-wechat-bgd').on('click',function(){
+      $('.swiper-wrapper').removeClass('hidden');
+      $(this).addClass('hidden')
+      $('.music-btn').removeClass('hidden')
+    })
+    $('.btn2').on('click',function(){
+      if(html2canvasFlag) return false;
+      var link = $(".swiper-slide-active img").attr("src");
+      $("#canvasArea .img1").attr("src",link);
+      var index = $(".swiper-slide-active img").attr('data-index')
+      if($('.section'+index).find('.word').length>0){
+       var dom = $('.section'+index).find('.word').clone()
+        $("#canvasArea .box").append(dom)
+      }
+     
+      html2canvasFlag = true;
+      $.toast('图片合成中...','text');
+      setTimeout(function(){
+        var dom = $("#canvasArea")[0]
+        var width = dom.offsetWidth;
+        var height = dom.offsetHeight;
+        var scale = 2
+        html2canvas(dom,
+            {
+              dpi: window.devicePixelRatio*2,
+              scale:scale,
+              allowTaint:false,
+              width:width,
+              heigth:height,
+              useCORS: true,
+              logging: false,
+            }).then(function(canvas){
+              var context = canvas.getContext('2d');
+              context.mozImageSmoothingEnabled = false;
+              context.webkitImageSmoothingEnabled = false;
+              context.msImageSmoothingEnabled = false;
+              context.imageSmoothingEnabled = false;
+              
+              var url = canvas.toDataURL("image/png");
+              $(".swiper-wrapper").addClass('hidden')
+              $('.download').removeClass('hidden');
+              $('.download').attr('src',url)
+            })    
+      },1000)
+    })
+    $('.share-page .img2').on('click',function(){
+      $('.swiper-container').addClass('active')
+    })        
+  }
+	function scrollEvent(){
+      var $box = $(".scroll");
+      var $body = $("body");
+      var clientH = $("body").height();
+      var current = 1;
+      // var pages = Math.ceil($box.height()/clientH);
+      var pages = 8;
+      // if(pages<=4){window.location.reload();return;}
+      var lastPageHeight = $box.height()-clientH*(pages-1);
+      var distance = 10
+      var startY,disY, moveY=0,scrollTop;
+      var scrollFlag = true;
+      var positionY = -(current-1)*clientH;
+      document.body.addEventListener('touchmove', function(e) {
+          var event = e || window.event;
+          if(event.preventDefault) {
+              event.preventDefault()
+          } else {
+              event.returnValue = false
+          }
+      }, false)
+      var scrollDom = $(".wrap")[0]
+      var $box = $(".scroll");
+      scrollDom.addEventListener("touchstart", function(e) {
+        if(!audioPlayFlag){
+          var audioEle = document.getElementById("music");
+          audioEle.play();
+        }
+        if(isTransition) return;
+        if(!scrollFlag) return;
+        $box.css("transition","none");
+        startY = e.targetTouches[0].pageY
+        disY = startY-moveY;
+      }, false);
+      scrollDom.addEventListener("touchmove", function(e) {
+        if(isTransition) return;
+        if(!scrollFlag) return;
+        if((startY-e.touches[0].pageY<0&&current==1)||(startY-e.touches[0].pageY>0&&current==pages)){
+          
+        }else{
+          moveY = e.touches[0].pageY - disY;
+        }
+      }, false);
+
+      scrollDom.addEventListener("touchend", function(e) {
+      	if(isTransition) return;
+        if(!scrollFlag) return;
+        var endY = e.changedTouches[0].pageY;
+        if(Math.abs(endY - startY)>distance){
+          if((endY - startY)>distance){
+            return;
+            console.log('down')
+            $(".icons").removeClass('hidden')
+            if(current==0){
+              return;
+            }
+            if(current==1){
+              $('.section1').removeClass('hidden')
+              $('.section-box').addClass('hidden');
+              $(".section1 .two").delay(1000).addClass('active')
+              $('.section2').delay(1000).removeClass('active')
+              current = 0
+              moveY = 0;
+              $box.css('transform','translateY('+moveY+'px)')
+              $box.css("transition","all 500ms ease-in-out");
+              return false;
+            }
+            if(current==pages){
+              moveY = -clientH*(pages-2)
+            }else{
+              moveY = -clientH*(current-2);
+            }
+            current--;
+            isTransition = true;
+            $box.css({'transform':'translateY('+moveY+'px)',"transition":"all 500ms ease-in-out",'-webkit-transform':'translateY('+moveY+'px)',"-webkit-transition":"all 500ms ease-in-out"})
+            $box.css("transition","all 500ms ease-in-out");
+            setTimeout(function(){
+              isTransition = false
+            },500)
+          }else if((endY - startY)<-distance){
+            // if(current==0){
+            //   isTransition = true;
+            //   $('.section1').addClass('active');
+            //   $('.guodu').addClass('active');
+            //   $('.dot').removeClass('hidden')
+            //   guodu();
+            //   setTimeout(function(){
+            //      $('.dot').addClass('active')  
+            //   },2000)
+            //   setTimeout(function(){
+            //     $('.tv').remove()
+            //     $('.section1').addClass('hidden');
+            //     $('.section-box').removeClass('hidden');
+            //     $('.section2').delay(2000).addClass('active')
+            //     current++
+            //   },3000)
+            //   setTimeout(function(){
+            //     var index = current+1;
+            //     $('.section'+index+' .word').addClass('active')
+            //     $('.section1,.guodu,.section1 .two').removeClass('active');
+            //     // isTransition = false;
+            //   },3500)
+            //   setTimeout(function(){
+            //      isTransition = false;
+            //    },5500)
+            //   return;
+            // }
+            var index = current+2;
+            $('.section'+index+' .word').addClass('active')
+            if(current==7){
+               $(".icons").addClass('hidden')
+               $('.end-page').addClass('active')
+               return;
+            }
+
+
+            if(current==pages){
+              moveY = -(clientH*(pages-2)+lastPageHeight);
+              $box.css('transform','translateY('+moveY+'px)')
+              $box.css("transition","all 500ms ease-in-out");
+              return false;
+            }
+            if(current==pages-1){
+              moveY = -(clientH*(current-1)+lastPageHeight)
+            }else{
+              moveY = -(clientH*current)
+            }
+            current++;
+            isTransition = true;
+            $box.css({'transform':'translateY('+moveY+'px)',"transition":"all 500ms ease-in-out",'-webkit-transform':'translateY('+moveY+'px)',"-webkit-transition":"all 500ms ease-in-out"})
+            $box.css("transition","all 500ms ease-in-out");
+            setTimeout(function(){
+                isTransition = false
+              },3500)
+            // if(current==5){
+            //   setTimeout(function(){
+            //     isTransition = false
+            //   },3500)
+            // }else if(current==6){
+            //   setTimeout(function(){
+            //     isTransition = false
+            //   },4500)
+            // }else if(current==7){
+            //   setTimeout(function(){
+            //     isTransition = false
+            //   },1000)
+            // }else{
+            //   setTimeout(function(){
+            //     isTransition = false
+            //   },2500)
+            // }
+          }
+        }else{
+
+        }
+      }, false);
+
+    }
+</script>
+</html>

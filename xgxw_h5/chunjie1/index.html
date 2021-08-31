@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no"><meta name="format-detection" content="telephone=no, email=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'"><meta name="Keywords" content="学国学网"><meta name="description" content="学国学网"><title>有一种怀念叫小时候过年</title><meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。"><meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+  <link rel="stylesheet" href="./css/style.css">
+	<style>
+		*{margin:0px;padding: 0px;box-sizing: border-box;font-family:Microsoft YaHei;}
+		html,body{width: 100%;height: 100%;position: relative;-webkit-tap-highlight-color: transparent;  -webkit-touch-callout: none;-webkit-user-select: none;}
+		.wrap{height: 100%;width: 100%;overflow: hidden;position: fixed;top:0;left: 0}
+		.bgd{width: 100%;display: block;}
+    #music{position: absolute;z-index: -1;opacity: 0;top:-10rem;}
+    .music-btn{position: absolute;top:0.2rem;right: 0.2rem;z-index: 99;border:1px solid #fff;border-radius: 50%;width: 0.5rem;height: 0.5rem;animation: circle 3s linear infinite both;}
+    .music-btn i{display: block;background: url('./image/music.png')no-repeat 50% 50% /cover;height: 100%}
+    .music-btn i::after{content:'';display: block;height: 1px;width: 100%;position: absolute;background: #fff;transform: translate(0,0.2rem) rotate(45deg);z-index: 3;visibility: hidden;}
+    .music-btn.pause{animation: none;}
+    .music-btn.pause i::after{visibility:visible;}
+    .icons{display: block;position: absolute;bottom:0.3rem;left: 50%;z-index: 99;margin-left: -0.3rem;animation: move 1s infinite linear}
+    .icons.hidden{visibility: hidden;}
+    .icon{display: block;background: url('./image/arrow-up.png')no-repeat 50% 50% / cover;width: 0.6rem;height: 0.2rem;}
+		.scroll{width: 100%;}
+    .scroll.hidden{display: none}
+    .tips{font-size: 20px;position: absolute;top:50%;left: 50%;transform: translate(-50%,-50%);width: 100%;text-align: center;}
+		.section{position: relative;overflow: hidden;width: 100%;height: 100vh;}
+		.guodu{position: absolute;top:0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,.8);visibility: hidden;opacity: 0;z-index: 3}
+		.tv{position: absolute;z-index: 3;top:6.02rem;left:2.22rem;width: 2.85rem;box-shadow: 0px 0px 100px #b4b4b4;)}
+    .scene{position: relative;z-index: 2;filter: blur(1px);top:1rem;}
+		.guodu.active{visibility: visible;opacity: 1;transition: all 1.5s}
+    .section1{position: absolute;top:0;left:0;z-index: 2; perspective: 800px;transform-style: preserve-3d;visibility: visible;opacity: 1; transition: visibility 1ms,opacity 1s 1ms}
+    .section1 .box2{position: absolute;top:0;left: 0;width: 100%;height: 100%; }
+    .section1.active .box1,.section1.active .box2{ transform: scale(1.2);transform-origin: top;transition: transform 1s; z-index: 4} 
+    .section1.active .box2 .tv{background: rgba(0,0,0,0.9)} 
+    .section1.active .two{transform: translateY(100vh);}
+    .section1.hidden{visibility: hidden;opacity: 0;transition: opacity 1s,visibility 1ms ease 1s}
+    .section-box{position: relative;z-index: 1;visibility: visible;opacity: 1;transition: visibility 1ms,opacity 1s 1ms}
+    .section-box.hidden{opacity: 0;visibility: hidden;transition: opacity 1s,visibility 1ms ease 1s;}
+    @keyframes circle{
+    from{
+      transform: rotate(0deg)
+    }
+    to{
+      transform: rotate(360deg)
+    }
+  }
+    @keyframes move{
+      0%{
+        transform: translateY(0)
+      }
+      25%{
+        transform: translateY(-0.2rem);
+      }
+      50%{
+        transform: translateY(0);
+      }
+      75%{
+        transform: translateY(0.2rem);
+      }
+      100%{
+        transform: translateY(0);
+      }
+    }
+	</style>
+</head>
+<body>
+	<div class="wrap">
+    <!-- <p class="tips">有一种怀念叫小时候过年</p> -->
+    <div class="icons">
+      <i class="icon"></i>
+      <i class="icon"></i>
+    </div>
+    <audio preload loop controls id="music"></audio>
+    <div class="music-btn"><i></i></div>
+	 	<div class="scroll">
+			<div class="section section1">
+				<div class="box1">
+          <img src="./image/1.png" class="bgd one" id="img1"/>
+        </div>
+        <div class="box2">
+          <img src="./image/tv.png" class="tv"/>    
+        </div>
+				<div class="guodu">
+					<div class="scene">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+				</div>
+			</div>
+			<div class="section-box hidden">
+        <div class="section section2">
+          <img  class="bgd one"/>
+        </div>
+        <div class="section section3">
+          <img class="bgd one"/>
+        </div>
+        <div class="section section4">
+          <img  class="bgd one"/>
+        </div>
+        <div class="section section5">
+          <img class="bgd one"/>
+        </div>
+        <div class="section section6">
+          <img  class="bgd one"/>
+        </div>
+        <div class="section section7">
+          <img  class="bgd"/>
+        </div>
+        <div class="section section8">
+          <img class="bgd"/>
+        </div>   
+      </div>
+		</div>	
+	</div>
+</body>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+  (function (doc, win) {
+      var docEl = doc.documentElement,
+         resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+         recalc = function () {
+             var clientWidth = docEl.clientWidth;
+             if (!clientWidth) return;
+             docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+         };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+  })(document, window);
+</script>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript">
+	var isTransition = false,guoduFlag = false,audioPlayFlag = false;
+	$(document).ready(function(){
+    initImg()
+		scrollEvent()
+    playMusic()
+    setTimeout(function(){
+      initRem()
+    },300)
+	})
+  function initRem(){
+      var docEl = document.documentElement,
+          resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+          recalc = function () {
+            var timer = setInterval(function(){
+              var clientWidth = docEl.clientWidth;
+              if(clientWidth&&clientWidth>0){
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                clearInterval(timer)
+              }
+            },100)
+          };
+      if (!document.addEventListener) return;
+      window.addEventListener(resizeEvt, recalc, false);
+      recalc()
+    }
+  function initImg(){
+    var imgArr = ['./image/2.png','./image/3.jpg','./image/4.jpg','./image/5.jpg','./image/6.jpg','./image/7.jpg','./image/8.jpg']
+    $('.section-box .section img').each(function(index){
+      $(this).attr('src',imgArr[index]);
+    })
+    $(".section").css('height',$("body").height()+'px')
+    $('.box2').css('height',$('.box1').height()+'px')
+  }
+  function guodu(){
+    if(guoduFlag)return;
+    var stars = document.querySelectorAll('.scene div');
+    var hyper = document.getElementById('hyper');
+    stars.forEach((star,i) => {
+      var x = `${Math.random() * 200}vmax`
+      var y = `${Math.random() * 100}vh`
+      var z = `${Math.random() * 200 - 100}vmin`
+      var rx = `${Math.random() * 360}deg`
+      star.style.setProperty('--x', x)
+      star.style.setProperty('--y', y)
+      star.style.setProperty('--z', z)
+      star.style.setProperty('--rx', rx)
+      var delay = `${Math.random() * 900}ms`;
+      star.style.animationDelay = delay;
+      star.style.animationName = 'hyper';
+    });
+    guoduFlag = true;
+    // alert(guoduFlag)
+  }
+  function playMusic() {
+    var audioEle = document.getElementById("music");
+    audioEle.src='./1.mp3';
+    audioEle.load();
+    if (audioEle.paused){ /*如果已经暂停*/
+        audioEle.play();   //播放
+    }else {
+        audioEle.pause();  //暂停
+    }
+    wx.config({
+        // 配置信息, 即使不正确也能使用 wx.ready
+        debug: false,
+        appId: '',
+        timestamp: 1,
+        nonceStr: '',
+        signature: '',
+        jsApiList: []
+    });
+    wx.ready(()=>{
+      if (audioEle.paused){ /*如果已经暂停*/
+          audioEle.play();   //播放
+      }else {
+          audioEle.pause();  //暂停
+      }
+    });
+    $('.music-btn').on('click',function(){
+      audioPlayFlag = true;
+      if (audioEle.paused){ 
+        audioEle.play();
+        $(this).removeClass('pause');  
+      }else {
+        audioEle.pause();
+        $(this).addClass('pause');  
+      }
+    })
+  }
+
+	function scrollEvent(){
+      var $box = $(".scroll");
+      var $body = $("body");
+      var clientH = $("body").height();
+      var current = 0;
+      // var pages = Math.ceil($box.height()/clientH);
+      var pages = 8;
+      // if(pages<=4){window.location.reload();return;}
+      var lastPageHeight = $box.height()-clientH*(pages-1);
+      var distance = 10
+      var startY,disY, moveY=0,scrollTop;
+      var scrollFlag = true;
+      var positionY = -(current-1)*clientH;
+      document.body.addEventListener('touchmove', function(e) {
+          var event = e || window.event;
+          if(event.preventDefault) {
+              event.preventDefault()
+          } else {
+              event.returnValue = false
+          }
+      }, false)
+      var scrollDom = $(".wrap")[0]
+      var $box = $(".scroll");
+      scrollDom.addEventListener("touchstart", function(e) {
+        if(!audioPlayFlag){
+          var audioEle = document.getElementById("music");
+          audioEle.play();
+        }
+        if(isTransition) return;
+        if(!scrollFlag) return;
+        $box.css("transition","none");
+        startY = e.targetTouches[0].pageY
+        disY = startY-moveY;
+      }, false);
+      scrollDom.addEventListener("touchmove", function(e) {
+        if(isTransition) return;
+        if(!scrollFlag) return;
+        if((startY-e.touches[0].pageY<0&&current==1)||(startY-e.touches[0].pageY>0&&current==pages)){
+          
+        }else{
+          moveY = e.touches[0].pageY - disY;
+        }
+      }, false);
+
+      scrollDom.addEventListener("touchend", function(e) {
+      	if(isTransition) return;
+        if(!scrollFlag) return;
+        var endY = e.changedTouches[0].pageY;
+        if(Math.abs(endY - startY)>distance){
+          if((endY - startY)>distance){
+            console.log('down')
+            $(".icons").removeClass('hidden')
+            if(current==0){
+              return;
+            }
+            if(current==1){
+              $('.section1').removeClass('hidden')
+              $('.section-box').addClass('hidden');
+              $(".section1 .two").delay(1000).addClass('active')
+              $('.section2').delay(1000).removeClass('active')
+              current = 0
+              moveY = 0;
+              $box.css('transform','translateY('+moveY+'px)')
+              $box.css("transition","all 500ms ease-in-out");
+              return false;
+            }
+            if(current==pages){
+              moveY = -clientH*(pages-2)
+            }else{
+              moveY = -clientH*(current-2);
+            }
+            current--;
+            isTransition = true;
+            $box.css({'transform':'translateY('+moveY+'px)',"transition":"all 500ms ease-in-out",'-webkit-transform':'translateY('+moveY+'px)',"-webkit-transition":"all 500ms ease-in-out"})
+            $box.css("transition","all 500ms ease-in-out");
+            setTimeout(function(){
+              isTransition = false
+            },1000)
+          }else if((endY - startY)<-distance){
+            if(current==0){
+              isTransition = true;
+              $('.section1').addClass('active');
+              $('.guodu').addClass('active');
+              guodu();
+              setTimeout(function(){
+                $('.section1').addClass('hidden');
+                $('.section-box').removeClass('hidden');
+                $('.section2').delay(2000).addClass('active')
+                current++
+              },2500)
+              setTimeout(function(){
+                $('.section1,.guodu,.section1 .two').removeClass('active');
+                isTransition = false;
+              },3500)
+              return;
+            }
+            if(current==6){
+               $(".icons").addClass('hidden')
+            }
+
+            if(current==pages){
+              moveY = -(clientH*(pages-2)+lastPageHeight);
+              $box.css('transform','translateY('+moveY+'px)')
+              $box.css("transition","all 500ms ease-in-out");
+              return false;
+            }
+            if(current==pages-1){
+              moveY = -(clientH*(current-1)+lastPageHeight)
+            }else{
+              moveY = -(clientH*current)
+            }
+            current++;
+            isTransition = true;
+            $box.css({'transform':'translateY('+moveY+'px)',"transition":"all 500ms ease-in-out",'-webkit-transform':'translateY('+moveY+'px)',"-webkit-transition":"all 500ms ease-in-out"})
+            $box.css("transition","all 500ms ease-in-out");
+            setTimeout(function(){
+              isTransition = false
+            },1000)
+          }
+        }else{
+
+        }
+      }, false);
+
+    }
+</script>
+</html>

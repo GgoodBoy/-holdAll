@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no">
+	<meta name="format-detection" content="telephone=no, email=no"><meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+	<meta name="Keywords" content="学国学网">
+	<meta name="description" content="学国学网">
+	<title>大事件</title>
+	<meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。">
+	<meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/index.css">
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<!-- 必须先引入vue，  后使用element-ui -->
+	<script src="https://cdn.suoluomei.com/common/js2.0/vue/v2.5.16/vue.js"></script>
+<body>
+	 <div id="wrap">
+		 <div class="bigBox displayNone">
+			<div class="content">
+				<div class="textListBox" v-for="(item,index) in textListArry" :key="index">
+					<div class="leftStyle">
+						<div class="culomes">
+							<div class="leftRadios" v-show="item.indexOf('<p>&nbsp') == -1"></div>
+						</div>
+					</div>
+					<div class="textInfo font_pr" v-html='item'></div>
+				</div>
+			</div>
+		 </div>
+	</div>
+</body>	
+<script type="text/javascript" src="./js/browser.min.js"></script>
+<script src="https://cdn.polyfill.io/v1/polyfill.min.js"></script> 
+<script type="text/babel">
+// <script type="text/javascript"> 
+	new Vue({
+		el:'#wrap',
+		data:{
+			baseUrl:'',
+			server:{
+				view:'/home/aboutUs/view'
+			},
+			textListArry:[]
+		},
+		computed:{},
+		created(){
+			//初始化配置
+			this.initRem();
+			this.getTheTitleArry();
+			$(".bigBox").removeClass('displayNone');
+		},
+		//监听
+		watch:{},
+		methods:{
+			initRem(){
+				this.baseUrl = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxapi.xueguoxue.com':'https://scapi.youfushuyuan.com';			
+				var docEl = document.documentElement,
+				resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+				recalc = function () {
+					var timer = setInterval(function(){
+						var clientWidth = docEl.clientWidth;
+						if(clientWidth&&clientWidth>0){
+							docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+							clearInterval(timer)
+						}
+					},100)
+				};
+				if (!document.addEventListener) return;
+				window.addEventListener(resizeEvt, recalc, false);
+				recalc()				
+			},	
+			getTheTitleArry(data){
+				var self = this;
+				var query = {
+					type:2,
+				}
+				$.ajax({
+					url:self.baseUrl+self.server.view,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					success:function(res){
+						if(res.status==200){
+							const reg=/<p.*?>.*?<\/p>/ig;//获取所有p标签的正则，包含标签本身；
+							self.textListArry=res.content.content.match(reg);
+						}
+					}
+				})						
+			},
+		},
+		mounted(){}
+	})
+</script>
+<script type="text/javascript">
+	(function (doc, win) {
+	    var docEl = doc.documentElement,
+	       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+	       recalc = function () {
+	           var clientWidth = docEl.clientWidth;
+	           if (!clientWidth) return;
+	           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	       };
+	    if (!doc.addEventListener) return;
+	    win.addEventListener(resizeEvt, recalc, false);
+	    doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+</script>
+
+</html>

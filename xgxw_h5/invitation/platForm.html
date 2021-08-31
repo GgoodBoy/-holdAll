@@ -1,0 +1,138 @@
+<DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=1.0,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+  <title>合作平台</title>
+  <style>
+    *{margin:0px;padding: 0px;box-sizing: border-box;font-family:Microsoft YaHei;}
+        html,body{background: #F4F4F4;width: 100%;height: 100%;position: relative;-webkit-tap-highlight-color: transparent;  -webkit-touch-callout: none;-webkit-user-select: none;}
+    #platFormId{
+        background: #F4F4F4;
+    }
+    #platFormId .platList{
+        padding:0.3rem 0.25rem 0;
+        min-height: 10rem;
+    }
+    .hidden{
+        display: none;
+    }
+    #platFormId .platList ul{
+        display: flex;
+        flex-flow: wrap;
+        justify-content:space-between;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    #platFormId .platList ul li{
+        list-style: none;
+        width: 48.5%;
+        height: 2rem;
+    }
+    #platFormId .platList ul li img{
+        width: 100%;
+        border-radius: 0.12rem;
+        height: 1.8rem;
+    }
+    .bottom{padding: 1rem 0.5rem}
+    .bottom .title{font-size: 0.32rem;margin-bottom: 0.4rem}
+    .bottom p{font-size: 0.27rem;margin:0.2rem 0;}
+    </style>
+</head>
+
+<body>
+  <div id="platFormId">
+    <div class="platList">
+        <ul></ul>
+    </div>
+    <div class="bottom hidden">
+        <p class="title">商务合作</p>
+        <p>联系电话: 010-62198619-8617</p>
+        <p>联系邮箱: app@xueguoxue.com</p>
+    </div>
+  </div>
+</body>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script> 
+(function (doc, win) {
+    var docEl = doc.documentElement,
+       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+       recalc = function () {
+           var clientWidth = docEl.clientWidth;
+           if (!clientWidth) return;
+           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+       };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+    $(document).ready(function(){
+        initRem()
+    })
+    function initRem(){
+        var docEl = document.documentElement,
+            resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+            recalc = function () {
+                var timer = setInterval(function(){
+                    var clientWidth = docEl.clientWidth;
+                    if(clientWidth&&clientWidth>0){
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                        clearInterval(timer)
+                    }
+                },100)
+            };
+        if (!document.addEventListener) return;
+        window.addEventListener(resizeEvt, recalc, false);
+        recalc()
+    }
+    $(function(){
+        var JSON = [
+            //https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platform1.png
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/7bcc2e2c-2a47-4a48-84f1-3553dbe4c0fc.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/a5440ae4-9df1-41ae-b1ea-25f4f36b313c.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/88d9a033-b40f-4d9d-933d-877a500ac977.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/05ed0bdd-8e00-4bfe-ac87-bd65e2a8750b.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/460f7f05-5f81-4935-9a53-81cf006b0f52.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/be52c389-652c-4819-aab9-c4a1d2321999.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/729c7996-4d5f-4821-9595-c83b8691871f.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/58252860-281b-4d57-b09b-f103ce32d1d7.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms2.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/c9a546b0-ebc2-48ab-8f47-530b39cbb8cf.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/274fbcc2-4ba7-49d4-a811-77c0f616911b.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/cc7a3168-0d9e-4d43-a040-6914ee0974a1.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/be5c9a82-c0eb-4070-acb7-77d0c028c38e.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/7bf44aed-1f82-40f0-81e0-49b1687a191f.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms5.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/cf0a36ee-77c7-4752-ab16-41da595bbc65.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms6.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/ce1bf958-9a68-4567-9b1b-4da492f02208.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/7e83eff8-8d1b-482c-bb05-c0c9a959b2d5.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/34c27974-52ae-470e-8b19-2747ad43f2a7.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms3.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms1.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms4.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms7.png"},
+            {url:"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/weblogo/platforms8.png"}
+        ];
+        var parentsDom = $(".platList ul");
+        JSON.forEach(function(element,index) {
+            parentsDom.append(
+                "<li><img src="+element.url+" /></li>"
+            );                    
+        });
+        setTimeout(function(){
+            $('.bottom').removeClass('hidden')
+        },1)
+    });
+</script>
+
+</html>
+
+
+

@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no">
+	<meta name="format-detection" content="telephone=no, email=no"><meta name="apple-mobile-web-app-capable" content="yes">
+	<meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+	<meta name="Keywords" content="学国学网">
+	<meta name="description" content="学国学网">
+	<title>疯狂成语猜猜猜</title>
+	<meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。">
+	<meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/index.css">
+	<link rel="stylesheet" href="https://cdn.suoluomei.com/common/js2.0/npm/vant@2.2/lib/index.css"/>
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<!-- 必须先引入vue，  后使用element-ui -->
+	<script src="https://cdn.suoluomei.com/common/js2.0/vue/v2.5.16/vue.js"></script>
+<body>
+	 <div id="wrap">
+		<!--
+			<div v-show='!isWeinShow'>
+				<p>请用微信浏览器打开~~</p>
+			</div> 
+		-->
+		<div class="wxStyle displayNone" v-show='isWeinShow'> 
+		<!-- <div class="wxStyle displayNone"> -->
+			<div class="contentBox" :class="{notScroll:!isScroll,okScroll:isScroll}">
+			<!-- <div class="contentBox okScroll"> -->
+				<img class="ibag" src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/bag.png"/>
+				<div class="idemHome">
+					<div class="idemHead font_pr">
+						<div @click="getUserDataEven(1,false)">
+							<img v-if='userInfo.avatar' :src='userInfo.avatar'/>
+						</div>					
+						<div @click="ativityrulestypeEven(ativity_rules_type,1)">活动规则</div>
+					</div>
+					<div class="bagImgs">
+						<img v-show='answerTheQuestionsIsEnd' src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/title_end.png" />
+						<img v-show='!answerTheQuestionsIsEnd' src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/title_start.png" />
+					</div>
+					<div class="idem_slideImg">
+						<div class="slideImgBox">
+							<div>我的得分:{{userScore}}</div>
+							<div>
+								<div v-show='answerQuestionId!=questionList.length' :style="{ width: 2.57*questionList.length+'rem',left:moveRem+'rem'}">
+									<img :src="item.questionPic||''" v-for="(item,index) in questionList" :key='index'/>
+								</div>
+								<div v-show='answerQuestionId==questionList.length'>
+									<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/jiangbei.png' />
+								</div>
+							</div>
+						</div>
+						<div class="answerBox font_pr" v-show='answerQuestionId!=questionList.length'>
+							<div v-for="(answer,index) in newAnswerList" :class="(butSelectBool&&selectIndex==index)?(answerBool?'answerBagSuccess':'answerBagError') : 'answerBagWaite' " :key='index' @click="selectAnswer(index+1)">
+								{{answer}}
+								<img v-show='butSelectBool&&answerBool&&selectIndex==index' src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/yes.png'/>
+								<img v-show='butSelectBool&&!answerBool&&selectIndex==index' src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/no.png'/>
+							</div>	
+						</div>
+					</div>
+					<div class="idem_lucky">
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/chou.png' @click="luckyDrawEven"/>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/ling.png' @click="toReceiveEven"/>
+					</div>
+					<div class='idem_floor'>
+						<img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/icon.png"/>
+						<div class='font_pr'>活动最终解释权归学国学网所有</div>
+					</div>
+				</div>
+			</div>
+			<div class="dialog_login" v-show='dialog_login_type' @click="dialogLoginClick(true)">
+				<div class="login"  @click="dialogLoginClick(false)">
+					<div class="one font_pr">登&nbsp;&nbsp;&nbsp;&nbsp;录</div>
+					<div class="two">
+						<div>手机号</div>
+						<el-input maxlength="11" v-model="cellphone" placeholder="请输入手机号"></el-input>
+					</div>
+					<div class="three">
+						<div>
+							<div>验证码</div>
+							<el-input v-model="code" placeholder="输入验证码"></el-input>
+						</div>
+						<div class="code-btn" @click.stop="sendSms" :class="{'disabled':codeText!='获取验证码'}">
+							{{codeText}}
+						</div>
+					</div>
+					<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/login.png' @click.stop="loginEvent"/>
+				</div>
+			</div>	
+			<div class="dialog_integral_Ok" v-show='dialog_integral_Ok_type'>
+				<div class="integral_Ok">
+					<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/close.png' @click="closeIconEven(dialog_integral_Ok_type)"/>
+					<div class="integral_content">
+						<div class="courseBox" v-for="(item,index) in courseList" :key="index">
+							<div class="font_pr">
+								<span v-if='item.type==1'>20-50分</span>
+								<span v-if='item.type==2'>51-80分</span>
+								<span v-if='item.type==3'>80分以上</span>
+							</div>
+							<div class="courselist" :class="{grayfilter:!item.haveed}" v-for='(itemSun,indexs) in item.courses' :key='indexs'>
+								<input type="radio" class="radiochecked" name="girl" @click='radioEvne(itemSun,item.type)' :disabled='!item.haveed'>
+								<div class="courseInfo">
+									<div class="course_info_top">
+										<div class="info_top_img">
+											<img :src='itemSun.surfacePlot'/>
+											<img :src='Number(itemSun.discount)==1?"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/discount.png":"https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/discountFive.png"'/>
+										</div>
+										<div class="info_top_font">
+											<div>{{itemSun.title}}</div>
+											<div>
+												<div>{{itemSun.originalPrice}}币</div>
+												<div>{{itemSun.sellingPrice}}币</div>
+											</div>
+										</div>
+									</div>
+									<div class="course_info_but">
+										<span>赠</span>:{{itemSun.gifts}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class='integral_make'>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/return.png' @click='returnPage(dialog_integral_Ok_type,3)'/>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/buy.png' @click='buyEven'/>
+					</div>
+				</div>
+			</div>	
+			<div class="dialog_discount" v-show='dialog_discount_type'>
+				<div class="autoBox">
+					<div class="autoBox_sun">
+						<img class="img1" src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/receive.png'/>
+						<img class="img2" src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/close.png' @click="ativityrulestypeEven(dialog_discount_type,2)"/>
+						<div @click="downEven(1)"></div>
+					</div>
+				</div>
+				
+				
+			</div>	
+			<div class="dialog_success"  v-show='dialog_success_type' @click="dialogsuccesstype(true)">
+				<div class="dialog_success_sun" @click="dialogsuccesstype(false)">
+					<div>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/retHome.png' @click='returnPage(dialog_success_type,4)'/>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/download.png' @click="downEven(2)"/>
+					</div>
+				</div>
+			</div>	
+			<div class="dialog_coupons"  v-show='dialog_coupons_type'>
+				<div class="dialog_coupons_sun">
+					<div>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/youhuiLinquClose.png' @click='returnPage(dialog_coupons_type,5)'/>
+						<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/youhuiLinqu.png' @click="getCouponsEven"/>
+					</div>
+				</div>
+			</div>				
+			<div class="dialog_order_details" v-show='dialog_order_details_type'>
+				<div class='order_header'>
+					<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/returnGoto.png' @click='returnPage(dialog_order_details_type,1)'>
+					订单详情
+				</div>
+				<div class='order_content'>
+					<div class="orderInfo font_pr">
+						<div class='order-top'>
+							<div class='order_img'>
+								<img :src='radioData.surfacePlot'/>
+							</div>
+							<div class='order_font'>
+								<div>{{radioData.title}}</div>
+								<div>
+									<div>{{radioData.originalPrice}}币</div>
+									<div>{{radioData.sellingPrice}}币</div>
+								</div>
+							</div>
+						</div>
+						<div class='order-bot'><span>赠</span>:{{radioData.gifts}}</div>
+					</div>
+					<div class="gift_mail font_pr">
+						<p>赠品邮寄信息</p>
+						<div class="layout layoutIn">
+							<div>姓名</div>
+							<el-input maxlength="10" v-model='receiveName' show-word-limit placeholder="请输入收货人姓名"></el-input>
+						</div>
+						<div class="layout layoutIn">
+							<div>电话</div>
+							<el-input maxlength="11" v-model='receivePhone' show-word-limit placeholder="请输入收货人电话"></el-input>
+						</div>
+						<div class="layout layoutTe">
+							<div>地址</div>
+							<el-input maxlength="50" type='textarea' v-model='receiveAddress' rows='5' show-word-limit placeholder="请输入详细地址"></el-input>
+						</div>
+					</div>
+					<div class="pay_way font_pr">
+						<p>支付方式</p>
+						<div class="pay_way_box">
+							<div class="way_box_one">
+								<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/weixin.png'/>
+								<div>微信支付</div>
+							</div>
+							<div class="way_box_two">
+								<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/wxBuyYes.png'/>
+							</div>
+						</div>
+					</div>
+					<div class="older_submit" v-show='footerhideshow' @click='olderSubmit'>
+						提交订单
+					</div>
+				</div>
+			</div>	
+			<div class="integral_order" v-show='integral_order_type'>
+				<div class='integral_order_header'>
+					<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/returnGoto.png' @click='returnPage(integral_order_type,2)'>
+					个人中心
+				</div>	
+				<div class='integral_order_info'>
+					<div class='integral_order_user'>
+						<img :src='userInfo.avatar'/>
+					</div>
+					<P>我的得分:{{userScore}}</P>
+				</div>
+				<div class='integral_order_content'>
+					<div class='tabBox'>
+						<div @click="getUserDataEven(1,true)">
+							<p>得分记录 </p>
+							<div :class="{selectCss:indexTab==1}" ></div>
+						</div>
+						<div @click="getUserDataEven(2,true)">
+							<p>订单记录</p>
+							<div :class="{selectCss:indexTab==2}"></div>
+						</div>
+					</div>
+					<div class='contentBoxList'>
+						<div class="integral_list" v-show='indexTab==1'>
+							<div class='integral_list_rows' v-for="(item,index) in integralArry" :key="index" v-show='integralArry.length>0'>
+								<div>{{item.createdAt}}</div>
+								<div>{{item.scoreStr}}</div>
+								<div>+{{item.score}}</div>
+							</div>
+							<p v-if='!integralArry.length' style='font-size: 0.26rem;text-align: center;'>暂无数据</p>
+						</div>
+						<div class="older_list" v-show='indexTab==2'>
+							<div class='older_list_rows' v-for="(item,index) in orderArry" :key="index" v-show='orderArry.length>0'>
+								<p>{{item.courseName}}</p>
+								<div>
+									<span>价格:</span>
+									<span>{{item.actualPay}}币</span>
+								</div>
+								<div>
+									<span>订单号:</span>
+									<span>{{item.orderId}}</span>
+								</div>
+								<div>
+									<span>订单日期:</span>
+									<span>{{item.createdAt}}</span>
+								</div>
+								<div>
+									<span>姓名:</span>
+									<span>{{item.receiveName}}</span>
+								</div>
+								<div>
+									<span>电话:</span>
+									<span>{{item.receivePhone}}</span>
+								</div>
+								<div>
+									<span>地址:</span>
+									<span>{{item.receiveAddress}}</span>
+								</div>
+							</div>
+							<p v-if='!orderArry.length' style='font-size: 0.26rem;text-align: center;'>暂无数据</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="share_sliding_dialog" v-show="share_sliding_dialog_type" >
+				<div class="zhanweiBox" @click="boxshowTwoEven"></div>
+				<transition name="myCourseBox">
+					<div class="share_sliding_Box" v-show="boxshowTwo">
+						<div class="share_one" v-show="luckyOrToReceive">
+							<p>积分还未达到抽奖要求,继续努力呦~ </p>
+							<p>邀请好友猜成语可获得更多得分</p>
+						</div>
+						<div class="share_two" v-show='!luckyOrToReceive'>
+							<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/integralIsOk.png' />
+							<p>邀请好友猜成语可获得更多得分</p>
+						</div>
+						<div class='share_selects'>
+							<div @click="sharezhiyin(1)">
+								<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/weixin_share.png'/>
+								<p>微信</p>
+							</div>
+							<div @click="sharezhiyin(2)">
+								<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/pengyou_share.png'/>
+								<p>朋友圈</p>
+							</div>
+						</div>
+					</div>				
+				</transition>
+			</div>
+			<div class="share-wrap" v-show="dialogVisbile" @click="dialogVisbileEven">
+					<div class="share-dialog" >
+						<i class="share-arrow"></i>
+						<p class="tip1">请点击上方···发送给朋友</p>
+					</div>
+			</div> 
+			<div class="ativity_rules" v-show="ativity_rules_type">
+				<div class="guize">
+					<div class="guizeTitle font_pr">活动规则</div>
+					<div class="guizeContent font_pr">  
+						<p>参与活动赢积分:</p>
+						<p>根据图片内容，在选项中选出正确答案游戏一共100题，每答对一题+1积分，答错不加分。</p>
+						<p style="margin-top:0.3rem">※每邀请1位新用户参与游戏+10分；</p>
+						<p style="margin-top:0.3rem">分值达到20、50、80可各抽奖一次，奖品随机，内容为课程礼包，详见抽奖内容。分值达到100分以上，可额外获得120元优惠券，优惠券仅在「学国学网」平台使用</p>
+						<p style="margin-top:0.3rem">※奖品需购买课程后方可领取（课程原本不配有礼包）</p>
+						<p style="margin-top:0.3rem">※奖品仅在页面内购买课程时赠送，[学国学网]app下单支付不参加本次礼包活动</p>
+					</div>
+					<img src='https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/close.png' @click="ativityrulestypeEven(ativity_rules_type,1)"/>
+				</div>
+			</div> 			
+		</div>
+	</div>
+</body>	
+<script type="text/javascript" src="./js/browser.min.js"></script>
+<!-- <script src="https://www.jsdelivr.com/package/npm/browser.min.js" async defer></script> -->
+<script src="https://cdn.polyfill.io/v1/polyfill.min.js"></script> 
+<!--引入 element-ui 的样式，-->
+<script src="https://cdn.suoluomei.com/common/js2.0/npm/vant@2.2/lib/vant.min.js"></script>
+<!-- 引入element 的组件库-->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>	
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>eruda.init()</script> -->
+<script type="text/babel">
+// <script type="text/javascript"> 
+	new Vue({
+		el:'#wrap',
+		data:{
+			cellphone:'',//电话号码
+			baseUrl:'',//接口域名
+			baseUrl2:'',//部分域名用这个，例如登录
+			link:'',//接口域名
+			userInfo:{},//用户信息
+			codeText:'获取验证码',
+            activityName:'ci',
+			code:'',//验证码
+			dialog_login_type:false,//登录弹窗;
+			dialog_integral_Ok_type:false,//积分够抽奖成功
+			dialog_coupons_type:false,//优惠券弹框
+			dialog_discount_type:false,//领取成功
+			dialog_order_details_type:false,//订单详情
+			integral_order_type:false,//个人中心
+			dialog_success_type:false,//支付成功
+			share_sliding_dialog_type:false,//底部弹框遮罩子集显隐
+			boxshowTwo:false,//底部弹框遮罩显隐
+			loginState:false,//是否登录
+			dialogVisbile:false,//点击分享给出引导
+			ativity_rules_type:false,//活动规则页面
+			server:{
+				pointVisit:"/ci/pointVisit",//访问打点
+				pointPage:'/ci/pointPage',//渠道访问打点
+				pointButton:'/ci/pointButton',//button打点
+				answer:'/ci/answer',//答题
+				receiveCoupon:'/ci/receiveCoupon',//领取优惠券
+				// recordList:'/ci/recordList',//用户得分订单列表
+				courseList:'/ci/courseList',//课程列表
+				buyCourse:'/ci/buyCourse',//下单
+				questionList:'/ci/questionList',//问题列表    
+				sendSms:'/common/getCodeForLoginBySMS',//发送验证码
+				login:'/login/loginBySMS',//登录
+				getOpenId:'/common/getWechatOpenId',//根据微信code获取openId
+				getConfig:'/wx/getConfig',//微信分享配置
+				isCoursePaid:'/ci/isCoursePaid',//是否购买课程
+				orderRecordList:'/ci/orderRecordList',//订单列表
+				answerRecordList:'/ci/answerRecordList',//回答列表
+			},
+			questionList:[],//所有图片的数组,
+			answerList:[],//所有答案数组
+			newAnswerList:[],//当前答案数组
+			rightKeyAnser:'A',//当前正确答案值
+			moveRem:0,//答题后移动距离
+			answerQuestionId:0,//当前答到第几题
+			userScore:'',//用户当前得分
+			selectIndex:-1,//当前选中的第几个答案
+			answerBool:false,//当前选中的对还是不对
+			butSelectBool:false,//是否触发了选择按钮行为
+			answerTheQuestionsIsEnd:false,//是否答题结束
+			luckyOrToReceive:true,//底部弹框是抽奖提示还是优惠券提示，true是抽奖
+			courseList:[],//抽奖课程列表
+			idProblem:'',//当前答题的问题的id；
+			receiveName:'',//收货人姓名
+			receivePhone:'',//收货人电话
+			receiveAddress:'',//详细地址
+			oderDataInfo:{},//订单提交后返回的数据
+			appid:'',//公众号id
+			radioData:{},//选中的从课程内容
+			isWeinShow:true,//是不是在微信内浏览器
+			indexTab:1,//个人中心tab下标
+			integralArry:[],//个人中心获得积分数组
+			orderArry:[],//个人中心获得优惠券数组
+			courseSelectType:1,//选择的课程类型
+			loadScriptFlag:'',//动态加载js是否结束；
+			footerhideshow:true,//订单详情个人中心的底部提交按钮是否隐藏
+			docmHeight: window.innerHeight,  //默认屏幕高度
+			showHeight: window.innerHeight,   //实时屏幕高度	
+			isScroll:true,//背景是否可以滚动	
+			pageType:false	
+			// imgList:[]
+		},
+		computed:{},
+		created(){
+			//初始化配置
+			this.initRem();
+			// this.share();
+			//判断是不是在微信内打开
+			this.isWechatBrowser();
+			//判断是否保存了当前缓存数据；
+			let userData = JSON.parse(localStorage.getItem("userInfo"))||'';
+			//获取问题列表
+			this.getTheTitleArry(userData);
+			if(userData){
+				if(userData.userid){
+					this.loginState = true;
+					this.userInfo = userData;
+					//访问打点事件
+					this.accessDotEven();	
+					this.channelDotEven();				
+				}else{
+					this.loginState = false;
+				}
+			}else{
+				this.loginState = false;
+			}
+			$(".wxStyle").removeClass('displayNone');
+		},
+		//监听
+		watch:{
+			showHeight(newValue) {
+				if(this.docmHeight > newValue){
+					this.footerhideshow = false;
+				}else{
+					this.footerhideshow = true
+				}				
+			},
+			dialog_integral_Ok_type(newValue){
+				if(newValue){
+					$(".radiochecked").attr("checked","checked");
+					this.isScroll = false;
+				}else{
+					$(".radiochecked").removeAttr("checked");
+					this.isScroll = true;
+				}
+			},
+			userInfo(cur){
+				var self = this;
+				if(cur.userid){
+					 if(window.location.href.indexOf('xgxm.xueguoxue.com')>0){
+						self.link = `https://xgxm.xueguoxue.com/h5/theidiomactivities/index.html?activityShareUserId=${cur.userid}&channelId==1&activityName=${self.activityName}`
+					}else{
+						self.link = `https://scm.youfushuyuan.com/h5/theidiomactivities/index.html?activityShareUserId=${cur.userid}&channelId==1&activityName=${self.activityName}`
+					}
+					self.share()
+				}               
+			},
+			dialog_coupons_type(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}
+			},
+			dialog_login_type(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}				
+			},
+			dialog_discount_type(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}
+			},
+			dialog_discount_type(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}
+			},
+			dialog_success_type(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}
+			},
+			dialogVisbile(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}
+			},
+			ativity_rules_type(newValue){
+				if(newValue){
+					this.isScroll = false;
+				}else{
+					this.isScroll = true;
+				}
+			}
+		},
+		methods:{
+			initRem(){
+				this.baseUrl = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxapi.xueguoxue.com':'https://scapi.youfushuyuan.com';
+				this.baseUrl2 = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://loginapi.xueguoxue.com':'https://loginapi.youfushuyuan.com';
+				this.appid = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'wx44e94e1ef84f486e':'wxfd920b9cc0f222c4';				
+				var docEl = document.documentElement,
+				resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+				recalc = function () {
+					var timer = setInterval(function(){
+						var clientWidth = docEl.clientWidth;
+						if(clientWidth&&clientWidth>0){
+							docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+							clearInterval(timer)
+						}
+					},100)
+				};
+				if (!document.addEventListener) return;
+				window.addEventListener(resizeEvt, recalc, false);
+				recalc()				
+			},	
+			getQueryString(key){
+				var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+				var result = window.location.search.substr(1).match(reg);
+				return result?decodeURIComponent(result[2]):null;
+			},			
+			//分享指引
+			sharezhiyin(type){
+				if(type==1){
+					if(this.luckyOrToReceive){
+						this.buttonDotEven(4);
+					}else{
+						this.buttonDotEven(6);
+					}
+				}
+				if(type==2){
+					if(this.luckyOrToReceive){
+						this.buttonDotEven(5);
+					}else{
+						this.buttonDotEven(7);	
+					}
+				}
+				this.boxshowTwo = !this.boxshowTwo;
+				setTimeout(()=>{
+					this.share_sliding_dialog_type = !this.share_sliding_dialog_type;
+					this.dialogVisbile = true;
+				},500); 				 
+			},
+			//点击遮罩层隐藏
+			dialogVisbileEven(){
+				this.dialogVisbile = false;
+			},		
+			/**
+			 * 是否是微信浏览器，是的话去获取openId
+			 */
+			isWechatBrowser(){
+				let self = this;
+				let openId = localStorage.getItem('openId')
+				if(openId) return false;
+				var ua = window.navigator.userAgent.toLowerCase();
+				if (ua.match(/MicroMessenger/i) == "micromessenger") {
+					self.isWeinShow = true;
+				}else{
+					self.isWeinShow = false;
+					localStorage.removeItem('userInfo');
+					vant.Toast('请在微信内打开')
+				}
+				if(ua.match(/MicroMessenger/i) == 'micromessenger' || typeof WeixinJSBridge !== "undefined"){
+					var wxcode = self.getQueryString('code')
+					if(!wxcode){
+						var redirect_uri = encodeURIComponent(window.location.href)
+						let link = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${self.appid}&redirect_uri=`+redirect_uri+'&response_type=code&scope=snsapi_base&state=#wechat_redirect&connect_redirect=1'
+						window.location.replace(link)
+					}else{
+						var query = {
+							code:wxcode
+						}
+						$.ajax({
+							url:self.baseUrl+self.server.getOpenId,
+							type:'post',
+							dataType:'json',
+							data:JSON.stringify(query),
+							contentType: "application/json; charset=utf-8",
+							success:function(res){
+								if(res.status==200){
+									localStorage.setItem('openId',res.content.openId);
+								}
+							}
+						})
+					}
+				}
+			},		
+			//点击梦曾相识
+			dialogLoginClick(type){
+				var self = this;
+				if(type){
+					$(".dialog_login").click(function(){
+						self.dialog_login_type = false;
+					})					
+				}else{
+					$(".login").click(function(e){
+						e.stopPropagation();
+					})
+				}
+			},
+			dialogsuccesstype(type){
+				var self = this;
+				if(type){
+					$(".dialog_success").click(function(){
+						self.dialog_success_type = false;
+					})					
+				}else{
+					$(".dialog_success_sun").click(function(e){
+						e.stopPropagation();
+					})
+				}				
+			},
+			//够课弹框关闭
+			closeIconEven(states){
+				this.radioData = {};
+				this.dialog_integral_Ok_type = !states;
+			},
+			share(){
+				var self= this;
+				const message = {
+					describe:'导航栏显示分享按钮',
+					method:"share",
+					params:{
+						title:'成语猜猜猜',
+						desc:'猜成语，迎端午',
+						link:self.link||window.location.href,
+						imgUrl:'https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/chengyucaicai/image/shareIcon.png'    
+					}
+				}
+				const url = encodeURIComponent(window.location.href.split('#')[0]);
+				$.ajax({
+					url:self.baseUrl+self.server.getConfig,
+					type:'get',
+					dataType:'json',
+					data:"url=" + url,
+					contentType: "application/json; charset=utf-8",
+					success:function(res){
+						if(res.status == 200){
+							let data = res.content;
+							const {title,desc,link,imgUrl} = message.params; 
+							wx.config({
+								debug:false,
+								appId:data['appId'],
+								timestamp:data['timeStamp'],
+								nonceStr:data['nonceStr'],
+								signature:data['signature'],
+								jsApiList: [
+									'checkJsApi',
+									'updateAppMessageShareData',
+									'updateTimelineShareData',
+									'onMenuShareAppMessage',
+									'onMenuShareTimeline',
+									'hideMenuItems'
+								]
+							}); 
+							wx.ready(()=>{
+								wx.onMenuShareAppMessage({
+									title: title, 
+									desc: desc,
+									link: link,
+									imgUrl: imgUrl,
+									type: '', 
+									dataUrl: '',
+									success:()=>{
+									
+									}
+								});
+								wx.onMenuShareTimeline({
+									title: title,
+									link: link,
+									imgUrl: imgUrl,
+									success: ()=>{
+									
+									},
+								});				
+								wx.hideMenuItems({
+									menuList: [
+										"menuItem:share:qq",
+										"menuItem:share:weiboApp",
+										"menuItem:favorite",
+										"menuItem:share:facebook",
+										"menuItem:share:QZone",
+										"menuItem:share:qq",
+										"menuItem:share:brand",
+										"menuItem:openWithQQBrowser",
+										"menuItem:readMode",
+										"menuItem:originPage",
+										"menuItem:delete",
+										"menuItem:editTag",
+										"menuItem:copyUrl",
+										"menuItem:share:email"
+									]
+								})
+							})
+						}				
+					}
+				})
+			},
+			//活动规则
+			ativityrulestypeEven(type,states){
+				if(states==1){
+					if(!type){
+						this.buttonDotEven(3);
+					}
+					this.ativity_rules_type = !type;			
+				}else{
+					this.dialog_discount_type = !type;
+				}	
+
+			},
+			//下载跳转
+			downEven(type){
+				if(type==2){
+					this.receiveName='';// 收件人
+					this.receivePhone='';// 收件人手机号
+					this.receiveAddress='';// 收获地址
+				}
+				window.location.href='https://a.app.qq.com/o/simple.jsp?pkgname=com.xueguoxue.xgxw2018&fromcase=40003';
+			},
+			//单选
+			radioEvne(data,type){
+				this.courseSelectType=type;
+				this.radioData = data;
+			},
+			//课程列表返回
+			returnEven(type){
+				this.dialog_integral_Ok_type = false;
+			},
+			//
+			buyEven(){
+				if(this.radioData.courseId){
+					this.mathCourse();
+				}else{
+					vant.Toast('请选择课程')
+				}
+			},
+			//当前选择课程是否购买
+			mathCourse(){
+				var self = this;
+					var query = {
+						userId:self.userInfo.userid,
+						courseId:self.radioData.courseId
+					}
+				$.ajax({
+					url:self.baseUrl+self.server.isCoursePaid,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (XMLHttpRequest) {
+						XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+						XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+					},
+					success:function(res){
+						if(res.status==200){
+							if(res.content){
+								vant.Toast('您已拥有该课程，无法参与该活动！');
+							}else{
+								self.dialog_integral_Ok_type = false;
+								setTimeout(()=>{
+									self.dialog_order_details_type = true;
+								},100)
+							}
+						}
+					}
+				})								
+			},
+			//获取答题数量和对应的第几题还有积分；
+			getTheTitleArry(data){
+				var self = this;
+				if(data){
+					var query = {
+						userId:data.userid
+					}
+				}else{
+					var query = {}	
+				}
+				$.ajax({
+					url:self.baseUrl+self.server.questionList,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					success:function(res){
+						if(res.status==200){
+							var datas= res.content;
+							self.questionList=datas.questionList;//获取的图片数量
+							self.answerQuestionId=datas.answerQuestionId;//当前答到第几题
+							self.userScore=datas.userScore;//用户当前得分	
+							self.answerTheQuestionsIsEnd = (Number(datas.answerQuestionId)==datas.questionList.length)?true:false;
+							self.answerRequeset(datas.questionList);
+							self.newAnswerList = self.answerList[Number(datas.answerQuestionId)].anserTips;
+							self.rightKeyAnser = self.answerList[Number(datas.answerQuestionId)].rightKey;
+							self.idProblem = self.answerList[Number(datas.answerQuestionId)].id;
+							self.$nextTick(function(){
+								self.moveRem=-(Number(datas.answerQuestionId))*2.57;//答题后移动距离
+							});
+						}
+					}
+				})						
+			},
+			//抽奖
+			luckyDrawEven(){
+				let self = this;
+				if(this.loginState){
+					if(this.userScore<20){
+						this.luckyOrToReceive = true;
+						self.share_sliding_dialog_type = !self.share_sliding_dialog_type;
+						setTimeout(()=>{
+							self.boxshowTwo = !self.boxshowTwo;
+						},500); 
+					}else{
+						this.dialog_integral_Ok_type = true;
+						this.getCourseListEven();
+					}
+					self.buttonDotEven(1);
+				}else{
+					this.dialog_login_type = true;
+				}
+			},
+			//获取课程列表
+			getCourseListEven(){
+				var self = this;
+				let query ={
+					userId:self.userInfo.userid
+				}
+				$.ajax({
+					url:self.baseUrl+self.server.courseList,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (XMLHttpRequest) {
+						XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+						XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+					},
+					success:function(res){
+						if(res.status==200){
+							self.courseList = res.content;
+						}
+					}
+				})						
+			},
+			returnPage(bools,type){
+				switch (type) {
+					case 1:
+						this.dialog_integral_Ok_type = true;
+						setTimeout(()=>{
+							this.dialog_order_details_type = !bools;
+						},10);
+						this.receiveName='';// 收件人
+						this.receivePhone='';// 收件人手机号
+						this.receiveAddress='';// 收获地址						
+						break;
+					case 2:
+						this.integral_order_type = !bools;
+						break;
+					case 3:
+						this.radioData = {};
+						this.dialog_integral_Ok_type = !bools;
+						break;
+					case 4:
+						this.receiveName='';// 收件人
+						this.receivePhone='';// 收件人手机号
+						this.receiveAddress='';// 收获地址	
+						this.dialog_success_type= !bools;
+						break;
+					case 5:
+						this.dialog_coupons_type= !bools;
+						break;
+				
+					default:
+						break;
+				}
+			},
+			//领取优惠卷
+			toReceiveEven(){
+				let self = this;
+				if(this.loginState){
+					if(this.userScore<100){
+						this.luckyOrToReceive = false;
+						self.share_sliding_dialog_type = !self.share_sliding_dialog_type;
+						setTimeout(()=>{
+							self.boxshowTwo = !self.boxshowTwo;
+						},500); 
+					}else{
+						this.dialog_coupons_type = true;
+					}
+					self.buttonDotEven(2);
+				}else{
+					this.dialog_login_type = true;
+				}
+			},
+			//领取优惠券
+			getCouponsEven(){
+				let self = this;
+				let query ={
+						userId:self.userInfo.userid
+					}
+					$.ajax({
+						url:self.baseUrl+self.server.receiveCoupon,
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						beforeSend: function (XMLHttpRequest) {
+							XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+							XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+						},
+						success:function(res){
+							if(res.status==200){
+								self.dialog_coupons_type = false;
+								setTimeout(()=>{
+									self.dialog_discount_type = true;
+								},100);
+							}else{
+								vant.Toast(res.message);
+							}
+						}
+					})
+			},
+			//点击头像获取个人中心数据
+			getUserDataEven(nums,type){
+				let self = this;
+				this.indexTab=nums;
+				if(nums==1){
+					this.getAnswerRecordList();
+				}
+				if(nums==2){
+					this.getOrderRecordList();
+				}
+				if(!this.integral_order_type){
+					this.integral_order_type = true;
+				}				
+			},
+			//订单列表
+			getOrderRecordList(){
+				let self = this;
+				var query = {
+					userId:self.userInfo.userid
+				}
+				$.ajax({
+					url:self.baseUrl+self.server.orderRecordList,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (XMLHttpRequest) {
+						XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+						XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+					},
+					success:function(res){
+						if(res.status==200){
+							self.orderArry = res.content.orders;
+						}
+					}
+				});				
+			},
+			//判断是分享过来的连接还是直接打开的连接；
+			url_data(url){//URL地址的解析
+				var obj = {};
+				if (url.includes('&')) {
+						let arr1 = url.split('?')[1].split('&');
+						arr1.forEach(item => {
+						let arr2 = item.split('=');
+						let arr_one = arr2[0];
+						let arr_two = arr2[1];
+						obj[arr_one] = arr_two;
+					})
+				} else {
+					if(url.includes('?')){
+						let arr1 = url.split('?')[1].split('=');
+						arr1.forEach(item => {
+							let arr_one = arr1[0];
+							let arr_two = arr1[1];
+							obj[arr_one] = arr_two;
+						})
+					}
+				}
+				return obj;
+			},
+			//回答列表
+			getAnswerRecordList(){
+				let self = this;
+				var query = {
+					userId:self.userInfo.userid,
+					pageNo: 1,
+					pageSize: 200
+				}
+				$.ajax({
+					url:self.baseUrl+self.server.answerRecordList,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (XMLHttpRequest) {
+						XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+						XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+					},
+					success:function(res){
+						if(res.status==200){
+							self.integralArry = res.content.scoreRecords.list;
+						}
+					}
+				});
+			},
+			//答案数组组合；
+			answerRequeset(data){
+				var self = this;
+				var list =[];
+				data.forEach(function(element,index){
+					var listSun =[element.answerA,element.answerB,element.answerC];
+					list.push({
+						anserTips:listSun,
+						rightKey:element.rightKey,
+						id:element.id
+					});
+				});
+				self.answerList = list
+			},
+			//选择答案
+			selectAnswer(num){
+				var self = this;
+				if(this.butSelectBool)return;
+				if(this.loginState){
+					this.butSelectBool = true;
+					this.selectIndex = num-1;
+					switch (num) {
+						case 1:
+							if(this.rightKeyAnser==1){
+								self.answerBool = true;
+								self.userScore = self.userScore+1;
+							}else{
+								self.answerBool = false;
+							}
+							break;
+						case 2:
+							if(this.rightKeyAnser==2){
+								self.answerBool = true;
+								self.userScore = self.userScore+1;
+							}else{
+								self.answerBool = false;
+							}
+							break;
+						case 3:
+							if(this.rightKeyAnser==3){
+								self.answerBool = true;
+								self.userScore = self.userScore+1;
+							}else{
+								self.answerBool = false;
+							}
+							break;
+						default:
+							break;
+					}
+					
+					if(this.questionList.length>this.answerQuestionId){
+								self.answerTheQuestions(true);			
+					}else{
+						this.answerTheQuestionsIsEnd = true;
+						this.answerTheQuestions(false);
+					}
+				}else{
+					this.dialog_login_type = true;
+				}
+
+			},
+			//答题
+			answerTheQuestions(bool){
+				var self = this;
+				if(this.loginState){
+					var query = {
+						userId:self.userInfo.userid,
+						questionId:self.idProblem,// 问题id
+						chooseKey:self.selectIndex+1// 选择答案
+					}
+					$.ajax({
+						url:self.baseUrl+self.server.answer,
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						beforeSend: function (XMLHttpRequest) {
+							XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+							XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+						},
+						success:function(res){
+							if(res.status==200){
+								if(bool){
+									self.answerQuestionId = self.answerQuestionId+1;
+									if(self.answerQuestionId==self.questionList.length){
+										self.answerTheQuestionsIsEnd = true;
+									}
+									var numMove = -(self.answerQuestionId)*2.57;
+									var moveTimes = setInterval(()=>{
+										if(self.moveRem==numMove||self.moveRem<numMove){
+											self.moveRem = numMove;
+											self.getNextAnswer();
+											clearInterval(moveTimes);
+										}else{
+											self.moveRem = Number((self.moveRem-0.03).toFixed(2));
+										}
+									},10);
+								}									
+								console.log("回答成功");
+							}
+						}
+					})
+				}else{
+					this.dialog_login_type = true;
+				}
+				
+			},
+			//提交订单
+			olderSubmit(){
+				var self = this;
+				var regExp = /^[0-9]*$/;			
+				let openId = localStorage.getItem('openId')||'';
+				if(!self.receiveName){
+					vant.Toast('填写姓名');
+					return;
+				}
+				if(self.receivePhone.length!=11||!regExp.test(self.receivePhone)){
+					vant.Toast('填写正确的手机号');
+					return;
+				} 
+				if(!self.receiveAddress){
+					vant.Toast('填写地址');
+					return;
+				}
+				var query = {
+					userId:self.userInfo.userid,
+					courseId:this.radioData.courseId,// 课程id
+					giftsName:this.radioData.gifts||'',// 赠品
+					type:this.courseSelectType,// 类型
+					openId:openId,
+					receiveName:self.receiveName,// 收件人
+					receivePhone:self.receivePhone,// 收件人手机号
+					receiveAddress:self.receiveAddress// 收获地址
+				}
+				$.ajax({
+					url:self.baseUrl+self.server.buyCourse,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					beforeSend: function (XMLHttpRequest) {
+						XMLHttpRequest.setRequestHeader("token", self.userInfo.accessToken);
+						XMLHttpRequest.setRequestHeader("userId", self.userInfo.userid);
+					},
+					success:function(res){
+						if(res.status==200){
+							self.oderDataInfo = res.content;
+							self.StartWeiXinPay(res.content.wechatInfo);
+						}
+					},
+					error:function(){
+						vant.Toast('错误')
+					}
+				})
+			},
+			//下一道提的答案的获取和所有状态的还愿
+			getNextAnswer(){
+				let self = this;
+				this.butSelectBool = false;//没有进行选择
+				this.selectIndex = -1;//选择下标为-1
+				this.answerBool = true;//默认答案正确
+				this.newAnswerList = self.answerList[Number(self.answerQuestionId)].anserTips;
+				this.rightKeyAnser = self.answerList[Number(self.answerQuestionId)].rightKey;		
+				this.idProblem = self.answerList[Number(self.answerQuestionId)].id;		
+			},			
+			//监测是不是在微信内
+			StartWeiXinPay(pay_params) {
+				if (typeof WeixinJSBridge === 'undefined') {
+					if (document.addEventListener) {
+						document.addEventListener('WeixinJSBridgeReady', this.onBridgeReady(pay_params), false)
+					} else if (document.attachEvent) {
+						document.attachEvent('WeixinJSBridgeReady', this.onBridgeReady(pay_params))
+						document.attachEvent('onWeixinJSBridgeReady', this.onBridgeReady(pay_params))
+					}
+				} else {
+					this.onBridgeReady(pay_params,this)
+				}
+			},
+			//调用微信支付
+			onBridgeReady(data,self) {
+				WeixinJSBridge.invoke(
+					'getBrandWCPayRequest', {
+						"appId":data['appid'],     //公众号名称，由商户传入
+						"timeStamp":data['timestamp'],         //时间戳，自1970年以来的秒数
+						"nonceStr":data['nonce_str'], //随机串
+						"package":'prepay_id'+'='+data['prepay_id'],
+						"signType":data['sign_type'],         //微信签名方式：
+						"paySign":data['sign'] //微信签名
+					},
+					(res)=>{
+						if (res.err_msg == 'get_brand_wcpay_request:ok') {
+							// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+							self.dialog_order_details_type = false;
+							self.dialog_integral_Ok_type = false;
+							self.dialog_success_type = true;
+						} else {
+							console.log('支付失败');
+						}
+					}
+				)
+			},	
+			//用户登录
+			loginEvent(){
+				var self = this;
+				if(this.cellphone.length!=11){
+					vant.Toast('请输入正确的手机号');
+					this.cellphone ='';
+					return;
+				}
+				if(this.code.length!=6){
+					vant.Toast('无效的验证码')
+					return;
+				}	
+				var query = {
+					cellphone:this.cellphone,
+					tokenType:2,
+					code:this.code,
+					registerSource:3,
+					requestType:1,
+					activityName:this.activityName,
+				}
+				// window.location.href
+				var parems = this.url_data(window.location.href);
+				if(parems.activityShareUserId){
+					query['activityShareUserId']=parems.activityShareUserId;
+					query['channelId']=1;
+					query['activityName']=parems.activityName;
+				}
+				$.ajax({
+					url:self.baseUrl2+self.server.login,
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					success:function(res){
+						if(res.status==200){
+							self.userInfo = {
+								accessToken: res.content.accessToken,
+								nickname: res.content.nickname,
+								avatar: res.content.avatar,
+								userid: res.content.id,
+								cellphone:res.content.cellphone,
+							}	
+							self.dialog_login_type = false;
+							self.loginState=true;
+							localStorage.setItem("userInfo",JSON.stringify(self.userInfo));
+							//获取问题列表
+							self.getTheTitleArry(self.userInfo);
+							//访问打点事件
+							self.accessDotEven();
+							//渠道访问打点
+							self.channelDotEven();
+						}
+					},
+					error:function(){
+						vant.Toast('请输入正确的手机号');
+					}
+				})							
+			},
+			//获取验证
+			sendSms(){
+				var self = this;
+					var regExp = /^[0-9]*$/
+					if(this.codeText!='获取验证码') return false;
+					if(this.cellphone.length!=11||!regExp.test(this.cellphone)){
+						vant.Toast('请输入正确的手机号');
+						this.cellphone = '';
+						return;
+					}	
+					var query = {
+						cellphone:this.cellphone,
+						smsType:1,
+						tokenType:2
+					}
+					$.ajax({
+						url:this.baseUrl+self.server.sendSms,
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						success:function(res){
+							if(res.status==200){
+								var time = 60;
+								self.codeText = time +'s'
+								self.codeTimer = setInterval(()=>{
+									time--;
+									self.codeText = time +'s'
+									if(time==0){
+										clearInterval(self.codeTimer);
+										self.codeText = '获取验证码'
+									}
+								},1000) 
+							}
+						}
+					});	
+			},
+			// 打点事件集合
+			// 访问打点
+			accessDotEven(){
+				let self = this;
+				var query = {
+						channelType:1,
+						userId:self.userInfo.userid
+					}
+					$.ajax({
+						url:self.baseUrl+self.server.pointVisit,
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						success:function(res){
+							if(res.status==200){
+								// console.log("访问打点成功");
+							}
+						}
+					})								
+			},
+			// 渠道访问打点
+			channelDotEven(){
+				let self = this;
+					var query = {
+						channelType:1,
+						userId:self.userInfo.userid
+					}
+					$.ajax({
+						url:self.baseUrl+self.server.pointPage,
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						success:function(res){
+							if(res.status==200){
+								// console.log("渠道访问打点成功");
+							}
+						}
+					})								
+			},
+			// button访问打点
+			buttonDotEven(type){
+				let self = this;
+				var query = {
+						type:type
+					}
+					$.ajax({
+						url:self.baseUrl+self.server.pointButton,
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						success:function(res){
+							if(res.status==200){
+								// console.log("button打点成功");
+							}
+						}
+					})								
+			},
+			boxshowTwoEven(){
+				this.boxshowTwo = !this.boxshowTwo;
+				setTimeout(()=>{
+					this.share_sliding_dialog_type = !this.share_sliding_dialog_type;
+				},500); 
+			}
+		},
+		mounted(){
+			// window.onresize监听页面高度的变化
+			window.onresize = ()=>{
+				return(()=>{
+					this.showHeight = window.innerHeight;
+				})()
+			}			
+		}
+	})
+</script>
+<script type="text/javascript">
+	(function (doc, win) {
+	    var docEl = doc.documentElement,
+	       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+	       recalc = function () {
+	           var clientWidth = docEl.clientWidth;
+	           if (!clientWidth) return;
+	           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	       };
+	    if (!doc.addEventListener) return;
+	    win.addEventListener(resizeEvt, recalc, false);
+	    doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+</script>
+
+</html>

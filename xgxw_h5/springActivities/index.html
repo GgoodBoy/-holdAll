@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, email=no"><meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+  <meta name="Keywords" content="学国学网">
+  <meta name="description" content="学国学网">
+  <title>春天</title>
+  <meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。">
+  <meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+  <meta name="referrer" content="no-referrer">
+  <link rel="stylesheet" href="./css/style.css">
+	<style>
+		*{margin:0px;padding: 0px;box-sizing: border-box;font-family:Microsoft YaHei;}
+		  html,body{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        -webkit-tap-highlight-color: transparent;  
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        }
+        .wrap{
+          height: 100%;
+          width: 100%;
+          overflow: hidden;
+          position: fixed;
+          top:0;
+          left: 0;
+          }
+          .wrap .contentImg{
+            width:100%;
+            height: 100%;
+            -webkit-overflow-scrolling: touch;
+            overflow-y: scroll;
+            overflow-x: hidden;            
+            position: relative;
+          }
+          .wrap .contentImg img{
+            width:100%;
+            display:block;
+          }
+          .wrap .contentImg .imgCss{
+            width: 4.2rem;
+            height: 2.34rem;
+            left: 1.7rem;
+            cursor: pointer;
+            position:absolute;
+          }
+          .wrap .contentImg .img1{
+            top: 6rem;
+          }
+          .wrap .contentImg .img2{
+            top: 8.6rem;
+          }
+          .wrap .contentImg .img3{
+            top: 11.1rem;
+          }
+          .wrap .contentImg .img4{
+            top: 16.3rem;
+          }
+          .wrap .contentImg .img5{
+            top: 18.8rem;
+          }
+          .wrap .contentImg .img6{
+            top: 21.4rem;
+          }
+          .wrap .contentImg .img7{
+            top: 26.8rem;
+          }
+          .wrap .contentImg .img8{
+            top: 29.4rem;
+          }
+          .wrap .contentImg .img9{
+            top: 32rem;
+          }
+          
+	</style>
+</head>
+<body>
+	<div class="wrap">
+    <div class="contentImg">
+      <img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/5zhe/xgx01.jpg"/>
+      <img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/5zhe/xgx02.jpg"/>
+      <img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/5zhe/xgx03.jpg"/>
+      <div class="img1 imgCss" courseid='182'></div>
+      <div class="img2 imgCss" courseid='850'></div>
+      <div class="img3 imgCss" courseid='689'></div>
+      <div class="img4 imgCss" courseid='615'></div>
+      <div class="img5 imgCss" courseid='573'></div>
+      <div class="img6 imgCss" courseid='62'></div>
+      <div class="img7 imgCss" courseid='878'></div>
+      <div class="img8 imgCss" courseid='381'></div>
+      <div class="img9 imgCss" courseid='3'></div>
+    </div>
+	</div>
+</body>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript">
+  (function (doc, win) {
+      var docEl = doc.documentElement,
+         resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+         recalc = function () {
+             var clientWidth = docEl.clientWidth;
+             if (!clientWidth) return;
+             docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+         };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+  })(document, window);
+</script>
+<script type="text/javascript">
+	var isTransition = true,guoduFlag = false,audioPlayFlag = false,html2canvasFlag = false;
+	$(document).ready(function(){
+    loadBaiduScript();
+    initImg()
+    setTimeout(function(){
+      initRem()
+    },300)
+	})
+  function initRem(){
+      var docEl = document.documentElement,
+          resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+          recalc = function () {
+            var timer = setInterval(function(){
+              var clientWidth = docEl.clientWidth;
+              if(clientWidth&&clientWidth>0){
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                clearInterval(timer)
+              }
+            },100)
+          };
+      if (!document.addEventListener) return;
+      window.addEventListener(resizeEvt, recalc, false);
+      recalc()
+    }
+  function initImg(){
+    $(".contentImg").on("click",".imgCss",function(){
+      var id = $(this).attr('courseid');
+      pathGoto(id);
+    });
+  }
+  function pathGoto(id){  
+      var inApp = false;
+      var isIos = !!navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+      if(isIos){
+            try {    
+                window.webkit.messageHandlers.iOSAppMethodName.postMessage({
+                describe:'去课程详情页',
+                method:'goCourseDetail',
+                params:{
+                    courseId:Number(id),
+                    isCloseWebView:false  
+                  }}
+                );
+                inApp = true;
+            }
+            catch(err) {
+              window.location.href = 'https://xgxm.xueguoxue.com/#/course/'+Number(id);
+              // window.location.href = 'https://scm.youfushuyuan.com/#/course/'+Number(id);
+            }
+        }else{
+          if(window.android){
+              if(window.android.notify){
+                  inApp = true;
+                  var message = JSON.stringify({
+                      describe:'去课程详情页',
+                      method:'openLesson',
+                      params:{
+                        courseId:id,
+                        isCloseWebView:false    
+                      }
+                  })
+                  window.android.notify(message);
+              }else{
+                window.location.href = 'https://xgxm.xueguoxue.com/#/course/'+Number(id);
+                // window.location.href = 'https://scm.youfushuyuan.com/#/course/'+Number(id);
+              }
+          }else{
+            window.location.href = 'https://xgxm.xueguoxue.com/#/course/'+Number(id);
+            // window.location.href = 'https://scm.youfushuyuan.com/#/course/'+Number(id);
+          }
+    }
+     
+  }
+  function loadBaiduScript(){
+    var _hmt = _hmt || [];
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?0a03df13434da1a2b7b8630d70085af4";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  }
+</script>
+</html>

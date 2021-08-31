@@ -1,0 +1,10 @@
+*{margin:0px;padding: 0px;box-sizing: border-box;font-family:Microsoft YaHei;}
+html,body{width: 100%;height: 100%;position: relative;-webkit-tap-highlight-color: transparent;  -webkit-touch-callout: none;-webkit-user-select: none;}
+.wrap{width: 100%}
+.clearfix{*zoom:1;}
+.clearfix:after{content: "";display: block;clear: both;}
+img{max-width: 100%;width: 100%}
+/*字体类型css*/
+.font_pr{
+    font-family: 'PingFangSC-Regular';
+}

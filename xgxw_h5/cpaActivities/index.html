@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=1.0,user-scalable=no">
+	<meta name="format-detection" content="telephone=no, email=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="Keywords" content="学国学网">
+	<meta name="description" content="学国学网">
+	<meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。">
+	<meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+	<meta name="referrer" content="no-referrer">
+	<title>限时7天免费</title>
+	<link rel="stylesheet" type="text/css" href="./css/common.css">
+	<link rel="stylesheet" href="https://cdn.suoluomei.com/common/js2.0/npm/vant@2.2/lib/index.css"/>
+	<!-- 必须先引入vue，  后使用element-ui -->
+	<script src="https://cdn.suoluomei.com/common/js2.0/vue/v2.5.16/vue.js"></script>
+	<script src="https://cdn.suoluomei.com/common/js2.0/npm/vant@2.2/lib/vant.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.min.js"></script>
+	<script type="text/javascript" src="./js/browser.min.js"></script> 
+	<script src="https://cdn.polyfill.io/v1/polyfill.min.js"></script> 
+	<style type="text/css">
+	.cpaBox {
+		width: 100%;
+		position: relative;
+	}  
+	.cpaBox .loading {
+		position: fixed;
+		z-index: 9999;
+		width: 100%;
+		height: 100%;
+		background: rgba(255, 255, 255, 0.5);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+  	}
+	.cpaBox .imgBox{
+		width: 100%;
+		position: relative;
+	}	
+	.cpaBox .imgBox img{
+		display: block;
+		width: 100%;
+	}
+	.cpaBox .imgBox .inptuBox{
+		position:absolute;
+		width: 6.68rem;
+		left: 0.41rem;
+	}
+	.cpaBox .imgBox .inputOne{
+		top: 0;
+	}
+	.cpaBox .imgBox .inputOne .receive,.cpaBox .imgBox .inputTwo .receive{
+		height: 0.66rem;
+		width: 100%;
+		border-radius:0.66rem;
+		text-align: center;
+		background:#C30D23;
+		line-height:0.66rem;
+		font-size: 0.28rem;
+		color:#fff;
+		margin-top: 0.3rem;
+	}
+	.cpaBox .imgBox .inputOne .inputText,.cpaBox .imgBox .inputTwo .inputText{
+		height: 0.66rem;
+		width: 100%;
+		border-radius:0.66rem;
+		border: none;
+		box-shadow:none;
+		outline: none;
+		padding: 0 0.3rem;
+		font-size: 0.28rem;
+	}
+	.cpaBox .imgBox .inputTwo{
+		bottom: 0.7rem;
+	}
+	.cpaBox .imgBox .inputOne .codeBox,.cpaBox .imgBox .inputTwo .codeBox{
+		display: flex;
+		flex-direction: row;
+		justify-content:space-between;
+		align-items:center;
+		margin-top: 0.3rem;
+	}
+	.cpaBox .imgBox .inputOne .codeBox .codetText,.cpaBox .imgBox .inputTwo .codeBox .codetText{
+		height: 0.66rem;
+		width:5rem;
+		border: none;
+		box-shadow:none;
+		outline: none;
+		border-radius:0.66rem;
+		font-size: 0.28rem;
+		padding: 0 0.3rem;
+	}
+	.cpaBox .imgBox .inputOne .codeBox>div,.cpaBox .imgBox .inputTwo .codeBox>div{
+		color: #C30D23;
+		font-size: 0.28rem;
+	}
+	.displayNone{
+		display:none;
+	}
+	</style>
+</head>
+<body>
+	<div id="H5Cpa" class='cpaBox'>
+		<div class="contenBox displayNone">
+			<div class="loading" v-if="loadingType">
+				<van-loading type="spinner" color="#1989fa" />
+			</div>
+			<div class="imgBox">
+				<img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/cpa/cpaOne.png" />
+			</div>
+			<div class="imgBox">
+				<img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/cpa/cpaTwo.png" />
+				<div class='inptuBox inputOne'>
+					<input class="inputText" maxlength="11" v-model="cellphoneOne" placeholder="请输入手机号"/>
+					<div class="codeBox">
+						<input class="codetText" maxlength="6" v-model="smsCodeOne" placeholder="请输入验证码" />
+						<div @click.stop="sendSms(1)">{{codeTextOne}}</div>
+					</div>
+					<div class="receive" @click="receiveEven(1)">立即领取</div>	
+				</div>
+			</div>
+			<div class="imgBox">
+				<img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/cpa/cpaThree.png" />
+			</div>
+			<div class="imgBox">
+				<img src="https://xgxw-pic.oss-cn-beijing.aliyuncs.com/hd/cpa/cpaFour.png" />
+				<div class='inptuBox inputTwo'>
+					<input class="inputText" maxlength="11" v-model="cellphoneTwo" placeholder="请输入手机号"/>
+					<div class="codeBox">
+						<input class="codetText" maxlength="6" v-model="smsCodeTwo" placeholder="请输入验证码"/>
+						<div @click.stop="sendSms(2)">{{codeTextTwo}}</div>
+					</div>	
+					<div class="receive" @click="receiveEven(2)">立即领取</div>			
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/eruda"></script>
+	<script>eruda.init()</script>	 -->
+	<script type="text/javascript">
+		(function (doc, win) {
+		    var docEl = doc.documentElement,
+		       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+		       recalc = function () {
+		           var clientWidth = docEl.clientWidth;
+		           if (!clientWidth) return;
+		           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+		       };
+		    if (!doc.addEventListener) return;
+		    win.addEventListener(resizeEvt, recalc, false);
+		    doc.addEventListener('DOMContentLoaded', recalc, false);
+		})(document, window);
+
+	</script>
+	<!-- <script type="text/javascript"> -->
+	<script type="text/babel">
+		new Vue({
+				el:'#H5Cpa',
+				data:{
+					baseUrl:'',
+					baseUrl2:'',
+					cellphoneOne:'',
+					cellphoneTwo:'',
+					smsCodeOne:'',
+					smsCodeTwo:'',
+					codeTextOne:'获取验证码',
+					codeTextTwo:'获取验证码',
+					server:{
+						loginBySMS:'/login/loginBySMS',
+						sendSms:'/common/getCodeForLoginBySMS',
+					},
+					loadingType:false
+				},
+				created(){
+					this.baseUrl = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxapi.xueguoxue.com':'https://scapi.youfushuyuan.com';
+					this.baseUrl2 = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://loginapi.xueguoxue.com':'https://loginapi.youfushuyuan.com';	
+					$(".contenBox").removeClass('displayNone');				
+				}, 
+				watch:{},
+				methods:{
+					//URL地址的解析
+					url_data(url){
+						var obj = {};
+						if (url.includes('&')) {
+								let arr1 = url.split('?')[1].split('&');
+								arr1.forEach(item => {
+								let arr2 = item.split('=');
+								let arr_one = arr2[0];
+								let arr_two = arr2[1];
+								obj[arr_one] = arr_two;
+							})
+						} else {
+							if(url.includes('?')){
+								let arr1 = url.split('?')[1].split('=');
+								arr1.forEach(item => {
+									let arr_one = arr1[0];
+									let arr_two = arr1[1];
+									obj[arr_one] = arr_two;
+								})
+							}
+						}
+						return obj;
+					},		
+					//登录跳转
+					receiveEven(type){
+						var self = this;
+						if(type==1){
+							if(this.cellphoneOne.length!=11){
+								vant.Toast('请输入正确的手机号');
+								this.cellphoneOne ='';
+								return;
+							}
+							if(this.smsCodeOne.length!=6){
+								vant.Toast('无效的验证码')
+								return;
+							}
+						}else{
+							if(this.cellphoneTwo.length!=11){
+							vant.Toast('请输入正确的手机号');
+							this.cellphoneTwo ='';
+							return;
+							}
+							if(this.smsCodeTwo.length!=6){
+								vant.Toast('无效的验证码')
+								return;
+							}
+						}
+						var query = {
+							cellphone:type==1?this.cellphoneOne:this.cellphoneTwo,
+							tokenType:2,
+							code:type==1?this.smsCodeOne:this.smsCodeTwo,
+							registerSource:3,
+							requestType:1					
+						}
+						var parems = this.url_data(window.location.href);
+						if(parems.id){
+							query['cpaOriginId']=Number(parems.id);
+							query['origin']=Number(parems.id);
+							query['cpaType']=Number(parems.type);
+						}
+						this.loadingType = true;
+						$.ajax({
+							url:this.baseUrl2+self.server.loginBySMS,
+							type:'post',
+							dataType:'json',
+							data:JSON.stringify(query),
+							contentType: "application/json; charset=utf-8",
+							success:function(res){
+								self.loadingType = false;
+								if(res.status==200){
+									setTimeout(()=>{
+										window.location.href='https://a.app.qq.com/o/simple.jsp?pkgname=com.xueguoxue.xgxw2018&fromcase=40003';
+									},100);
+								}else{
+									vant.Toast(res.message);
+								}
+							},
+							error:function(){
+								self.loadingType = false;
+								vant.Toast('请输入正确的手机号');
+							}
+						})								
+					},			
+					//获取验证
+					sendSms(type){
+						var self = this;
+						var regExp = /^[0-9]*$/;
+						if(type==1){
+							if(this.codeTextOne!='获取验证码') return false;
+							if(this.cellphoneOne.length!=11||!regExp.test(this.cellphoneOne)){
+								vant.Toast('请输入正确的手机号');
+								this.cellphoneOne = '';
+								return;
+							}							
+						}else{
+							if(this.codeTextTwo!='获取验证码') return false;						
+							if(this.cellphoneTwo.length!=11||!regExp.test(this.cellphoneTwo)){
+								vant.Toast('请输入正确的手机号');
+								this.cellphoneTwo = '';
+								return;
+							}
+						}	
+						let query = {
+							cellphone:type==1?this.cellphoneOne:this.cellphoneTwo,
+							smsType:1,
+							tokenType:2
+						}
+						this.loadingType = true;
+						$.ajax({
+							url:this.baseUrl+self.server.sendSms,
+							type:'post',
+							dataType:'json',
+							data:JSON.stringify(query),
+							contentType: "application/json; charset=utf-8",
+							success:function(res){
+								self.loadingType = false;
+								if(res.status==200){
+									var time = 60;
+									if(type==1){
+										self.codeTextOne = time +'s'
+										self.codeTimer = setInterval(()=>{
+											time--;
+											self.codeTextOne = time +'s'
+											if(time==0){
+												clearInterval(self.codeTimer);
+												self.codeTextOne = '获取验证码'
+											}
+										},1000) 
+									}else{
+										self.codeTextTwo = time +'s'
+										self.codeTimers = setInterval(()=>{
+											time--;
+											self.codeTextTwo = time +'s'
+											if(time==0){
+												clearInterval(self.codeTimers);
+												self.codeTextTwo = '获取验证码'
+											}
+										},1000) 
+									}
+								}else{
+									vant.Toast(res.message);
+								}
+							},
+							error:function(){
+								self.loadingType = false;
+								vant.Toast('验证码获取失败');
+							}
+						});	
+					}
+				},
+				mounted(){}
+			});
+
+	</script>
+</body>
+</html>

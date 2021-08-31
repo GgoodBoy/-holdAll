@@ -1,0 +1,59 @@
+#wrap{
+    width:100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background:#fff;
+}
+#wrap .content{
+    position:absolute;
+    padding:0.3rem;
+    top:0.2rem;
+    bottom:0.5rem;
+    left: 0;
+    right: 0;
+    overflow: scroll;
+}
+#wrap .content .textListBox{
+    position: relative;
+}
+#wrap .content .textListBox .textInfo{
+   width:5.8rem;
+   left: 1rem;
+   font-size: 0.28rem;
+   word-wrap: break-word; 
+   margin-left: 1rem;
+   padding:0 0 0.2rem;
+}
+#wrap .content .textListBox:last-child>.textInfo{
+    padding:0rem;
+    height: 0rem;
+}
+#wrap .content .textListBox .leftStyle{
+    width:1rem;
+    position: absolute;
+    font-size: 0.28rem;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 1rem;
+    padding: 0 0.48rem;
+}
+#wrap .content .textListBox .leftStyle .culomes{
+    height: 100%;
+    width: 0.04rem;
+    background:#CCCCCC;
+    position: relative;
+}
+#wrap .content .textListBox .leftStyle .culomes .leftRadios{
+    position: absolute;
+    top:0rem;
+    left: -0.1rem;
+    width:0.24rem;
+    height: 0.24rem;
+    border-radius:100%;
+    background-color: #CCCCCC;
+}
+.displayNone{
+    display: none;
+}

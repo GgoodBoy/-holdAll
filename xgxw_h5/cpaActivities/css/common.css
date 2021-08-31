@@ -1,0 +1,34 @@
+*{
+	margin:0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family:Microsoft YaHei;
+}
+.clearfix{
+    *zoom:1;
+}
+.clearfix:after{
+    content: "";
+    display: block;
+    clear: both;
+}
+.l{
+	float: left;
+}
+.r{
+	float: right;
+}
+.weui-toast_content{font-size: 0.32rem}
+.hidden{display: none}
+.textEllipsis{
+	display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}

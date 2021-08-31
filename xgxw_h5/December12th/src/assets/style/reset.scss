@@ -1,0 +1,198 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    letter-spacing: 0;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+}
+html{
+    width: 100%;
+    font-size: 55.2px;
+    height: 100%;
+}
+body{
+    width:100%;
+    height: 100%;
+    max-width: 750px;
+    margin:0 auto;
+    // overflow-x: hidden;
+    // overflow-y: auto;
+}
+#app{
+    width: 100%;
+    height: 100%;
+}
+img{
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    user-select: none;
+}
+@font-face {
+  font-family: 'my-font';
+  src: url('../myfont.ttf'); 
+} 
+.text-overflow{    
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+}
+.page-loading-wrap{
+    position: fixed;
+    top:0;
+    left: 50%;
+    transform: translate(-50%,0);
+    width: 100%;
+    height: 100vh;
+    z-index: 2;
+    max-width: 750px;
+    &.hidden{
+      opacity: 0;
+      visibility: hidden;
+      transition:opacity 0.3s linear,visibility 1ms 0.4s;
+    }
+    >span{
+        background: #fff;
+        position: absolute;
+        top:40%;left:50%;
+        display: block;
+        width: 10px;
+        height: 20px;
+        margin:-10px 0 0 -5px;
+        animation: loader 1s ease-in-out infinite;
+        border-radius:4px;
+        &:nth-child(1){
+          animation-delay: 0.2s;
+          margin:-10px 0 0 -20px;
+        }
+        &:nth-child(2){
+          animation-delay: 0.5s;
+        }
+        &:nth-child(3){
+          margin:-10px 0 0 10px;
+          animation-delay: 0.8s;
+        }
+    }
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+@keyframes loader {
+    0%, 100% {
+      transform: scale3d(1,1,1);
+    }
+    50% {
+      transform: scale3d(1,1.4,1);
+    }
+}
+@keyframes loading-dash{
+    0%{stroke-dasharray:1,200;stroke-dashoffset:0}
+    50%{stroke-dasharray:90,150;stroke-dashoffset:-40px}
+    to{stroke-dasharray:90,150;stroke-dashoffset:-120px}}
+@keyframes loading-rotate{
+    to{transform:rotate(1turn)}
+}
+@keyframes person {
+    0%, 100% {
+      transform: translate3d(0,0,0);
+    }
+    50% {
+      transform: translate3d(0,6px,0);
+    }
+  }
+  @keyframes yun1 {
+    0%{
+      visibility: visible;
+      transform: translate3d(0,0,0);
+    }
+    20%{
+      visibility: visible;
+      transform: translate3d(-100%,0,0);
+    }
+    21%{
+      transform: translate3d(-100%,0,0);
+      visibility: hidden;
+    }
+    25%{
+      transform: translate3d(100vw,0,0);
+      visibility: hidden;
+    }
+    30%{
+      transform: translate3d(100vw,0,0);
+      visibility: visible;
+    }
+    100% {
+      visibility: hidden;
+      transform: translate3d(0,0,0);
+    }
+  }
+  @keyframes yun2 {
+    0%{
+      visibility: visible;
+      transform: translate3d(0,0,0);
+    }
+    10%{
+      visibility:visible;
+      transform: translate3d(35vw,0,0);
+    }
+    12% {
+      visibility:hidden;
+      transform: translate3d(35vw,0,0);
+    }
+    15%{
+      visibility: hidden;
+      transform: translate3d(-100vw,0,0);
+    }
+    100%{
+      visibility: visible;
+      transform: translate3d(0,0,0);
+    }
+  }
+  @keyframes yun3 {
+    0%{
+      visibility: visible;
+      transform: translate3d(0,0,0);
+    }
+    30%{
+      visibility:visible;
+      transform: translate3d(100vw,0,0);
+    }
+    31% {
+      visibility:hidden;
+      transform: translate3d(100vw,0,0);
+    }
+    32%{
+      visibility: hidden;
+      transform: translate3d(-100vw,0,0);
+    }
+    100%{
+      visibility: visible;
+      transform: translate3d(0,0,0);
+    }
+  }
+  @keyframes flag1 {
+    0%, 100% {
+      transform: rotate(5deg);
+      transform-origin:top center;
+    }
+    50% {
+      transform: rotate(0deg);
+      transform-origin:top center;
+    }
+  }
+  @keyframes flag2 {
+    0%, 100% {
+      transform: rotate(0deg);
+      transform-origin:top center;
+    }
+    50% {
+      transform: rotate(-3deg);
+      transform-origin:top center;
+    }
+  }

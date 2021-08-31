@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=1.0,user-scalable=no">
+	<meta name="format-detection" content="telephone=no, email=no">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="Keywords" content="学国学网">
+	<meta name="description" content="学国学网">
+	<meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。">
+	<meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+	<meta name="referrer" content="no-referrer">
+	<title>领取课程邀请码</title>
+	<link rel="stylesheet" type="text/css" href="./css/weui.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/jquery-weui.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/common.css">
+	<style type="text/css">
+		.receive-invite-code{
+			width: 100%;
+			height: 100%;
+			position: relative;
+			background:url('./image/bgd.png')no-repeat 50% 100%;
+			background-size: contain;
+		}
+		.header{
+			padding: 0.25rem 0;
+			text-align: center;
+			color:#000;
+			font-size: 0.36rem;
+			background-color: #fff;
+			z-index: 5;
+			font-weight:bold;
+		}
+		.main-box{
+			margin-top:1rem;
+		}
+		.hidden{
+			display: none;
+		}
+		.page1{
+			padding: 0 0.9rem;
+			position: relative;
+			z-index: 2;
+			background-color: #fff;
+		}
+		.input-item{
+			border-bottom:1px solid #EFEFEF;
+			padding: 0.06rem 0;
+			font-size: 0;
+			margin-bottom:0.6rem;
+		}
+		.input-item input{
+			padding: 0 0.1rem;
+		}
+		.phone,.code{
+			color:#000;
+			font-size: 0.34rem;
+			border:none;
+			outline: none;
+			line-height: 0.48rem;
+		}
+		.phone{
+			width: calc(100% - 1.6rem);
+		}
+		.code-btn{
+			font-size: 0.22rem;
+			color:#fff;
+			width: 1.44rem;
+			text-align: center;
+			line-height: 0.48rem;
+			background-image: linear-gradient(#E62F45, #D51F35, #C71227);
+			border-radius: 25px;
+		}
+		.submit,.copy,.use{
+			display: block;
+			border:none;
+			outline: none;
+			width: 5.6rem;
+			height: 0.88rem;
+			line-height: 0.88rem;
+			margin:0.6rem auto 0 auto;
+			text-align: center;
+			color:#fff;
+			background-color: #B63B40;
+			font-size: 0.32rem;
+			border-radius: 25px;
+			letter-spacing: 1px;
+			background-image: linear-gradient(#E62F45, #D51F35, #C71227);
+		}
+		.copy{
+			margin:0 auto;
+		}
+		.use{
+			margin-top:0.4rem;
+		}
+		.page2{
+			padding: 0 0.3rem;
+			text-align:center;
+			position: relative;
+			z-index: 2;
+			background-color: #fff;
+		}
+		.success-tip{
+			color:#B4272D;
+			font-size: 0.4rem;
+		}
+		.invite-code{
+			margin:0.8rem 0;
+			background-color: #F8F7F7;
+			font-size: 0.4rem;
+			line-height: 1rem;
+			height: 1rem;
+			color:#000;
+		}
+		#input{
+			opacity: 0;
+			z-index:-1;
+			position: absolute;
+			top:0;
+			left: 0;
+		}
+		.weui-toast{
+			width: 60%!important;
+		}
+		::-webkit-input-placeholder { /* WebKit browsers */
+		    color:#CACACA;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		    color:#CACACA;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+		    color:#CACACA;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10+ */
+		    color:#CACACA;
+		}
+		.course-box .title{   
+			font-size: 0.32rem;
+		    color: #000;
+		    padding: 0 0.25rem 0 0.5rem;
+		    margin: 0.5rem 0 0.3rem 0;
+		    font-weight: bold;
+		    position: relative;
+		}
+		.course-box .title:before{
+			content:'';
+			height: 0.32rem;
+			width: 0.08rem;
+			background: #C30D23;
+			position: absolute;
+			top:0.1rem;
+			left: 0.2rem;
+		}
+		.course-box .list{
+			padding: 0 0.1rem;
+		}
+		.course-box .item{
+			padding:0.1rem;
+			display: flex;
+		}
+		.course-box{
+			margin-bottom:0.2rem;
+		}
+		.course-box .left-box{
+		    position: relative;
+		    width: 3.45rem;
+		    height: 2rem;
+		    border-radius: .1rem;
+		    overflow: hidden;
+		    background-size: 100% 100%;
+		}
+		.course-box .left-box img{
+			width: 100%;
+			height: 100%;
+		}
+		.course-box .right-box{
+			padding-left: .2rem;
+			width: calc(100% - 3.45rem);
+		    display: flex;
+		    justify-content:space-around;
+		    flex-direction: column;
+		}
+		.course-title{
+			font-size: .3rem;
+    		color: #1A1A1A;
+    		width: 3rem;
+		}
+		.course-people{
+			font-size: .24rem;
+    		line-height: .4rem;
+   			 margin: .18rem 0;
+        	color: #9a9a9a;
+		}
+		.course-people span{
+			display: inline-block;
+    		vertical-align: middle;
+    		width: 50%;
+    		padding-left: 1rem;
+		}
+		.course-people span:first-child{
+		    min-width: 50%;
+		    padding: 0;
+		}
+		.course-rate{
+			font-size: .28rem;
+    		color: #C30725;
+		}
+	</style>
+</head>
+<body>
+	<div class="receive-invite-code">
+		<div class="header hidden">领取课程邀请码</div>
+		<div class="main-box">
+			<div class="page1">
+				<div class="input-item clearfix">
+					<input type="tel" placeholder="+86 输入手机号" class="phone l" maxlength="11" />
+					<p class="code-btn r">获取验证码</p>
+				</div>
+				<div class="input-item">
+					<input type="tel" placeholder="输入验证码" class="code" maxlength="6"  />
+				</div>
+				<a class="submit">领取邀请码</a>
+			</div>
+			<div class="page2 hidden">
+				<p class="success-tip">领取成功</p>
+				<p class="invite-code" id="inviteCode">ZBP1122334455</p>
+				<button class="copy" data-clipboard-action="copy" data-clipboard-target="#input">使用邀请码</button>
+			</div>
+			<input type="text" id="input" readonly="" />
+		</div>
+		<div class="course-box">
+			<p class="title">适应课程</p>
+			<div class="list">
+				
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		(function (doc, win) {
+		    var docEl = doc.documentElement,
+		       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+		       recalc = function () {
+		           var clientWidth = docEl.clientWidth;
+		           if (!clientWidth) return;
+		           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+		       };
+		    if (!doc.addEventListener) return;
+		    win.addEventListener(resizeEvt, recalc, false);
+		    doc.addEventListener('DOMContentLoaded', recalc, false);
+		})(document, window);
+
+	</script>
+	<script type="text/javascript" src="./js/zepto.js"></script>
+	<script type="text/javascript" src="./js/jquery-weui.min.js"></script>
+	<script type="text/javascript" src="./js/clipboard.min.js"></script>
+	<!-- <script type="text/javascript" src="./js/common.js"></script> -->
+	<script type="text/javascript">
+		var regExp = /^(13[0-9]|14[0-9]|15[0-9]|17[0-9]|18[0-9]|19[0-9]|16[0-9])\d{8}$/;
+		var isTest = true;
+		var baseUrl = isTest?'https://scapi.youfushuyuan.com':'https://xgxapi.xueguoxue.com';
+		var website = isTest?'http://scm.youfushuyuan.com?wxshare=1/#/':'http://xgxm.xueguoxue.com?wxshare=1/#/';
+		var courseId;
+		$(document).ready(function(){
+			isApp();
+			sendSms();
+			receiveInviteCode();
+			copy();
+			getList()
+		})
+		function getQueryString(key){
+		    var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+		    var result = window.location.search.substr(1).match(reg);
+		    return result?decodeURIComponent(result[2]):null;
+		}
+
+		function decrypt(str, pwd) {
+		    if (str == null || str.length < 8) {
+		      alert("A salt value could not be extracted from the encrypted message because it's length is too short. The message cannot be decrypted.");
+		      return;
+		    }
+		    if (pwd == null || pwd.length <= 0) {
+		      alert("Please enter a password with which to decrypt the message.");
+		      return;
+		    }
+		    var prand = "";
+		    for (var i = 0; i < pwd.length; i++) {
+		      prand += pwd.charCodeAt(i).toString();
+		    }
+		    var sPos = Math.floor(prand.length / 5);
+		    var mult = parseInt(prand.charAt(sPos) + prand.charAt(sPos * 2) + prand.charAt(sPos * 3) + prand.charAt(sPos * 4) + prand.charAt(sPos * 5));
+		    var incr = Math.round(pwd.length / 2);
+		    var modu = Math.pow(2, 31) - 1;
+		    var salt = parseInt(str.substring(str.length - 8, str.length), 16);
+		    str = str.substring(0, str.length - 8);
+		    prand += salt;
+		    while (prand.length > 10) {
+		      prand = (parseInt(prand.substring(0, 10)) + parseInt(prand.substring(10, prand.length))).toString();
+		    }
+		    prand = (mult * prand + incr) % modu;
+		    var enc_chr = "";
+		    var enc_str = "";
+		    for (var i = 0; i < str.length; i += 2) {
+		      enc_chr = parseInt(parseInt(str.substring(i, i + 2), 16) ^ Math.floor((prand / modu) * 255));
+		      enc_str += String.fromCharCode(enc_chr);
+		      prand = (mult * prand + incr) % modu;
+		    }
+		    return enc_str;
+		}
+		function isApp(){
+            try {    
+                window.webkit.messageHandlers.iOSAppMethodName.postMessage("messageBody")
+                document.title = '领取课程邀请码'
+            }
+            catch(err) {
+                $('.header').removeClass('hidden');
+            }
+        }
+		function sendSms(){
+			var $btn = $(".code-btn");
+			var $phone = $('.phone');
+			var timer = null;
+			$btn.bind("click",function(){
+				if($(this).text()=='获取验证码'){
+					var phone = $phone.val();
+					if(!regExp.test(phone)){
+						$.toast("请输入正确的手机号", 'text');
+						return false;
+					}
+					var query = {
+						cellphone:$phone.val(),
+						smsType:6,
+						tokenType:2
+					}
+					$.ajax({
+						url:baseUrl+'/common/getCodeForLoginBySMS',
+						type:'post',
+						dataType:'json',
+						data:JSON.stringify(query),
+						contentType: "application/json; charset=utf-8",
+						success:function(res){
+
+						},
+						error:function(error){
+
+						}
+					})
+					var time = 60;
+					$(this).text(time+'s');
+					timer = setInterval(function(){
+						time--;
+						$btn.text(time+'s');
+						if(time==0){
+							clearInterval(timer);
+							time = 60;
+							$btn.text('获取验证码')
+						}
+					},1000)
+				}
+			})
+		}
+		function receiveInviteCode(){
+			var key = getQueryString('key')
+			if(!key){
+				$.toast.prototype.defaults.duration = 600000;
+				$.toast("链接不合法","text");
+				return;
+			}
+			var secret_key = 'xueguoxue.com';
+			$(".submit").bind("click",function(){
+				var invitationCodeId = decrypt(key,secret_key);
+				var phoneVal = $('.phone').val();
+				var codeVal = $('.code').val();
+				if(!regExp.test(phoneVal)){
+					$.toast("请输入正确的手机号", 'text');
+					return false;
+				}
+				if(codeVal==''){
+					$.toast("请输入验证码", 'text');
+					return false;
+				}
+				var query = {
+					cellphone:phoneVal,
+					veriCode:codeVal,
+					invitationCodeId:invitationCodeId,
+					tokenType:2
+				}
+				var timer = setTimeout(function(){
+					$.showLoading();
+				},1000)
+				$.ajax({
+					url:baseUrl+'/invitationCode/receiveInvitationCode',
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					success:function(res){
+						clearTimeout(timer)
+						$.hideLoading();
+						if(res.status==200){
+							var invitationCode = res.content.invitationCode
+							courseId = res.content.courseId
+							$('.invite-code').text(invitationCode);
+							$('#input').val(invitationCode);
+							$(".page1").addClass("hidden");
+							$(".page2").removeClass("hidden");
+						}else{
+							$.toast(res.message,'text');
+						}
+					},
+					error:function(error){
+
+					}
+				})
+			})
+		}
+		function copy(){
+			var u = navigator.userAgent;
+            var isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+			var clipboard = new ClipboardJS('.copy');
+			$('.copy').bind("click",function(){
+				var link = website+'course/'+courseId;
+				if($(this).text()=='跳转'){
+					if(isIos){
+		                try{
+		                    window.webkit.messageHandlers.iOSAppMethodName.postMessage({
+		                      	method:'goCourseDetail',
+		                    	params:{"courseId":courseId} 
+		                    }); 
+		                }catch(err){
+		                	window.location.href = link;
+		                }
+		            }else{
+		                if(window.android){
+		                   if(window.android.notify){
+		                        var message = JSON.stringify({
+		                            describe:'在APP内部直接关闭webview,并进入课程详情页面',
+		                            method:'openLesson',
+		                            params:{"courseId":courseId}
+		                        })
+		                        window.android.notify(message);
+		                    }
+		                }else{
+		                	window.location.href = link;
+		                }
+		            }
+		            return false;
+				}
+				clipboard.on('success',function(){
+					$.toast.prototype.defaults.duration = 3000;
+	                $.toast("邀请码复制成功，即将跳转页面，请稍后...", 'text');
+	                setTimeout(function(){
+	                	if(isIos){
+			                try{
+			                    window.webkit.messageHandlers.iOSAppMethodName.postMessage({
+			                      	method:'goCourseDetail',
+			                    	params:{"courseId":courseId} 
+			                    }); 
+			                }catch(err){
+			                	window.location.href = link;
+			                }
+			            }else{
+			                if(window.android){
+			                    if(window.android.notify){
+			                        var message = JSON.stringify({
+			                            describe:'在APP内部直接关闭webview,并进入课程详情页面',
+			                            method:'openLesson',
+			                            params:{"courseId":courseId}
+			                        })
+			                        window.android.notify(message);
+			                    }
+			                }else{
+			                	window.location.href = link;
+			                }
+			            }
+	                },2000)
+	            });
+	            clipboard.on('error',function(){
+	               	$.toast('长按邀请码，选择“拷贝”进行复制!','text')
+	               	$(".copy").text('跳转')
+	            });
+			})
+		}
+		function getList(){
+			var key = getQueryString('key')
+			var secret_key = 'xueguoxue.com';
+			var invitationCodeId = decrypt(key,secret_key);
+			var query = {
+				invitationCodeId:invitationCodeId
+			}
+			$.ajax({
+					url:baseUrl+'/invitationCode/findRelationCourse',
+					type:'post',
+					dataType:'json',
+					data:JSON.stringify(query),
+					contentType: "application/json; charset=utf-8",
+					success:function(res){
+						if(res.status==200){
+							var courseBrowsCount = res.content.courseBrowsCount>10000?(res.content.courseBrowsCount/10000).toFixed(1)+'w+': res.content.courseBrowsCount;
+							var html = '<div class="item" courseId="'+res.content.id+'"><div class="left-box"><img src="'+res.content.surfacePlot+'"/></div><div class="right-box"><p class="course-title">'+res.content.title+'</p><p class="course-people"><span>'+courseBrowsCount+'人看过</span><span>'+res.content.courseUserLikeCount+'赞</span></p><p class="course-rate">'+res.content.sellingPrice+'币</p></div></div>'
+							$('.list').append(html)
+							setTimeout(function(){
+								goCourse()
+							},1)
+						}
+					},
+					error:function(error){
+
+					}
+				})
+		}
+		function goCourse(){
+			$('.item').on('click',function(){
+				var u = navigator.userAgent;
+	        	var isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+				var courseId = Number($(this).attr('courseId'))
+				if(isIos){
+  					try{
+	                    window.webkit.messageHandlers.iOSAppMethodName.postMessage({
+	                        describe:'去课程详情页',
+	                        method:'goCourseDetail',
+	                        params:{
+	                       		courseId:courseId,
+	                       		isCloseWebView:false	
+	                        }
+	                    }); 
+	                }catch(err){
+	                	// openApp('xueguoxuewang://type=course&courseId=1',goConfirmAddr)
+	                	window.location.href = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/'+courseId:'https://scm.youfushuyuan.com/#/course/'+courseId
+	                }
+  				}else{
+  					if(window.android){
+	                    if(window.android.notify){
+	                        var message = JSON.stringify({
+	                            describe:'去课程详情页',
+	                            method:'openLesson',
+	                            params:{
+	                            	courseId:courseId,
+	                            	isCloseWebView:false		
+	                            }
+	                        })
+	                        window.android.notify(message);
+	                    }
+	                }else{
+	                	window.location.href = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/'+courseId:'https://scm.youfushuyuan.com/#/course/'+courseId
+	                }
+  				}
+			})
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no"><meta name="format-detection" content="telephone=no, email=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'"><meta name="Keywords" content="学国学网"><meta name="description" content="学国学网"><title>经典课程·哲学月·8折购</title><meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。"><meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+	<link rel="stylesheet" href="./css/common.css">
+	<style type="text/css">
+		.overflow{overflow: hidden}
+		.content{position: relative;}
+		.cute-barrage{position: absolute;top:0;left: 0;width: 100%;z-index: 2;height: 3rem;overflow-x: hidden;}
+		.barrage-div{position: absolute;top: 0;right: 0; height: 0.36rem;line-height:0.36rem;background-color: #FFECC7;border-radius: 0.2rem;white-space: nowrap;font-size: 0.18rem;color:#142D51;font-family:PingFang SC;padding: 0 0.2rem;transform: translate(100%,0);}
+		.activity-count-down{position: absolute;width: 4.8rem;height: 0.58rem;background: rgba(195,13,35,0.8);text-align: center;line-height: 0.58rem;font-size:0.28rem;font-family:PingFang SC;font-weight:500;font-style:italic;left:50%;margin-left: -2.4rem;top:7.3rem;z-index: 2;color:#fff;border-radius: 0.3rem}
+		.coupon-area{position: absolute;z-index: 2;top:12.9rem;left: 50%;width: 5.78rem;margin-left:-2.89rem;text-align: center;font-size: 0}
+		.coupon-list{font-size: 0;display: flex;justify-content: space-around;align-items: center;}
+		.coupon-item{width: 1.34rem;height: 1.84rem}
+		.coupon-item.index1{background: url('./image/coupon1.png')no-repeat 50% 50% / contain;}
+		.coupon-item.index2{background: url('./image/coupon2.png')no-repeat 50% 50% / contain;}
+		.coupon-item.index3{background: url('./image/coupon3.png')no-repeat 50% 50% / contain;}
+		.coupon-item.index4{background: url('./image/coupon4.png')no-repeat 50% 50% / contain;}
+		.receive-btn{width: 1.78rem;height: 0.5rem;line-height: 0.55rem;background: url('./image/btn.png')no-repeat 50% 50% /cover;font-family:myFont;font-size: 0.28rem;color:#243752;font-weight: 800;margin-top:0.12rem;display: inline-block;}
+		.content .item{position: relative;font-size: 0;}
+		.course-list{position: absolute;left: 0;padding: 0 1rem;width: 100%}
+		.course-item{width: 5.4rem;height: 3.705rem;position: relative;margin-bottom:0.38rem;}
+		.count-down{height: 0.36rem;line-height: 0.36rem;border-radius:0px 18px 18px 0px;background:rgba(195,13,35,0.6);color:#fff;font-size: 0.2rem;padding: 0 0.17rem;font-family:PingFang SC;font-weight:400;position: absolute;bottom:1rem;left: 0.2rem;}
+		.go-course{width: 1.24rem;height: 0.46rem;line-height: 0.46rem;text-align: center;background: url('./image/course_btn.png')no-repeat 50% 50% / cover;color:#fff;font-family:myFont;font-size: 0.22rem;position: absolute;bottom:0.15rem;right: 0.2rem}
+		.item3 .course-list{top:4.5rem;}
+		.item4 .course-list{top:1.1rem;}
+		.item5 .course-list{top:0.98rem;}
+		.tabs{position: absolute;z-index: 2;top: 18.2rem;font-size: 0;left: 0.6rem;}
+		.tab-item{display: inline-block;vertical-align: middle;text-align: center;color:#666666;font-size: 0.24rem;line-height: 0.53rem;height: 0.53rem;font-family:myFont;position: relative;}
+		.tab-item.active{color:#333366;box-shadow: 0 2px 6px #142E51;z-index: 2}
+		.tab1{width: 1.35rem;background: url('./image/tab1.png')no-repeat 50% 50% / cover;}
+		.tab2{width: 1.54rem;background: url('./image/tab2.png')no-repeat 50% 50% / cover;}
+		.tab3{width: 1.71rem;background: url('./image/tab3.png')no-repeat 50% 50% / cover;}
+		.tab4{width: 1.67rem;background: url('./image/tab4.png')no-repeat 50% 50% / cover;}
+		.dialog{position: absolute;top:0;left: 0;width: 100%;height:100%;background: #686868;z-index: 9;visibility: hidden;}
+		.dialog.show{visibility: visible;}
+		.dialog.show .box{transform: scale(1);}
+		.dialog .box{width: 5.7rem;height: 4.9rem;position: absolute;top:40%;left: 50%;margin:-2.45rem 0 0 -2.85rem;background: #fff;border-radius: 5px;padding: 0.45rem;transition: transform 0.3s linear;transform: scale(0);}
+		.dialog .box .title{font-size: 0.4rem;color:#333333;text-align: center;font-weight: bold;padding: 0.1rem 0}
+		.login-box{margin-top:0.4rem;border-top:1px solid #EFEFEF;}
+		.phone,.code{padding: 0.25rem 0;font-size: 0;border-bottom:1px solid #EFEFEF;position: relative;}
+		.phone .label,.code .label,.phone input,.code input{display: inline-block;vertical-align: middle;color:#8E8E8E;font-size: 0.28rem;line-height: 0.28rem}
+		.phone .label,.code .label{width: 1.2rem}
+		.phone input,.code input{outline: none;border: none; width: 3rem;height:0.28rem;}
+		.code-box{position: absolute;width: 1.4rem;height: 0.48rem;line-height: 0.48rem;background: #DB243B;text-align: center;color:#fff;font-size:0.22rem;border-radius:25px;top:0.15rem;right: 0;z-index: 4}
+		.dialog .btn{background: #DB243B;border-radius:25px;text-align: center;margin:0.6rem auto 0 auto;color:#fff;font-size: 0.32rem;width: 2.5rem;height: 0.8rem;line-height: 0.8rem;letter-spacing: 1px;}
+		.close{position: absolute;display: block;top:-0.7rem;right:0;width: 0.58rem;height: 0.58rem;background: url('./image/close.png')no-repeat 50% 50% / cover;}
+		.return{width: 0.82rem;height: 0.82rem;position: fixed;right: 0.3rem;bottom:0.3rem;z-index: 2;background: url('./image/return_top.png')no-repeat 50% 50% / cover;transition: all 0.3s}
+		.return.hidden{opacity: 0;}
+		.error{position: absolute;left:1.65rem;bottom:1.25rem;font-size: 0.24rem;color:#DB243B;}
+		.error.hidden{display: none}
+		.loading-box{position: absolute;top:0;left:0;width: 100%;height: 100%;z-index: 4}
+		.loading-icon{height: 1rem;width: 1rem;background: url('./image/loading.png')no-repeat 50% 50% / cover;position: absolute;top:50%;left: 50%;
+		margin:-0.5rem 0 0 -0.5rem;animation: loading 1s linear infinite;}
+		.loading-box.hidden{display: none}
+	</style>
+<body>
+	<div class="wrap">
+		<div class="loading-wrap">
+			<div class="loading"></div>
+		</div>
+		<div class="content">
+			<div class="cute-barrage"></div>
+			<div class="coupon-area">
+				<div class="coupon-list">
+					<div class="coupon-item index1"></div>
+					<div class="coupon-item index2"></div>
+					<div class="coupon-item index3"></div>
+					<div class="coupon-item index4"></div>
+				</div>
+				<p class="receive-btn">一键领取</p>
+			</div>
+			<div class="tabs">
+				<div class="tab-item tab1">人气课程</div>
+				<div class="tab-item tab2">易经中的智慧</div>
+				<div class="tab-item tab3">生活中的哲学</div>
+				<div class="tab-item tab4">论语中的道理</div>
+			</div>
+			<div class="activity-count-down">
+				活动倒计时：<span></span>
+			</div>
+			<div class="return"></div>
+		</div>
+		<div class="dialog">
+			<div class="box">
+				<div class="loading-box hidden"><i class="loading-icon"></i></div>
+				<i class="close"></i>
+				<p class="title">绑定手机号</p>
+				<div class="login-box">
+					<div class="phone">
+						<p class="label">手机号：</p><input type="tel" placeholder="输入手机号码" maxlength="11" class="phone-val">
+					</div>
+					<div class="code">
+						<p class="label">验证码：</p><input type="tel" placeholder="输入手机验证码" maxlength="6" class="code-val"><p class="code-box">获取验证码</p>
+					</div>
+				</div>
+				<p class="error hidden"></p>
+				<p class="btn">确定</p>
+			</div>
+		</div>
+	</div>	
+</body>
+<script type="text/javascript">
+	(function (doc, win) {
+	    var docEl = doc.documentElement,
+	       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+	       recalc = function () {
+	           var clientWidth = docEl.clientWidth;
+	           if (!clientWidth) return;
+	           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	       };
+	    if (!doc.addEventListener) return;
+	    win.addEventListener(resizeEvt, recalc, false);
+	    doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+</script>
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		render()
+		barrage()
+		pageEvent()
+		InputBlur()
+		initRem()
+	})
+	var baseUrl = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxapi.xueguoxue.com':'https://scapi.youfushuyuan.com';
+  	var link = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/':'https://scm.youfushuyuan.com/#/course/'
+  	var timer = null;
+  	function initRem(){
+  		var docEl = document.documentElement,
+	        resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+	        recalc = function () {
+	        	var timer = setInterval(function(){
+	        		var clientWidth = docEl.clientWidth;
+	        		if(clientWidth&&clientWidth>0){
+	        			docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	        			clearInterval(timer)
+	        		}
+	        	},100)
+	        };
+	    if (!document.addEventListener) return;
+	    window.addEventListener(resizeEvt, recalc, false);
+	    recalc()
+  	}
+	function render(){
+		var imgArr = [
+  			{link:'./image/bgd1.jpg',data:[]},
+  			{link:'./image/bgd2.png',data:[]},
+  			{link:'./image/bgd3.jpg',data:['575','5','4','6','290']},
+  			{link:'./image/bgd4.png',data:['484','1','2','62','486','485']},
+  			{link:'./image/bgd5.png',data:['526','527','530','529','528']},
+  		]
+  		var parent = $('.content');
+  		imgArr.forEach(function(item,index){
+  			var child = ''
+  			if(item.data.length>0){
+  				var temp = ''
+  				item.data.forEach(function(id,i){
+  					temp+='<div class="course-item" courseId="'+id+'"><p class="count-down">时间仅剩:<span>06天12时23分00秒</span></p><p class="go-course" courseId="'+id+'">立即抢购</p></div>'
+  				})
+  				child = '<div class="item item'+(index+1)+'"><img src="'+item.link+'"/><div class="course-list">'+temp+'</div></div>'
+  			}else{
+  				child = '<div class="item item'+(index+1)+'"><img src="'+item.link+'"/></div>'
+  			}
+  			parent.append(child)
+  		})
+  		var $dom = $('.activity-count-down span')
+  		startCountDown($dom,1)
+  		var $doms = $('.count-down span')
+  		startCountDown($doms,2)
+  		setTimeout(function(){
+  			$('.loading-wrap').addClass('hidden');
+  		},1000)
+	}
+	/**
+	*弹幕
+	*/
+	function barrage(){
+		var data = ['130****5939用户    购买了  《周易》六十四卦精讲','187****8792用户  购买了《周易》六十四卦精讲','135****6382用户  购买了《看面相识健康》','159****8292用户  购买了  学茶入门第一课：茶道与养生','181****2391用户  购买了  从面相看疾病与健康','132****8722用户  购买了  一听就懂的《易经》课--解读易经奥秘','133****8834用户  购买了《道德经》八十一章通解','155****3323用户  购买了《看面相识健康》','136****3434用户  购买了《道德经》八十一章通解','138****6432用户  购买了《看面相识健康》','131****3234用户  购买了  一听就懂的《易经》课--解读易经奥秘','131****4923用户  购买了  一听就懂的《易经》课--解读易经奥秘','155****0899用户  购买了《看面相识健康》','150****4323用户  购买了  学茶入门第一课：茶道与养生','158****0031用户  购买了  学茶入门第一课：茶道与养生','132****0417用户  购买了《道德经》八十一章通解','188****2391用户  购买了《周易》六十四卦精讲','185****3232用户  购买了《道德经》八十一章通解','157****6345用户  购买了《周易》六十四卦精讲','153****3233用户  购买了    论语讲读.里仁篇','132****2633用户  购买了《道德经》八十一章通解','132****7676用户  购买了《道德经》八十一章通解','133****6756用户  购买了    论语讲读.学而篇','136****8675用户  购买了    论语讲读.为政篇','136****6566用户  购买了    儒家经典与人生智慧','188****6654用户  购买了《道德经》八十一章通解','189****6433用户  购买了《道德经》八十一章通解','188****5822用户  购买了《看面相识健康》','173****2391用户  购买了    儒家经典与人生智慧','177****5475用户  购买了    儒家经典与人生智慧','175****3453用户  购买了    论语讲读.为政篇','136****4455用户  购买了    学茶入门第一课：茶道与养生','158****9793用户  购买了《道德经》八十一章通解','155****4563用户  购买了  一听就懂的《易经》课--解读易经奥秘','156****4345用户  购买了  《周易》六十四卦精讲','150****7845用户  购买了《周易》六十四卦精讲','151****7533用户  购买了    论语讲读.为政篇','158****6454用户  购买了《道德经》八十一章通解','155****4343用户  购买了《道德经》八十一章通解']
+		var position = 4;
+		for(var i=0;i<position;i++){
+			$('.cute-barrage').append('<p class="barrage-div">'+data[i]+'</p>')
+		}
+		var left = -$(window).width();
+		var aniList = [3,5,7,9,11];
+		var area = [[5,10],[10,15],[15,20],[20,25]];
+		$(".barrage-div").each(function(index,value){
+		    var index = Math.floor(Math.random()*area.length);
+		    var max = area[index][1],min = area[index][0];
+		    var topRandom = (Math.floor(Math.random() * (max - min + 1) + min)/10) + 'rem';
+		    var aniTime =Math.floor(Math.random() * 5);
+		    $(this).css({'top':topRandom,'transition':'transform '+aniList[aniTime]+'s linear '+index*1.5+'s'})
+		    var dom = $(this);
+		    setTimeout(function(){
+		    	dom.css({'transform':'translate('+left+'px,0)'})
+		    },1)
+		})
+		$(".barrage-div").bind('transitionend webkitTransitionEnd ',function(){
+			position = position==data.length-1?0:position;
+			$(this).text(data[position])
+			position++;
+			var index = Math.floor(Math.random()*area.length);
+		    var max = area[index][1],min = area[index][0];
+		    var topRandom = (Math.floor(Math.random() * (max - min + 1) + min)/10) + 'rem';
+			var aniTime =Math.floor(Math.random() * 5);
+			$(this).css({'top':topRandom,'transform':'translate(100%,0)','transition':'none'})
+			var dom = $(this);
+			setTimeout(function(){
+				dom.css({'transform':'translate('+left+'px,0)','transition':'transform '+aniList[aniTime]+'s linear '+index*1.5+'s'})
+			},1)
+		})	
+	}
+	/**
+	*页面事件
+	*/
+	function pageEvent(){
+		var top;
+		$(".tab-item").bind("click",function(){
+			if($(this).hasClass("tab2")){
+				$("html,body").animate({scrollTop:$(".item3").offset().top},500)
+			}
+			if($(this).hasClass("tab3")){
+				$("html,body").animate({scrollTop:$(".item4").offset().top},500)
+			}
+			if($(this).hasClass("tab4")){
+				$("html,body").animate({scrollTop:$(".item5").offset().top},500)
+			}
+		})
+		$(window).bind("scroll",function(){
+			if($(this).scrollTop()>=500){
+				$('.return').removeClass('hidden')
+			}else{
+				$('.return').addClass('hidden')
+			}
+		})
+		$('.return').bind("click",function(){
+			$("html,body").animate({scrollTop:0},500)
+		})
+		$('.receive-btn').bind('click',function(){
+			if($(this).text()=='已领取') return;
+			top = $(window).scrollTop()
+			$('html,body').addClass('overflow');
+			$('.dialog').addClass('show');
+		})
+		$('.close').bind('click',function(){
+            $('.dialog').removeClass('show');
+            $('html,body').removeClass('overflow');
+            $('.loading-box').addClass('hidden');
+            $(window).scrollTop(top)
+		})
+		$('.dialog .code-box').bind('click',function(){
+			$('.error').addClass('hidden')
+			if($(this).text()!='获取验证码') return false;
+			var regExp = /^[0-9]*$/
+			var $phone = $('.phone-val');
+			if($phone.val()==''){
+				$('.error').removeClass('hidden').text('请输入手机号');
+				return;
+			}
+			if($phone.val().length!=11||!regExp.test($phone.val())){
+				$('.error').removeClass('hidden').text('请输入正确的手机号');
+				return;
+			}
+			var query = {
+				cellphone:$phone.val(),
+                smsType:5,
+			}
+			$.ajax({
+				url:baseUrl+'/common/sendSMS',
+				type:'post',
+				dataType:'json',
+				data:JSON.stringify(query),
+				contentType: "application/json; charset=utf-8",
+				success:function(res){
+					if(res.status==200){
+						$('.error').addClass('hidden');
+						var time = 60;
+						$('.dialog .code-box').text(time+'(S)')
+	                    timer = setInterval(function(){
+	                    	time--;
+	                        $('.dialog .code-box').text(time+'(S)')
+	                        if(time==0){
+	                        	$('.dialog .code-box').text('获取验证码')
+	                            clearInterval(timer)
+	                        }
+	                    },1000)
+					}else{
+						$('.error').removeClass('hidden').text(res.message)
+					}
+				}
+			})
+		})
+		$('.dialog .btn').bind('click',function(){
+			$('.error').addClass('hidden')
+			var regExp = /^[0-9]*$/
+			var $phone = $('.phone-val');
+			var $code = $('.code-val')
+			if($phone.val()==''){
+				$('.error').removeClass('hidden').text('请输入手机号');
+				return;
+			}
+			if($phone.val().length!=11||!regExp.test($phone.val())){
+				$('.error').removeClass('hidden').text('请输入正确的手机号');
+				return;
+			}
+			if($code.val()==''){
+				$('.error').removeClass('hidden').text('请输入验证码');
+				return;
+			}
+			if(!regExp.test($code.val())){
+				$('.error').removeClass('hidden').text('请输入正确的验证码');
+				return;
+			}
+			$('.loading-box').removeClass('hidden');
+			var query = {
+                cellphone:$phone.val(),
+                veriCode:$code.val(),
+                couponIds:'95,96,97,98'
+            }
+            $.ajax({
+				url:baseUrl+'/user/receiveCouponByCellphone',
+				type:'post',
+				dataType:'json',
+				data:JSON.stringify(query),
+				contentType: "application/json; charset=utf-8",
+				success:function(res){
+					$('.loading-box').addClass('hidden');
+					if(res.status==200){
+	                    clearInterval(timer)
+	                    $('.error').addClass('hidden');
+	                    $('.dialog .code-box').text('获取验证码');
+	                    $('.phone-val').val('')
+	                    $('.code-val').val('')
+	                    $('.receive-btn').text('已领取');
+	                    $('.dialog').removeClass('show');
+                     	$('html,body').removeClass('overflow');
+                     	$(window).scrollTop(top)
+					}else{
+						$('.error').removeClass('hidden').text(res.message)
+					}
+				},
+				error:function(){
+					$('.loading-box').addClass('hidden');
+				}
+			})
+		})
+		$('.content').bind('click',function(e){
+			var u = navigator.userAgent;
+        	var isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+			var ref = e.target||e.srcElement;
+			if($(ref).hasClass('go-course')||$(ref).hasClass('course-item')){
+				var courseId = Number($(ref).attr('courseId'))
+				if(isIos){
+  					try{
+	                    window.webkit.messageHandlers.iOSAppMethodName.postMessage({
+	                        describe:'去课程详情页',
+	                        method:'goCourseDetail',
+	                        params:{
+	                       		courseId:courseId,
+	                       		isCloseWebView:false	
+	                        }
+	                    }); 
+	                }catch(err){
+	                	window.location.href = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/'+courseId:'https://scm.youfushuyuan.com/#/course/'+courseId
+	                }
+  				}else{
+  					if(window.android){
+	                    if(window.android.notify){
+	                        var message = JSON.stringify({
+	                            describe:'去课程详情页',
+	                            method:'openLesson',
+	                            params:{
+	                            	courseId:courseId,
+	                            	isCloseWebView:false		
+	                            }
+	                        })
+	                        window.android.notify(message);
+	                    }
+	                }else{
+	                	window.location.href = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/'+courseId:'https://scm.youfushuyuan.com/#/course/'+courseId
+	                }
+  				}
+			}
+		})
+	}
+	function startCountDown(dom,status){
+		var temp = new Date()
+		temp.setFullYear(2019);
+		temp.setMonth(11);
+		temp.setDate(8);
+		temp.setHours(23);
+		temp.setMinutes(59);
+		temp.setSeconds(59);
+		var end = new Date(temp).getTime()
+		var start = new Date()
+		var time = parseInt((end-start)/1000);
+		if(time>=0){
+			var day = parseInt(time/ 86400)>0?parseInt(time/ 86400) + '天':''
+			var h = parseInt((time-parseInt(time/ 86400)*86400 )/3600)<10?'0'+parseInt((time-parseInt(time/ 86400)*86400 )/3600):parseInt((time-parseInt(time/ 86400)*86400 )/3600);
+			var m = parseInt(time % 3600 / 60)<10?'0'+parseInt(time % 3600 / 60):parseInt(time % 3600 / 60);
+			var s = parseInt(time % 3600 % 60)<10?'0'+parseInt(time % 3600 % 60):parseInt(time % 3600 % 60)
+			if(status==1){
+				dom.text(day+' '+h+'时 ' + m + '分 ' + s + '秒')
+			}else{
+				dom.text(day+h+'时' + m + '分' + s + '秒')
+			}
+			var timers = setInterval(function(){
+				time--;
+				var curTime = new Date().getTime();
+				if(time>=0){
+					h = parseInt((time-parseInt(time/ 86400)*86400 )/3600)<10?'0'+parseInt((time-parseInt(time/ 86400)*86400 )/3600):parseInt((time-parseInt(time/ 86400)*86400 )/3600);
+					m = parseInt(time % 3600 / 60)<10?'0'+parseInt(time % 3600 / 60):parseInt(time % 3600 / 60);
+					s = parseInt(time % 3600 % 60)<10?'0'+parseInt(time % 3600 % 60):parseInt(time % 3600 % 60);
+					day = parseInt(time/ 86400)>0?parseInt(time/ 86400) + '天':''
+					if(status==1){
+						dom.text(day+' '+h+'时 ' + m + '分 ' + s + '秒')
+					}else{
+						dom.text(day+h+'时' + m + '分' + s + '秒')
+					}
+				}else{
+					clearInterval(timers)
+				}
+			},1000)
+		}
+	}
+	function InputBlur(){
+        var flag,myFunction;
+        document.body.addEventListener('focusin',function(){
+        	flag=true
+            clearTimeout(myFunction);
+        })
+        document.body.addEventListener('focusout', function(){
+        	flag=false;
+            if(!flag){
+	            myFunction = setTimeout(function(){
+	            	if(window.scrollTo)
+	                	window.scrollTo({top:0,left:0,behavior:"smooth"})//重点  =======当键盘收起的时候让页面回到原始位置
+	            },200);
+            }else{
+            	return;
+            }
+        })
+    }
+
+</script>
+</html>

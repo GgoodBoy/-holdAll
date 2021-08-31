@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no"><meta name="format-detection" content="telephone=no, email=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'"><meta name="Keywords" content="学国学网"><meta name="description" content="学国学网"><title>2019年度回顾</title><meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。"><meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+	<meta name="referrer" content="no-referrer">
+	<link rel="stylesheet" href="./css/common.css">
+	<style type="text/css">
+		*{
+			zoom:1!important;
+		}
+		.overflow{overflow: hidden}
+		.content{position: relative;}
+		.content .item{position: relative;font-size: 0;}
+		.course-list{padding: 0 0.8rem;width: 100%;}
+		.course-box{position: absolute;top:0;left: 0;width: 100%}
+		.course-item{width: 100%;height: 5rem;position: relative;}
+		.item2 .course-list.index0{margin-top:2.5rem;}
+		.item2 .course-list.index1{margin-top:2.7rem;}
+		.item2 .course-list.index2{margin-top:3rem;}
+		.item3 .course-list.index0{margin-top:2.5rem;}
+		.item3 .course-list.index1{margin-top:3.1rem;}
+		.item3 .course-list.index2{margin-top:3.2rem;}
+		.item4 .course-list.index0{margin-top:2.5rem;}
+		.item4 .course-list.index0 .course-item{margin-bottom:0.4rem;}
+		.return{width: 0.82rem;height: 0.82rem;position: fixed;right: 0.3rem;bottom:0.3rem;z-index: 2;background: url('./image/return_top.png')no-repeat 50% 50% / cover;transition: all 0.3s}
+		.return.hidden{opacity: 0;}
+	</style>
+<body>
+	<div class="wrap">
+		<div class="loading-wrap">
+			<div class="loading"></div>
+		</div>
+		<div class="content">
+			<div class="return hidden"></div>
+		</div>
+	</div>	
+</body>
+<!-- <script type="text/javascript">
+	(function (doc, win) {
+	    var docEl = doc.documentElement,
+	       resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+	       recalc = function () {
+	           var clientWidth = docEl.clientWidth;
+	           if (!clientWidth) return;
+	           docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	       };
+	    if (!doc.addEventListener) return;
+	    win.addEventListener(resizeEvt, recalc, false);
+	    doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+</script> -->
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// var time = getQueryString('time');
+		// if(!time){
+		// 	var url = 'http://172.16.120.7/h5/2019/index.html?time='+new Date().getTime()
+		// 	window.location.replace(url) 
+		// }
+		setTimeout(function(){
+			initRem()
+		},300)
+		render()
+		pageEvent()
+		
+	})
+	function getQueryString(key){
+	    var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+	    var result = window.location.search.substr(1).match(reg);
+	    return result?decodeURIComponent(result[2]):null;
+	}
+  	function initRem(){
+  		var docEl = document.documentElement,
+	        resizeEvt = 'onorientationchange' in window ? 'onorientationchange' : 'resize',
+	        recalc = function () {
+	        	var timer = setInterval(function(){
+	        		var clientWidth = docEl.clientWidth;
+	        		if(clientWidth&&clientWidth>0){
+	        			docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	        			clearInterval(timer)
+	        		}
+	        	},100)
+	        };
+	    if (!document.addEventListener) return;
+	    window.addEventListener(resizeEvt, recalc, false);
+	    recalc()
+  	}
+	function render(){
+		var imgArr = [
+  			{link:'https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/cr001.jpg',data:[]},
+  			{link:'https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/cr002.jpg',data:[
+  				[6,290],[479,484],[217,73]
+  			]},
+  			{link:'https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/cr003.jpg',data:[
+  				[581,53],[10,615],[7]
+  			]},
+  			{link:'https://xgxw-pic.oss-cn-beijing.aliyuncs.com/xgxw/cr004.jpg',data:[
+  				[497,9]
+  			]},
+  		]
+  		var parent = $('.content');
+  		imgArr.forEach(function(item,index){
+  			var child = ''
+  			if(item.data.length>0){
+  				var list = ''
+  				item.data.forEach(function(option,i){
+  					var temp = '';
+  					option.forEach(function(id,_index){
+  						temp+='<div class="course-item" courseId="'+id+'"></div>'
+  					})
+  					list+= '<div class="course-list clearfix index'+i+'">'+temp+'</div>'
+  				})
+  				child = '<div class="item item'+(index+1)+'"><img src="'+item.link+'"/><div class="course-box">'+list+'</div></div>'
+  			}else{
+  				child = '<div class="item item'+(index+1)+'"><img src="'+item.link+'"/></div>'
+  			}
+  			parent.append(child)
+  		})
+  		setTimeout(function(){
+  			$('.loading-wrap').addClass('hidden');
+  			if(navigator.userAgent.indexOf('HUAWEICLT-AL00')>=0){
+  				var u = navigator.userAgent;
+        		var isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+        		if(!isIos){
+        			if(window.android){
+		                if(window.android.notify){
+		                    $('.course-item').css('height','230px')
+		                }
+		            }    
+        		}
+  			}
+  		},1000)
+	}
+	/**
+	*页面事件
+	*/
+	function pageEvent(){
+		var top;
+		$(window).bind("scroll",function(){
+			if($(this).scrollTop()>=500){
+				$('.return').removeClass('hidden')
+			}else{
+				$('.return').addClass('hidden')
+			}
+		})
+		$('.return').bind("click",function(){
+			$("html,body").animate({scrollTop:0},500)
+		})
+		$('.content').bind('click',function(e){
+			var u = navigator.userAgent;
+        	var isIos = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); 
+			var ref = e.target||e.srcElement;
+			if($(ref).hasClass('course-item')){
+				var courseId = Number($(ref).attr('courseId'))
+				if(isIos){
+  					try{
+	                    window.webkit.messageHandlers.iOSAppMethodName.postMessage({
+	                        describe:'去课程详情页',
+	                        method:'goCourseDetail',
+	                        params:{
+	                       		courseId:courseId,
+	                       		isCloseWebView:false	
+	                        }
+	                    }); 
+	                }catch(err){
+	                	window.location.href = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/'+courseId:'https://scm.youfushuyuan.com/#/course/'+courseId
+	                }
+  				}else{
+  					if(window.android){
+	                    if(window.android.notify){
+	                        var message = JSON.stringify({
+	                            describe:'去课程详情页',
+	                            method:'openLesson',
+	                            params:{
+	                            	courseId:courseId,
+	                            	isCloseWebView:false		
+	                            }
+	                        })
+	                        window.android.notify(message);
+	                    }
+	                }else{
+	                	window.location.href = window.location.href.indexOf('xgxm.xueguoxue.com')>0?'https://xgxm.xueguoxue.com/#/course/'+courseId:'https://scm.youfushuyuan.com/#/course/'+courseId
+	                }
+  				}
+			}
+		})
+	}
+</script>
+</html>
