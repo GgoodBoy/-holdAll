@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum=1,user-scalable=no"><meta name="format-detection" content="telephone=no, email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'"><meta name="Keywords" content="学国学网">
+    <meta name="description" content="学国学网"><title>新用户专享</title><meta data-n-head="true" name="description" content="学国学网专注于国学传播，致力于打造全球最具影响力的优秀传统文化“教育、交易、交流”的服务平台。学国学网业务覆盖“国学研究、教育、交易、出版、影视、文化体验”，实现了国学与新媒体领域的跨界融合。"><meta data-n-head="true" name="keywords" content="学国学网、国学经典、中国传统文化、国学经典诵读、国学教育、国学培训、少儿国学">
+    <meta name="referrer" content="no-referrer">
+    <link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.7.2/skins/default/aliplayer-min.css" />
+    <link rel="stylesheet" href="../reset.css" />
+    <style type="text/css">
+		*{margin:0px;padding: 0px;box-sizing: border-box;font-family:Microsoft YaHei;}
+        html,body,.wrap{width: 100%;height: 100%;}
+        #player{width: 100%;height: 100%;}
+        .prism-player .prism-ErrorMessage{display: none!important;}
+	</style>
+</head>
+<body>
+    <div class="wrap">
+        <video id="player"></video>
+    </div>
+</body>
+<script charset="utf-8" type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+<script src='./jquery.min.js'></script>
+<script>
+    $(document).ready(function(){
+        var url = decodeURI(window.location.href)
+        var data = JSON.parse(getQueryString('data'));
+        getResoursePlayUrl(data)
+        $('.wrap').on('click',function(){
+            var dom = $(".course-header",parent.document) 
+            dom.css('visibility','visible')
+        })
+    })
+    function getQueryString(key){
+        var reg = new RegExp("(^|&)"+key+"=([^&]*)(&|$)");
+        var result = window.location.search.substr(1).match(reg);
+        return result?decodeURIComponent(result[2]):null;
+    }
+    function getResoursePlayUrl(data){
+        if(data.periodId){
+            var query = {
+                courseId:data.courseId,
+                periodId:data.periodId,
+                definitionType:1,
+                userId:data.userId
+            }
+            var headers = {'Content-Type':'application/json;charset=utf8'}
+            if(data.userId){
+                headers.userid = data.userId
+                headers.token = data.token;
+            }
+            var url = window.location.href.indexOf('xgxm.xueguoxue.com')>=0?'https://courseapi.xueguoxue.com/mobileCourses/getResoursePlayUrl':'https://courseapi.youfushuyuan.com/mobileCourses/getResoursePlayUrl'
+            $.ajax({
+                url:url,
+                type:'post',
+                dataType:'json',
+                data:JSON.stringify(query),
+                headers:headers,
+                success:function(res){
+                    if(res.status==200){
+                        createPlayer(res.content)
+                    }
+                },
+                error:function(){
+                    
+                }
+            })
+        }else{
+            var query = {
+                courseId:data.courseId,
+                shortVideoId:data.shortVideoId,
+                definitionType:1,
+                userId:data.userId
+            }
+            var headers = {'Content-Type':'application/json;charset=utf8'}
+            if(data.userId){
+                headers.userid = data.userId
+                headers.token = data.token;
+            }
+            var url = window.location.href.indexOf('xgxm.xueguoxue.com')>=0?'https://courseapi.xueguoxue.com/mobileCourses/getResPlayUrlForShortVideo':'https://courseapi.youfushuyuan.com/mobileCourses/getResPlayUrlForShortVideo'
+            $.ajax({
+                url:url,
+                type:'post',
+                dataType:'json',
+                data:JSON.stringify(query),
+                headers:headers,
+                success:function(res){
+                    if(res.status==200){
+                        createPlayer(res.content.resAddress)
+                    }
+                },
+                error:function(){
+                    
+                }
+            })
+        }
+        
+    }
+    function createPlayer(source){
+        var props = {
+            id: "player",
+            width: "100%",
+            height: "100%",
+            preload:false,
+            source:source,
+            isLive: false,
+            mediaType:'video',
+            rePlay:false,
+            playsinline:true,
+            extraInfo:{
+                "x5-playsinline":"true"
+            },
+            autoplay:true,
+            x5_type:"h5",
+            x5_video_position:'top',
+            x5_fullscreen:false,
+            controlBarVisibility:'always',
+            cover:null
+        };
+        var player = new Aliplayer(props,(player)=>{
+            setTimeout(()=>{
+                player.play() 
+            },1)  
+        });
+    }
+</script>	
+</html>

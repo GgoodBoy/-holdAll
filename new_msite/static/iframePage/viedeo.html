@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=1.0,user-scalable=no">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+    <link rel="stylesheet" href="//g.alicdn.com/de/prismplayer/2.7.2/skins/default/aliplayer-min.css" />
+  </head>
+  <body>
+    <div class="videoCss">
+      <div class="prism-player auth-prism-player" id="J_prismPlayer"></div>
+      <div id="get-video"></div> 
+    </div>   
+  </body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script charset="utf-8" type="text/javascript" src="//g.alicdn.com/de/prismplayer/2.8.1/aliplayer-min.js"></script>
+  <script> 
+        $(function(){
+         //阿里播放器播放路径；         
+          var creatPlayer = (data)=>{
+            player = new Aliplayer({
+              id: "J_prismPlayer",
+              width: "100%",
+              height: "100%",
+              autoplay: false,//是否自动播放，移动端无效
+              source:data.pathInfo,//播放路径
+              cover:data.backCover||"",//默认背景图
+              // vid: "fc-videoid",
+              // playauth: "fc-playauth",
+              // qualitySort: "desc",
+              // region:'cn-shanghai'
+            },function(player){
+                console.log('播放器创建好了。')
+            });          
+          }
+          /*
+            //关闭iframe;
+            var close=document.getElementById("cloese");
+            close.onclick = ()=>{
+              window.parent.document.getElementById('iframeCss').click();
+            };            
+          */
+          var getVideoPath = (pathUrls,getData)=>{
+            if(getData.hasOwnProperty('userId')){
+                list = {
+                  shortVideoId:getData.id,
+                  tokenType:'2',
+                  registerSource:'3', 
+                  userId:getData.userId             
+                };
+                $.ajax({
+                  //请求方式
+                  type : "POST",
+                  //请求的媒体类型
+                  contentType: "application/json;charset=UTF-8",
+                  //跨域问题
+                  dataType: "json",
+                  headers:{
+                    'Content-Type': 'application/json',
+                    "token":getData.token           
+                  },           
+                  //请求地址
+                  url : pathUrls+"/shortVideo/getPlayUrl",
+                  //数据，json字符串
+                  data : JSON.stringify(list),
+                  //请求成功
+                  success : function(result) {
+                      console.log(result);
+                      if(result.status==200){
+                        pathInfo = result.content.address;
+                        var dataObj ={
+                          pathInfo:pathInfo,
+                          backCover:getData.backCover
+                        };
+                        creatPlayer(dataObj);
+                      }
+                  },
+                  //请求失败，包含具体的错误信息
+                  error : function(e){
+                      console.log(e.status);
+                      console.log(e.responseText);
+                  }
+                });
+            }else{
+                list = {
+                  shortVideoId:getData.id,
+                  tokenType:'2',
+                  registerSource:'3',
+                };
+                $.ajax({
+                  //请求方式
+                  type : "POST",
+                  //请求的媒体类型
+                  contentType: "application/json;charset=UTF-8",
+                  //跨域问题
+                  dataType: "json",
+                  headers:{
+                    'Content-Type': 'application/json'           
+                  },                
+                  //请求地址
+                  url : baseUrl+"/shortVideo/getPlayUrl",
+                  //数据，json字符串
+                  data : JSON.stringify(list),
+                  //请求成功
+                  success : function(result) {
+                      console.log(result);
+                      if(result.status==200){
+                        pathInfo = result.content.address;
+                        var dataObj ={
+                          pathInfo:pathInfo,
+                          backCover:getData.backCover
+                        };
+                        creatPlayer(dataObj);
+                      }
+                  },
+                  //请求失败，包含具体的错误信息
+                  error : function(e){
+                      console.log(e.status);
+                      console.log(e.responseText);
+                  }
+                });                            
+            }
+          }
+
+          var fontSizeStyle = ()=>{
+            // 1.获取 client 屏幕宽度
+            let clien_width=document.documentElement.clientWidth||document.body.clientWidth;
+            
+            // 2.如果屏幕的宽度发生改变 触发 onresize 方法
+            window.onresize = function(){
+                let new_width=document.documentElement.clientWidth||document.body.clientWidth;
+                fn(new_width);
+            }
+
+            //3. 【原始宽度】  或者  【改变后的宽度】 经过换算，赋值到 html=>style=>font-size    640px 是设计稿的原始尺寸
+            var fn=function(width){  
+              let newWidth=document.documentElement.style.fontSize=100*(width/640)+"px";
+            }
+            fn(clien_width);            
+          }
+          var pathInfo = ''; 
+          let list ={};
+          var player =''; 
+          var sendData = JSON.parse(window.userNameId);
+          let baseUrl = sendData.argv=='beta'?'https://scapi.youfushuyuan.com':'https://xgxapi.xueguoxue.com';
+          // let baseUrl = 'https://scapi.youfushuyuan.com';   
+          fontSizeStyle();              
+          getVideoPath(baseUrl,sendData);
+        });
+ 
+  </script>
+  <style>
+      html,div,ul,li,body{
+          padding: 0;
+          margin: 0px;
+      }
+      html{
+          font-size: 100px;
+      }
+    #cloese{
+      /* background:url('./img/go-back.png')no-repeat 50% 50%; */
+      width: 0.8rem;
+      font-size: 0.3rem;
+      color: #fff;
+      text-align: center;
+      padding: 0.05rem;
+      position: absolute;
+      top: 0;
+      left: 0;     
+    }
+    .videoCss{
+      width: 100%;
+      /* height: calc(100vh - 0px); */
+      height: 3.65rem !important;
+      background: url('./img/timg.gif')no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+    .auth-prism-player{
+      height: 100%;
+      position: absolute;
+      /* top: calc((100vh - 3.2rem)/3); */
+    }
+    .auth-prism-player .prism-controlbar{
+      display: block !important;
+    }
+    .auth-prism-player .prism-controlbar .prism-fullscreen-btn,.auth-prism-player .prism-controlbar .prism-setting-btn,.auth-prism-player .prism-controlbar .prism-volume,.auth-prism-player .prism-controlbar .prism-cc-btn{
+      display: none !important;
+    }  
+    .auth-prism-player .prism-big-play-btn{
+      display: none !important;
+    }
+    .auth-prism-player .prism-controlbar .prism-progress .prism-progress-cursor{
+      width: 0.5rem;
+      height: 0.1rem;
+      border-radius: 0.0.93;
+      background: #C30D23;
+      top: -0.03rem !important;
+      display: block !important;
+    }
+    .auth-prism-player .prism-controlbar .prism-progress .prism-progress-played{
+      background:#c30d23;
+    }    
+    .auth-prism-player .prism-controlbar .prism-progress .prism-progress-loaded{
+      background: rgba(195, 13, 35, 0.4);
+    }
+    .auth-prism-player .prism-controlbar .prism-progress .prism-progress-cursor img{
+      display: none !important;
+    }
+    .auth-prism-player .prism-controlbar .prism-progress{
+      height: 2px !important;
+      width: 4rem !important;
+      left:1.5rem !important;
+      bottom: 0.35rem !important;
+      z-index: 15;         
+    }   
+    /* .auth-prism-player .prism-controlbar .prism-play-btn{
+      position: absolute;
+      top: -4rem;
+      left: 10rem;      
+      }      */
+    .auth-prism-player .prism-ErrorMessage .prism-error-operation .prism-button{
+      font-size:0.3rem;
+      display: none;
+    }
+    .auth-prism-player .prism-controlbar .prism-time-display .time-bound{
+        display: none !important;
+    }
+  .auth-prism-player .prism-controlbar .prism-time-display .current-time{
+      position: absolute;
+      line-height: 0.52rem;
+      left: 0.8rem;
+      bottom: 0.11rem;
+  } 
+  .auth-prism-player .prism-controlbar .prism-time-display .duration{
+    position: absolute;
+    line-height:0.52rem;
+    right: 0.2rem;    
+    bottom: 0.11rem;
+    color: #fff !important; 
+  }         
+  .videoCss .MaskCss{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;    
+    background: rgba(0, 0, 0, 0.2);
+  }
+  .videoCss .MaskCss div{
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    position: absolute;  
+    background: url("./img/videoClose.png")no-repeat;
+    background-size:cover;
+  }  
+  </style>
+</html>

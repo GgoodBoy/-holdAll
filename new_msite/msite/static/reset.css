@@ -1,0 +1,327 @@
+.clear,
+.clearfix:after {
+    clear: both;
+    overflow: hidden
+}
+
+.textNewline,
+.textNoNewline {
+    word-wrap: break-word
+}
+
+.break-all,
+.textNewline {
+    word-break: break-all
+}
+
+html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background: 0 0;
+    color: #000
+}
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+
+article,
+aside,
+blockquote,
+body,
+button,
+code,
+dd,
+details,
+div,
+dl,
+dt,
+fieldset,
+figcaption,
+figure,
+footer,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+header,
+hgroup,
+hr,
+input,
+legend,
+li,
+menu,
+nav,
+ol,
+p,
+pre,
+section,
+sumary,
+td,
+textarea,
+th,
+ul {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box
+}
+
+* {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+    tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: transparent;
+    -ms-tap-highlight-color: transparent
+}
+
+body,
+html {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none
+}
+
+body,
+button,
+input,
+select,
+textarea {
+    font: 12px PingFangSC-Regular;
+}
+
+ol,
+ul {
+    list-style: none
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-size: 100%;
+    font-weight: 500
+}
+
+input,
+select,
+textarea {
+    font-size: 100%
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+caption,
+th {
+    text-align: left
+}
+
+fieldset,
+img {
+    border: 0
+}
+
+img {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    width: auto;
+    height: auto;
+    max-width: 100%
+}
+
+[type=button],
+[type=reset],
+[type=submit],
+button {
+    cursor: pointer
+}
+
+audio,
+canvas,
+progress,
+video {
+    display: inline-block
+}
+
+a,
+ins {
+    text-decoration: none
+}
+
+:focus,
+a,
+a:active,
+a:focus,
+a:hover {
+    text-decoration: none!important
+}
+
+a {
+    -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+    -moz-tap-highlight-color: rgba(255, 0, 0, 0);
+    -ms-tap-highlight-color: rgba(255, 0, 0, 0);
+    tap-highlight-color: rgba(255, 0, 0, 0);
+    -webkit-touch-callout: none;
+    touch-callout: none
+}
+
+:focus,
+a:focus {
+    outline: 0
+}
+
+a:active,
+a:hover {
+    outline-width: 0
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: "";
+    display: table
+}
+
+.clearfix {
+    zoom: 1
+}
+
+.clear {
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0
+}
+
+.hide,
+.none {
+    display: none
+}
+
+.block {
+    display: block
+}
+
+.fl,
+.fr {
+    display: inline
+}
+
+.fl {
+    float: left
+}
+
+.fr {
+    float: right
+}
+
+.img100 {
+    width: 100%;
+    height: 100%
+}
+
+.textR {
+    text-align: right
+}
+
+.textL {
+    text-align: left
+}
+::-webkit-scrollbar {/*隐藏滚轮*/
+    display: none;
+}
+.textEllipsis {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 1;
+    line-clamp: 1
+}
+
+.textNewline {
+    white-space: pre-line
+}
+
+.tc {
+    text-align: center
+}
+
+.c3a {
+    color: #3A3A3A
+}
+
+.c9a {
+    color: #9A9A9A
+}
+
+.sure-button{
+    width: 4.8rem;
+    height: .80rem;
+    background: #B4272D;
+    border-radius: .44rem;
+    box-shadow: 0 .04rem .12rem rgba(180, 39, 45, 0.3);
+    color: #fff;
+    line-height: .8rem;
+    text-align: center;
+    font-size: .32rem;
+}
+.common-header{
+    padding-top: 46px;
+}
+.header-nav .van-nav-bar,.common-header .van-nav-bar{
+    position: fixed;
+    left: 0;
+    width: 100%;
+}
+.van-nav-bar__left{
+    left: 0.3rem!important;
+}
+.van-hairline--bottom::after{
+    width: 0px!important;
+}
+.van-nav-bar__title{
+    line-height: 46px!important;
+}
+.van-popup--bottom{
+    width: 101%!important;
+}
+.van-tab--active{
+    color:#9D3834;
+}
+.van-tabs__line{
+    background:#9D3834;
+    height: 1px;
+}
+.van-tabs__wrap{
+    z-index: 0;
+}
+.van-ellipsis{
+    font-size: 0.32rem;
+}
+.course-pull-refresh .van-pull-refresh__track{
+    min-height: calc(100vh - 5.58rem);
+}
+.home-icon{
+    font-size: 0.48rem;
+    color: #474747!important;
+}
+.swiper-pagination-bullet{
+    border-radius: 0!important;
+    height: 2px!important;
+}
+.swiper-pagination-bullet-active{
+    background: #fff!important;
+}
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{
+    bottom:5px!important;
+}
