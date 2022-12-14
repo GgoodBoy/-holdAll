@@ -16,7 +16,7 @@
     "clipboard": "^2.0.4",
     "cross-env": "^5.2.0",
     "element-ui": "^2.4.11",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "form-data": "^2.3.3",
     "js-base64": "^2.5.1",
     "loglevel": "^1.6.7",
