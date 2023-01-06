@@ -21,7 +21,7 @@
     "js-base64": "^2.5.1",
     "loglevel": "^1.6.7",
     "multer": "^1.4.1",
-    "nuxt": "2.11.0",
+    "nuxt": "2.15.8",
     "qrcodejs2": "^0.0.2",
     "vue-class-component": "^7.1.0",
     "vue-cropper": "^0.4.9",
